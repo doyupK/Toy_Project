@@ -25,43 +25,50 @@
             width: 100%;
             height: 250px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 10, 0.2)), url('../Static/Banner_Image.png');
             background-position: center;
             background-size: contain;
-            /*background-repeat: no-repeat;*/
+            background-repeat: no-repeat;
+        }
 
+        .title, h1{
             color: white;
 
-
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row-reverse;
+            align-items: flex-start;
             justify-content: center;
         }
 
-        .mytitle > h1 {
-            font-size: 50px;
+        .titleMenu nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+        }
+        .titleMenu li {
+            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
         }
 
-        .mytitle > button {
-            width: 200px;
-            height: 50px;
+        .titleMenu button {
+            width: 100px;
+            height: 30px;
 
             background-color: transparent;
-            color: white;
+            color: black;
 
             border-radius: 50px;
-            border: 1px solid white;
+            border: 1px solid black;
 
-            margin-top: 10px;
+            margin: 20px 10px 20px 10px;
         }
 
-        .mytitle > button:hover {
-            border: 2px solid white;
-        }
-
-        .mycomment {
-            color: gray;
+        .titleMenu button:hover {
+            border: 2px solid black;
         }
 
         .mycards {
@@ -70,351 +77,80 @@
             max-width: 1200px;
         }
 
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 10px auto;
-            padding: 20px;
-            box-shadow: 0 0 3px 0 gray;
-
-            display: none;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 500px;
-        }
-
-        .mybtns {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            margin-top: 20px;
-        }
-
         .mybtns > button {
             margin-right: 10px;
         }
 
-        .form-floating {
-            margin: 10px;
-            /*margin: 0 auto;*/
-        }
-
-        /*106부터 220까지는 커멘트를 위한 css*/
-        body {
-            margin-top: 20px;
-            background-color: #e9ebee;
-        }
-
-        .be-comment-block {
-            margin-bottom: 50px !important;
-            border: 1px solid #edeff2;
-            border-radius: 2px;
-            padding: 5px 7px;
-            border: 1px solid #ffffff;
-        }
-
-        .comments-title {
-            font-size: 16px;
-            color: #262626;
-            margin-bottom: 15px;
-            font-family: 'Conv_helveticaneuecyr-bold';
-        }
-
-        .be-img-comment {
-            width: 60px;
-            height: 60px;
-            float: left;
-            margin-bottom: 15px;
-        }
-
-        .be-ava-comment {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
-
-        .be-comment-content {
-            margin-left: 80px;
-        }
-
-        .be-comment-content span {
-            display: inline-block;
-            width: 49%;
-            margin-bottom: 15px;
-        }
-
-        .be-comment-name {
-            font-size: 13px;
-            font-family: 'Conv_helveticaneuecyr-bold';
-        }
-
-        .be-comment-content a {
-            color: #383b43;
-        }
-
-        .be-comment-content span {
-            display: inline-block;
-            width: 49%;
-            margin-bottom: 15px;
-        }
-
-        .be-comment-time {
-            text-align: right;
-        }
-
-        .be-comment-time {
-            font-size: 11px;
-            color: #b4b7c1;
-        }
-
-        .be-comment-text {
-            font-size: 13px;
-            line-height: 18px;
-            color: #7a8192;
-            display: block;
-            background: #f6f6f7;
-            border: 1px solid #edeff2;
-            padding: 15px 20px 20px 20px;
-        }
-
-        .form-group.fl_icon .icon {
-            position: absolute;
-            top: 1px;
-            left: 16px;
-            width: 48px;
-            height: 48px;
-            background: #f6f6f7;
-            color: #b5b8c2;
-            text-align: center;
-            line-height: 50px;
-            -webkit-border-top-left-radius: 2px;
-            -webkit-border-bottom-left-radius: 2px;
-            -moz-border-radius-topleft: 2px;
-            -moz-border-radius-bottomleft: 2px;
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
-        }
-
-        .form-group .form-input {
-            font-size: 13px;
-            line-height: 50px;
-            font-weight: 400;
-            color: #b4b7c1;
+        .pageMenu {
             width: 100%;
-            height: 50px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: 1px solid #edeff2;
-            border-radius: 3px;
+            height: 70px;
         }
 
-        .form-group.fl_icon .form-input {
-            padding-left: 70px;
+        .pageMenu nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .pageMenu button {
+            width: 150px;
+            height: 30px;
+
+            background-color: transparent;
+            color: black;
+
+            border-radius: 50px;
+            border: 1px solid black;
+
+            margin: 20px 10px 20px 10px;
         }
 
-        .form-group textarea.form-input {
-            height: 150px;
-        }
-
-        .form-block {
-            margin-bottom: 20px;
-        }
     </style>
     <script>
         $(document).ready(function () {
-            listing()
-            show_comment()
-        })
+            listing();
+        });
 
-        function hey() {
-            console.log("테스트")
-        }
-
-        function listing() {
-            $.ajax({
-                type: 'GET',
-                url: '/movie',
-                data: {},
-                success: function (response) {
-                    let rows = response['movies']
-
-                    for (let i = 0; i < rows.length; i++) {
-                        let comment = rows[i]['comment']
-                        let title = rows[i]['title']
-                        let desc = rows[i]['disc']
-                        let image = rows[i]['image']
-                        let star = rows[i]['star']
-
-                        let star_image = "⭐".repeat(star)
-
-                        let temp_html = `<div class="col">
-                                                <div class="card h-100">
-                                                    <img src="${image}"
-                                                         class="card-img-top">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">"${title}"</h5>
-                                                        <p class="card-text">"${desc}"</p>
-                                                        <p>${star_image}</p>
-                                                        <p class="mycomment">${comment}</p>
-                                                    </div>
-                                                </div>
-                                          </div>`
-                        $('#cards-box').append(temp_html)
-                    }
-                }
-            })
-        }
-
-        function posting() {
-            let url = $('#url').val()
-            let star = $('#star').val()
-            let comment = $('#comment').val()
-
-            $.ajax({
-                type: 'POST',
-                url: '/movie',
-                data: {url_give: url, star_give: star, comment_give: comment},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            });
-        }
-
-        function open_box() {
-            $('#post-box').show()
-        }
-
-        function close_box() {
-            $('#post-box').hide()
-        }
-
-        function save_comment() {
-            let recommender = $('#recommender').val()
-            let reason = $('#reason').val()
-            let emailaddress = $('#emailaddress').val()
-            $.ajax({
-                type: 'POST',
-                url: '/comments',
-                data: {recommender_give: recommender, reason_give: reason, emailaddress_give: emailaddress},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            })
-        }
-
-        function show_comment() {
-            $.ajax({
-                type: "GET",
-                url: "/comments",
-                data: {},
-                success: function (response) {
-                    let rows = response['recommends']
-                    for (let i = 0; i < rows.length; i++) {
-                        let recommender = rows[i]['성함']
-                        let reason = rows[i]['코멘트내용']
-                        let comment =
-                            `<div class="be-comment">
-                                    <div class="be-img-comment">
-                                        <a href="blog-detail-2.html">
-                                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt=""
-                                                 class="be-ava-comment">
-                                        </a>
-                                    </div>
-                                        <div class="be-comment-content">
-                                            <span class="be-comment-name" id="recommender">
-                                            <a href="blog-detail-2.html">${recommender}</a>
-                                            </span>
-                                        <p class="be-comment-text" id="be-comment-text ">
-                                            ${reason}
-                                        </p>
-                                    </div>
-                                </div>`
-                        $("#commentlist").append(comment)
-                        // $("#comments-title").append(count)
-
-                    }
-                }
-            })
-        }
     </script>
 </head>
 
 <body>
 <div class="mytitle">
-    <h1 onClick="location.href='index'">Reviewine</h1>
-    <button onclick="open_box()">나도 와인 추천하기</button>
-</div>
-<div class="mypost" id="post-box">
-    <div class="form-floating mb-3">
-        <input id="url" type="email" class="form-control" placeholder="name@example.com">
-        <label>영화URL</label>
+    <div class="titleMenu">
+        <nav class="nav_bar">
+            <button onclick="open_box()">Home</button>
+            <ul>
+                <li>
+                    <button onclick="open_box()">My Page</button>
+                </li>
+                <li>
+                    <button onclick="open_box()">Logout</button>
+                </li>
+            </ul>
+        </nav>
     </div>
+    <div class="title" >
+        <h1>Reviewine</h1>
+    </div>
+</div>
 
-    <div class="form-floating" id="type" style="width: 200px">
-        <textarea id="wine_type" class="form-control" placeholder="Leave a Type here"></textarea>
-        <label for="floatingTextarea2">종류</label>
-    </div>
-    <div class="form-floating" id="name" style="width: 200px">
-        <textarea id="wine_name" class="form-control" placeholder="Leave a name here"></textarea>
-        <label for="floatingTextarea2">이름</label>
-    </div>
-    <div class="form-floating" id="origin">
-        <textarea id="wine_origin" class="form-control" placeholder="Leave a country of origin here"></textarea>
-        <label for="floatingTextarea2">원산지</label>
-    </div>
-    <div class="input-group mb-1" style="width: 440px" id="inputGroupSelect01">
-        <label class="input-group-text" for="inputGroupSelect01">별점</label>
-        <select class="form-select" id="star">
-            <option selected>-- 선택하기 --</option>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
-    </div>
-    <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                  style="height: 100px"></textarea>
-        <label for="floatingTextarea2">설명</label>
-    </div>
-    <div class="mybtns">
-        <button onclick="posting()" type="button" class="btn btn-dark">추천하기</button>
-        <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
-    </div>
+
+<div class="dataPost" id="post-box">
+
 </div>
-<!--여기부터 다음 참조까지 코멘트를 보여주기 위한 html-->
-<div class="container">
-    <div class="be-comment-block" id="commentlist">
-        <form class="form-block">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="form-group fl_icon">
-                        <div class="icon"><i class="fa fa-user"></i></div>
-                        <input class="form-input" type="text" placeholder="성함" id="recommender">
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6 fl_icon">
-                    <div class="form-group fl_icon">
-                        <div class="icon"><i class="fa fa-envelope-o"></i></div>
-                        <input class="form-input" type="text" placeholder="이메일 주소" id="emailaddress">
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <div class="form-group">
-                        <textarea class="form-input" required="" id="reason" placeholder="추천하시는 이유를 설명해주세요."></textarea>
-                        <button onclick="save_comment()" type="button" class="btn btn-primary pull-right">기록하기</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+
+<div class="pageMenu">
+    <nav class="pageNav">
+        <button>Filter</button>
+        <button>내 와인 추천하기</button>
+    </nav>
+
+</div>
+<div class="mycards">
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+
     </div>
 </div>
 </body>
+
 </html>

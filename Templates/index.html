@@ -25,83 +25,86 @@
             width: 100%;
             height: 250px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.2)), url('../Static/Banner_Image.png');
             background-position: center;
             background-size: contain;
-            /*background-repeat: no-repeat;*/
+            background-repeat: no-repeat;
+        }
 
-            color: white;
+        .title > h1 {
+            color: black;
+
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            align-items: start;
             justify-content: center;
+
         }
 
-        .mytitle > h1 {
-            font-size: 50px;
+        .titleMenu nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
         }
 
-        .mytitle > button {
-            width: 200px;
-            height: 50px;
+        .titleMenu li {
+            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+        }
+
+        .titleMenu button {
+            width: 100px;
+            height: 30px;
+
             background-color: transparent;
-            color: white;
+            color: black;
+
             border-radius: 50px;
-            border: 1px solid white;
-            margin-top: 10px;
+            border: 1px solid black;
+
+            margin: 20px 10px 20px 10px;
         }
 
-        .mytitle > button:hover {
-            border: 2px solid white;
+        .titleMenu button:hover {
+            border: 2px solid black;
         }
 
-        .mycomment {
-            color: gray;
+        .pageMenu {
+            width: 100%;
+            height: 70px;
         }
 
-        .mycards {
-            margin: 20px auto 0 auto;
-            width: 95%;
-            max-width: 1200px;
-        }
-
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 10px auto;
-            padding: 20px;
-            box-shadow: 0 0 3px 0 gray;
-
-            display: none;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 500px;
-        }
-
-        .mybtns {
+        .pageMenu nav {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
-
-            margin-top: 20px;
         }
 
-        .mybtns > button {
-            margin-right: 10px;
+        .pageMenu button {
+            width: 150px;
+            height: 30px;
+            background-color: transparent;
+            color: black;
+            border-radius: 50px;
+            border: 1px solid black;
+            margin: 20px 10px 20px 10px;
         }
 
-        .form-floating {
-            margin: 10px;
-            /*margin: 0 auto;*/
-        }
+        /*==========추후 확인 필요==============by DY*/
+        /*body {*/
+        /*    margin-top: 20px;*/
+        /*    !*background-color: #e9ebee;*!*/
+        /*}*/
+        /*=======================================*/
 
-        /*106부터 220까지는 커멘트를 위한 css*/
-        body {
-            margin-top: 20px;
-            background-color: #e9ebee;
+        /* ==================for comment================ css By DJ*/
+        .container {
+            width: 95%;
+            max-width: 500px;
         }
 
         .be-comment-block {
@@ -218,66 +221,15 @@
         .form-block {
             margin-bottom: 20px;
         }
+        /*=================================================*/
     </style>
     <script>
         $(document).ready(function () {
-            listing()
             show_comment()
         })
 
         function hey() {
             console.log("테스트")
-        }
-
-        function listing() {
-            $.ajax({
-                type: 'GET',
-                url: '/movie',
-                data: {},
-                success: function (response) {
-                    let rows = response['movies']
-
-                    for (let i = 0; i < rows.length; i++) {
-                        let comment = rows[i]['comment']
-                        let title = rows[i]['title']
-                        let desc = rows[i]['disc']
-                        let image = rows[i]['image']
-                        let star = rows[i]['star']
-
-                        let star_image = "⭐".repeat(star)
-
-                        let temp_html = `<div class="col">
-                                                <div class="card h-100">
-                                                    <img src="${image}"
-                                                         class="card-img-top">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">"${title}"</h5>
-                                                        <p class="card-text">"${desc}"</p>
-                                                        <p>${star_image}</p>
-                                                        <p class="mycomment">${comment}</p>
-                                                    </div>
-                                                </div>
-                                          </div>`
-                        $('#cards-box').append(temp_html)
-                    }
-                }
-            })
-        }
-
-        function posting() {
-            let url = $('#url').val()
-            let star = $('#star').val()
-            let comment = $('#comment').val()
-
-            $.ajax({
-                type: 'POST',
-                url: '/movie',
-                data: {url_give: url, star_give: star, comment_give: comment},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            });
         }
 
         function open_box() {
@@ -341,49 +293,33 @@
 </head>
 
 <body>
+<!------------Banner By DY----------------->
 <div class="mytitle">
-    <h1 onClick="location.href='index'">Reviewine</h1>
-    <button onclick="open_box()">나도 와인 추천하기</button>
-</div>
-<div class="mypost" id="post-box">
-    <div class="form-floating mb-3">
-        <input id="url" type="email" class="form-control" placeholder="name@example.com">
-        <label>영화URL</label>
+    <div class="titleMenu">
+        <nav class="nav_bar">
+            <button onclick="open_box()">Home</button>
+            <ul>
+                <li>
+                    <button onclick="open_box()">My Page</button>
+                </li>
+                <li>
+                    <button onclick="open_box()">Logout</button>
+                </li>
+            </ul>
+        </nav>
     </div>
-<!---->
-    <div class="form-floating" id="type" style="width: 200px">
-        <textarea id="wine_type" class="form-control" placeholder="Leave a Type here"></textarea>
-        <label for="floatingTextarea2">종류</label>
-    </div>
-    <div class="form-floating" id="name" style="width: 200px">
-        <textarea id="wine_name" class="form-control" placeholder="Leave a name here"></textarea>
-        <label for="floatingTextarea2">이름</label>
-    </div>
-    <div class="form-floating" id="origin">
-        <textarea id="wine_origin" class="form-control" placeholder="Leave a country of origin here"></textarea>
-        <label for="floatingTextarea2">원산지</label>
-    </div>
-    <div class="input-group mb-1" style="width: 440px" id="inputGroupSelect01">
-        <label class="input-group-text" for="inputGroupSelect01">별점</label>
-        <select class="form-select" id="star">
-            <option selected>-- 선택하기 --</option>
-            <option value="1">⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-        </select>
-    </div>
-    <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                  style="height: 100px"></textarea>
-        <label for="floatingTextarea2">설명</label>
-    </div>
-    <div class="mybtns">
-        <button onclick="posting()" type="button" class="btn btn-dark">추천하기</button>
-        <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
+    <div class="title">
+        <!--        <h1>Reviewine</h1>-->
     </div>
 </div>
+<!----------Banner By DY--------------------->
+<div class="pageMenu">
+    <nav class="pageNav">
+        <button>Filter</button>
+        <button>내 와인 추천하기</button>
+    </nav>
+</div>
+
 <!--여기부터 다음 참조까지 코멘트를 보여주기 위한 html-->
 <div class="container">
     <div class="be-comment-block" id="commentlist">
@@ -391,13 +327,13 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group fl_icon">
-                        <div class="icon"><i class="fa fa-user"></i></div>
+                        <!--                        <div class="icon"><i class="fa fa-user"></i></div>-->
                         <input class="form-input" type="text" placeholder="성함" id="recommender">
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-6 fl_icon">
                     <div class="form-group fl_icon">
-                        <div class="icon"><i class="fa fa-envelope-o"></i></div>
+                        <!--                        <div class="icon"><i class="fa fa-envelope-o"></i></div>-->
                         <input class="form-input" type="text" placeholder="이메일 주소" id="emailaddress">
                     </div>
                 </div>

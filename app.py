@@ -9,13 +9,12 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Clust
 #client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 #client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 db = client.dbsparta
-
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
-# ㅇㅇㅇ
+
 # 홈 페이지
 @app.route('/')
 def home():
@@ -56,31 +55,6 @@ def getId():
     else:
         return jsonify({'user':False})
 
-
-
-@app.route('/sign_in', methods=['POST'])  # 로그인 API
-def sign_in():
-    id_receive = request.form['give_id']
-    pw_receive = request.form['give_pw']
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
-
-    result = db.users.find_one({'id': id_receive, 'pw': pw_hash})  # 동일한 유저가 있는지 확인
-
-    if result is not None:  # 동일한 유저가 없는게 아니면, = 동일한 유저가 있으면,
-        payload = {
-            'id': id_receive,
-
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
-        }
-
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf8')
-            # .decode('utf8')  # 토큰을 건내줌.
-
-
-        return jsonify({'result': 'success', 'token': token})
-    else:  # 동일한 유저가 없으면,
-        return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
-
 #인덱스 페이지로 이동
 @app.route('/index')
 def index():
@@ -109,7 +83,3 @@ def comment_get():
 
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5000, debug=True)
-
-# Branch Test Update 20220411 10:40
-# 이동재 테스트. 저도 커밋하고 푸시 해볼게요 20220411 10:47
-# 민수 테스트 22222 10:57

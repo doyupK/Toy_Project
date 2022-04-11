@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <title>Reviewine</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .mytitle {
+            width: 100%;
+            height: 250px;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 10, 0.2)), url('../Static/Banner_Image.png');
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .title, h1{
+            color: white;
+
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .titleMenu nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+        }
+        .titleMenu li {
+            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+        }
+
+        .titleMenu button {
+            width: 100px;
+            height: 30px;
+
+            background-color: transparent;
+            color: black;
+
+            border-radius: 50px;
+            border: 1px solid black;
+
+            margin: 20px 10px 20px 10px;
+        }
+
+        .titleMenu button:hover {
+            border: 2px solid black;
+        }
+
+        .mycards {
+            margin: 20px auto 0 auto;
+            width: 95%;
+            max-width: 1200px;
+        }
+
+        .mybtns > button {
+            margin-right: 10px;
+        }
+
+        .pageMenu {
+            width: 100%;
+            height: 70px;
+        }
+
+        .pageMenu nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .pageMenu button {
+            width: 150px;
+            height: 30px;
+
+            background-color: transparent;
+            color: black;
+
+            border-radius: 50px;
+            border: 1px solid black;
+
+            margin: 20px 10px 20px 10px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            listing();
+        });
+
+    </script>
+</head>
+
+<body>
+<div class="mytitle">
+    <div class="titleMenu">
+        <nav class="nav_bar">
+            <button onclick="open_box()">Home</button>
+            <ul>
+                <li>
+                    <button onclick="open_box()">My Page</button>
+                </li>
+                <li>
+                    <button onclick="open_box()">Logout</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="title" >
+        <h1>Reviewine</h1>
+    </div>
+</div>
+
+
+<div class="dataPost" id="post-box">
+
+</div>
+
+<div class="pageMenu">
+    <nav class="pageNav">
+        <button>Filter</button>
+        <button>내 와인 추천하기</button>
+    </nav>
+
+</div>
+<div class="mycards">
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+
+    </div>
+</div>
+</body>
+
+</html>

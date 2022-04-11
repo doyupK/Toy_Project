@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
 #client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+#client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 db = client.dbsparta
 
 app = Flask(__name__)
@@ -14,7 +15,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
-
+# ㅇㅇㅇ
 # 홈 페이지
 @app.route('/')
 def home():
@@ -98,7 +99,7 @@ def comment_post():
         '코멘트내용': reason_receive,
     }
     # db.users가 아님!
-    db.wines.insert_one(doc)
+    db.recommend.insert_one(doc)
     return jsonify({'msg': '저장완료'})
 
 @app.route("/comments", methods=["GET"])

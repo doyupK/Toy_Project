@@ -1,6 +1,8 @@
 import hashlib
+
 import jwt as jwt
 import certifi
+
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
@@ -55,6 +57,20 @@ def sign_in():
     if result is not None:  # 동일한 유저가 없는게 아니면, = 동일한 유저가 있으면,
         payload = {
             'id': id_receive,
+
+
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
+        }
+
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf8')
+            # .decode('utf8')  # 토큰을 건내줌.
+
+
+        return jsonify({'result': 'success', 'token': token})
+    else:  # 동일한 유저가 없으면,
+        return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
+
+
 
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
         }

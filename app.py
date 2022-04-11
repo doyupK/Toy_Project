@@ -5,7 +5,8 @@ from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 ca = certifi.where()
-client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca)
+client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
+#client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 db = client.dbsparta
 
 app = Flask(__name__)
@@ -24,24 +25,36 @@ def home():
 def signup():
     return render_template('signup.html')
 
-# 회원 가입
+# 회원 가입 by minsu
 @app.route("/users_signup", methods=["POST"])
 def users():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     name_receive = request.form['name_give']
     email_receive = request.form['email_give']
+    address_receive = request.form['address_give']
 
     doc = {
         'id': id_receive,
         'pw': pw_receive,
         'name': name_receive,
         'email': email_receive,
+        'address': address_receive
     }
-
     db.users.insert_one(doc)
 
     return jsonify({'msg':'회원 가입 완료!'})
+
+# 아이디 중복 확인 by minsu
+@app.route("/users_idCheck", methods=["GET"])
+def getId():
+    id_receive = request.values.get('id_give')
+    user = db.users.find_one({'id': id_receive})
+    if user is None:    #datatype 이 none일경우 []를 통한 접근 불가 ex) user is None <- ok but, user['id'] is None <- 데이터 타입 오류
+        return jsonify({'user':True})
+    else:
+        return jsonify({'user':False})
+
 
 
 @app.route('/sign_in', methods=['POST'])  # 로그인 API

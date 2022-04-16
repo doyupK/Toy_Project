@@ -60,10 +60,8 @@
             margin-right: 15px;
         }
 
-        /*.typing_check {*/
-        /*    align-self: flex-start;*/
-        /*}*/
     </style>
+
 
     <!--    주소 찾기 다음 api   -->
     <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
@@ -76,30 +74,10 @@
 
     <script>
         // 김민수 : 회원 가입 및 관리 기능 =================================================================================
-
-        var checkIdResult = false
-        var checkIdDuplicationResult = false
-        var checkPasswordResult = false
-        var checkPasswordConfirmResult = false
-        var checkNameResult = false
+        var checkPasswordResult = true
+        var checkPasswordConfirmResult = true
         var checkEmailResult = false
         var checkAddressResult = false
-
-        // 아이디 조합 체크
-        function checkId(id) { // 아이디 입력값 검증
-            checkIdDuplicationResult = false
-            var regex = new RegExp(/^[A-Za-z0-9]{4,12}$/); // 4~12자리 영문,숫자 조합 정규 표현식 활용
-            var element = document.getElementById('checkIdResult');
-            if (regex.exec(id)) {
-                element.innerHTML = '사용 가능';
-                element.style.color = 'green';
-                checkIdResult = true; // 전역변수값을 true 로 변경
-            } else {
-                element.innerHTML = '사용 불가능';
-                element.style.color = 'red';
-                checkIdResult = false; // 전역변수값을 false 로 변경
-            }
-        }
 
         // 비밀번호 조합 체크
         function checkPassword(password) {
@@ -140,7 +118,7 @@
                 }
 
             } else {
-                element.innerHTML = '영문자,숫자,특수문자 초쇠 2가지 조합 필수!';
+                element.innerHTML = '영문자,숫자,특수문자 최소 2가지 조합 필수!';
                 element.style.color = 'red';
                 checkPasswordResult = false; // 전역변수값을 false 로 변경
             }
@@ -161,39 +139,53 @@
 
         }
 
-        // 회원 가입
-        function users_signUp() {
-            let id = $('#floatingInput_ID').val()
+        $(document).ready(function () {
+            show_user()
+        })
+
+        // 회원 정보 불러오기
+        let id = 'minsu1'
+        var pwOrign = ''
+
+        function show_user() {
+            $.ajax({
+                type: "GET",
+                url: "/show_user",
+                data: {id_give: id},
+                success: function (response) {
+                    document.getElementById('floatingInput_ID').value = response['user_info']['id']
+                    document.getElementById('floatingInput_PW').value = response['user_info']['pw']
+                    document.getElementById('floatingInput_PW_Check').value = response['user_info']['pw']
+                    document.getElementById('floatingInput_name').value = response['user_info']['name']
+                    document.getElementById('floatingInput_Email').value = response['user_info']['email']
+                    document.getElementById('floatingInput_address').value = response['user_info']['address']
+                    pwOrign = response['user_info']['pw']
+                }
+            })
+        }
+
+        // 회원 정보 변경
+        function users_update() {
             let password = $('#floatingInput_PW').val()
-            let name = $('#floatingInput_name').val()
+            let passwordCheck = $('#floatingInput_PW_Check').val()
             let email = $('#floatingInput_Email').val()
             let address = $('#floatingInput_address').val()
-
-            if (name != '') {
-                checkNameResult = true
-            }
             if (email != '') {
                 checkEmailResult = true
             }
             if (address != '') {
                 checkAddressResult = true
             }
+            if (password != passwordCheck) {
+                checkPasswordConfirmResult = false
+            }
 
             switch (false) {
-                case checkIdResult:
-                    alert('아이디를 확인하세요');
-                    return;
-                case checkIdDuplicationResult:
-                    alert('아이디 중복확인 필수 입니다');
-                    return;
                 case checkPasswordResult:
                     alert('비밀번호를 확인하세요');
                     return;
                 case checkPasswordConfirmResult:
                     alert('비밀번호가 일치하지 않습니다');
-                    return;
-                case checkNameResult:
-                    alert('이름을 입력하세요');
                     return;
                 case checkEmailResult:
                     alert('이메일을 입력하세요');
@@ -204,41 +196,33 @@
                 default:
                     $.ajax({
                         type: 'POST',
-                        url: '/users_signup',
+                        url: '/users_update',
                         data: {
-                            id_give: id,
-                            pw_give: password,
-                            name_give: name,
-                            email_give: email,
-                            address_give: address
+                            id_give: id, pw_give: password, email_give: email, address_give: address
                         },
                         success: function (response) {
                             alert(response['msg'])
                             window.location.href = "/"
                         }
                     });
-            }
 
+            }
         }
 
-        // 아이디 중복체크
-        function users_idCheck() {
-            let id = $('#floatingInput_ID').val()
+        // 회원 정보 삭제
+        function users_delete() {
+
             $.ajax({
-                type: "GET",
-                url: "/users_idCheck",
+                type: 'POST',
+                url: '/users_delete',
                 data: {id_give: id},
                 success: function (response) {
-                    if (response['user']) {
-                        checkIdDuplicationResult = true
-                        alert("사용가능한 아이디 입니다.")
-                    } else {
-                        checkIdDuplicationResult = false
-                        alert("사용할수 없습니다.")
-                    }
+                    alert(response['msg'])
+                    window.location.href = "/"
                 }
-            })
+            });
         }
+
 
         // 주소 찾기 다음 api
         var element_layer = document.getElementById('layer');// 우편번호 찾기 화면을 넣을 element
@@ -322,7 +306,6 @@
             element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
         }
 
-
         // 김민수 : 회원 가입 및 관리 기능 =================================================================================
 
     </script>
@@ -330,18 +313,13 @@
 <body>
 <div class="login_title">
     <div class="title">
-        <h1>Reviewine</h1>
+        <h1>회원정보수정</h1>
     </div>
 
     <div class="login_box">
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID" maxlength="12"
-                       onkeyup="checkId(this.value)">
-                <label for="floatingInput_ID">ID : 4~12자리 영문,숫자만 가능</label>
-                <button onclick="users_idCheck()" type="button" class="btn btn-dark">중복확인</button>
-            </div>
-            <label for="floatingInput_ID" id="checkIdResult"></label>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID" maxlength="12" readonly>
+            <label for="floatingInput_ID">ID</label>
         </div>
         <div class="mb-3">
             <div class="form-floating">
@@ -359,33 +337,25 @@
             </div>
             <label for="floatingInput_PW_Check" id="passwordConfirmResult"></label>
         </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInput_name" placeholder="name" maxlength="20">
-                <label for="floatingInput_name">name</label>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput_name" placeholder="name" readonly>
+            <label for="floatingInput_name">name</label>
         </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput_Email" placeholder="name@example.com" maxlength="40">
-                <label for="floatingInput_Email">Email address</label>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput_Email" placeholder="name@example.com" maxlength="40">
+            <label for="floatingInput_Email">Email address</label>
         </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInput_address" placeholder="address" maxlength="100">
-                <label for="floatingInput_address">address</label>
-                <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput_address" placeholder="address" maxlength="100">
+            <label for="floatingInput_address">address</label>
+            <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
         </div>
-        <div class="login_btns">
-            <button onclick="users_signUp()" type="button" class="btn btn-dark">회원가입</button>
-        </div>
-        <div class="login_btns mt-3">
-            <button onclick="location.href='/editprofile'" type="button" class="btn btn-dark">회원정보수정</button>
+        <div class="login_btns" method="POST">
+            <button onclick="location.href='/'" type="button" class="btn btn-dark">메인으로 이동</button>
+            <button onclick="users_update()" type="button" class="btn btn-dark">회원정보수정</button>
+            <button onclick="users_delete()" type="button" class="btn btn-dark">회원정보삭제</button>
         </div>
     </div>
-
 </div>
 </body>
 </html>

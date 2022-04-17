@@ -36,9 +36,14 @@ def users():
     email_receive = request.form['email_give']
     address_receive = request.form['address_give']
 
+    # Encrypt
+    pw_encode = pw_receive.encode()
+    pw_hash = hashlib.sha256(pw_encode).hexdigest()
+    print('암호화 : ', pw_hash)
+
     doc = {
         'id': id_receive,
-        'pw': pw_receive,
+        'pw': pw_hash,
         'name': name_receive,
         'email': email_receive,
         'address': address_receive
@@ -77,7 +82,11 @@ def users_update():
     email_receive = request.form['email_give']
     address_receive = request.form['address_give']
 
-    db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_receive}})
+    # Encrypt
+    pw_encode = pw_receive.encode()
+    pw_hash = hashlib.sha256(pw_encode).hexdigest()
+
+    db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
     db.users.update_one({'id': id_receive}, {'$set': {'email': email_receive}})
     db.users.update_one({'id': id_receive}, {'$set': {'address': address_receive}})
 

@@ -74,8 +74,8 @@
 
     <script>
         // 김민수 : 회원 가입 및 관리 기능 =================================================================================
-        var checkPasswordResult = true
-        var checkPasswordConfirmResult = true
+        var checkPasswordResult = false
+        var checkPasswordConfirmResult = false
         var checkEmailResult = false
         var checkAddressResult = false
 
@@ -154,8 +154,8 @@
                 data: {id_give: id},
                 success: function (response) {
                     document.getElementById('floatingInput_ID').value = response['user_info']['id']
-                    document.getElementById('floatingInput_PW').value = response['user_info']['pw']
-                    document.getElementById('floatingInput_PW_Check').value = response['user_info']['pw']
+                    // document.getElementById('floatingInput_PW').value = response['user_info']['pw']
+                    // document.getElementById('floatingInput_PW_Check').value = response['user_info']['pw']
                     document.getElementById('floatingInput_name').value = response['user_info']['name']
                     document.getElementById('floatingInput_Email').value = response['user_info']['email']
                     document.getElementById('floatingInput_address').value = response['user_info']['address']

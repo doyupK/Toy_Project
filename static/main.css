@@ -1,0 +1,199 @@
+* {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        /*============================배너 사진 출력 X 확인 필요=============================*/
+        .myTitle {
+            width: 100%;
+            height: 250px;
+
+            background-image: linear-gradient(1deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.2)),
+            url(Banner_Image.png);
+
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .titleMenu nav {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .titleMenu li {
+            display: inline-block;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            list-style: none;
+        }
+
+        .titleMenu button {
+            width: 100px;
+            height: 30px;
+
+            background-color: transparent;
+            color: black;
+
+            border-radius: 50px;
+            border: 1px solid black;
+
+            margin: 20px 10px 20px 10px;
+        }
+
+        .titleMenu button:hover {
+            border: 2px solid black;
+        }
+
+        .pageMenu {
+            width: 100%;
+            height: 70px;
+        }
+
+        .pageMenu nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pageMenu button {
+            width: 150px;
+            height: 30px;
+            background-color: transparent;
+            color: black;
+            border-radius: 50px;
+            border: 1px solid black;
+            margin: 20px 10px 20px 10px;
+        }
+
+        /*==========추후 확인 필요==============by DY*/
+        /*body {*/
+        /*    margin-top: 20px;*/
+        /*    !*background-color: #e9ebee;*!*/
+        /*}*/
+        /*=======================================*/
+
+        /* ==================for comment================ css By DJ*/
+        .container {
+            width: 95%;
+            max-width: 500px;
+        }
+
+        .be-comment-block {
+            margin-bottom: 50px !important;
+            border: 1px solid #edeff2;
+            border-radius: 2px;
+            padding: 5px 7px;
+            border: 1px solid #ffffff;
+        }
+
+        .comments-title {
+            font-size: 16px;
+            color: #262626;
+            margin-bottom: 15px;
+            font-family: 'Conv_helveticaneuecyr-bold';
+        }
+
+        .be-img-comment {
+            width: 60px;
+            height: 60px;
+            float: left;
+            margin-bottom: 15px;
+        }
+
+        .be-ava-comment {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .be-comment-content {
+            margin-left: 80px;
+        }
+
+        .be-comment-content span {
+            display: inline-block;
+            width: 49%;
+            margin-bottom: 15px;
+        }
+
+        .be-comment-name {
+            font-size: 13px;
+            font-family: 'Conv_helveticaneuecyr-bold';
+        }
+
+        .be-comment-content a {
+            color: #383b43;
+        }
+
+        .be-comment-content span {
+            display: inline-block;
+            width: 49%;
+            margin-bottom: 15px;
+        }
+
+        .be-comment-time {
+            text-align: right;
+        }
+
+        .be-comment-time {
+            font-size: 11px;
+            color: #b4b7c1;
+        }
+
+        .be-comment-text {
+            font-size: 13px;
+            line-height: 18px;
+            color: #7a8192;
+            display: block;
+            background: #f6f6f7;
+            border: 1px solid #edeff2;
+            padding: 15px 20px 20px 20px;
+        }
+
+        .form-group.fl_icon .icon {
+            position: absolute;
+            top: 1px;
+            left: 16px;
+            width: 48px;
+            height: 48px;
+            background: #f6f6f7;
+            color: #b5b8c2;
+            text-align: center;
+            line-height: 50px;
+            -webkit-border-top-left-radius: 2px;
+            -webkit-border-bottom-left-radius: 2px;
+            -moz-border-radius-topleft: 2px;
+            -moz-border-radius-bottomleft: 2px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+
+        .form-group .form-input {
+            font-size: 13px;
+            line-height: 50px;
+            font-weight: 400;
+            color: #b4b7c1;
+            width: 100%;
+            height: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: 1px solid #edeff2;
+            border-radius: 3px;
+        }
+
+        .form-group.fl_icon .form-input {
+            padding-left: 70px;
+        }
+
+        .form-group textarea.form-input {
+            height: 150px;
+        }
+
+        .form-block {
+            margin-bottom: 20px;
+        }
+
+        /*#recommendBox:*/

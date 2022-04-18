@@ -5,8 +5,8 @@ from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 ca = certifi.where()
-#client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
-client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
+client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
+#client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 #client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 db = client.dbsparta
 
@@ -19,7 +19,7 @@ SECRET_KEY = 'SPARTA'
 # 홈 페이지
 @app.route('/')
 def home():
-    return render_template('login.html')
+    return render_template('index.html')
 
 # 회원 가입 페이지 이동
 @app.route('/signup')

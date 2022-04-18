@@ -19,8 +19,9 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
 # 와인 이름, 이미지 크롤링
 wines = soup.select('#produkt-container > div.row > div')
-
+num = 0
 for wine in wines:
+    num = num + 1
     space_name = wine.select_one('h2 > a').text
     name = space_name.strip()
     img = wine.select_one('div.product-image-wrapper > a > picture > img')['src']
@@ -36,6 +37,7 @@ for wine in wines:
     producer = wine.select_one('div.produzent > a').text
 
     doc = {
+        'post_num':str(num),
         'name':name,
         'land':land,
         'region':region,

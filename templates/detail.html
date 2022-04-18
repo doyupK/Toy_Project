@@ -30,18 +30,66 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-
-    <script>
-
-        function goDetail(number) {
-            location.href = "/detail/"+number
+    <style>
+        section {
+            width: 100%;
+            /*margin: 50px auto;*/
         }
 
-        function goCrawlingDetail(key) {
-            location.href = "/crawling_detail/"+key
+        .main_content {
+            position: relative;
+            height: 900px;
+            display: flex;
+            /*flex-direction: row;*/
+            justify-content: space-between;
+            /*align-items: center;*/
+            /*margin: auto;*/
+            /*padding: 0 100px;*/
+
         }
 
-    </script>
+        .img_box{
+            width: 500px;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .Review_img {
+            width: auto;
+            height: auto;
+
+        }
+
+        #title {
+            padding-right: 100px;
+            text-align: right;
+        }
+
+        #title h1 {
+            font-size: 2.5rem;
+            font-weight: 500;
+            letter-spacing: normal;
+            color: #262626;
+            margin-bottom: 5px;
+        }
+
+        #title h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: normal;
+            color: #1c020a;
+            margin-bottom: 5px;
+        }
+        #title h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: normal;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+    </style>
 
 </head>
 
@@ -71,71 +119,28 @@
     <div class="container">
         <div class="row">
             <div class="post_box">
-                <div class="winesite_recommended_list">
-                    <ul>
-                        <li><a href="#">실시간 사이트별 추천 리스트</a></li>
-                    </ul>
-                </div>
-                <div class="site_menu">
-                    <ul>
-                        <li class="active"><a href="#">VIVINO</a></li>
-                        <li><a href="#">WEINCO</a></li>
-                        <li><a href="#">XTRAWINE</a></li>
-                        <li><a href="#">WINE21</a></li>
-                    </ul>
-                </div>
 
-                <div class="wine_chart">
-                    <div class="swiper-container2">
-                        <div class="chart_cont1 swiper-wrapper">
-                            {% for weinco in weincos %}
-                                <div class="swiper-slide">
-                                    <div class="poster">
-
-                                            <img class="post-card" src="{{ weinco.image}}"
-                                                 onclick="goCrawlingDetail({{weinco.name}})">
-                                    </div>
-                                    <div class="info">
-                                        <h3><strong>{{ weinco.name }}</strong></h3>
-                                        <div class="info_btn">
-                                            <div>{{ weinco.land }}</div>
-                                            <div>{{ weinco.region }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
                 <div class="recommended_list">
                     <ul>
                         <li><a href="#">Wine Not 회원 추천 리스트</a></li>
                     </ul>
                 </div>
-                <div class="wine_chart">
-                    <div class="swiper-container2">
-                        <div class="chart_cont1 swiper-wrapper">
-                            {% for post in posts %}
-                                <div class="swiper-slide">
-                                    <div class="poster">
-<!--                                        <figure>-->
-                                            <img class="post-card" src="{{ url_for('static', filename = post.file)}}"
-                                            onclick="goDetail({{post.post_num}})">
-
-                                        <!--                                        </figure>-->
-                                    </div>
-                                    <div class="info">
-                                        <h3><strong>추천인:{{ post.profile_name }}</strong></h3>
-                                        <div class="info_btn">
-                                            <div>{{ post.wine_name }}</div>
-                                            <div>{{ post.wine_country }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
+                <section id="main">
+                    <div class="main_content">
+                        <div class="img_box">
+                            <img class="Review_img" src="{{ url_for('static',filename = review_num.file) }}">
+                        </div>
+                        <div class="review_detail">
+                            <div id="title">
+                                <h1>{{ review_num.wine_name }}</h1>
+                                <h2>{{ review_num.wine_type }}</h2>
+                                <h3>{{ review_num.wine_country }}</h3>
+                                <h3>{{ review_num.wine_grape }}</h3>
+                                <h4>{{ review_num.content }}</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
@@ -166,5 +171,4 @@
     </div>
 </footer>
 </body>
-
 </html>

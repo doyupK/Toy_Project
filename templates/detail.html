@@ -9,9 +9,9 @@
     <title>Wine NOT?</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../static/reset.css">
-    <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="../static/swiper.css">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
 
     <!-- 웹 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
@@ -100,7 +100,7 @@
             <div class="header clearfix">
                 <h1>
                     <a href="/">
-                        <em><img src="../static/winenot_onlyfont.png" alt="wineNot_logo"></em>
+                        <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
                     </a>
                 </h1>
                 <nav class="nav">
@@ -128,7 +128,7 @@
                 <section id="main">
                     <div class="main_content">
                         <div class="img_box">
-                            <img class="Review_img" src="{{ url_for('static',filename = review_num.file) }}">
+                            <img class="Review_img" src="../static/img/{{review_num.file}}">
                         </div>
                         <div class="review_detail">
                             <div id="title">
@@ -153,7 +153,7 @@
             <div class="row">
                 <div class="footer_info">
                     <h2>
-                        <img src="../static/항해99_logo.png">
+                        <img src="../static/img/항해99_logo.png">
                     </h2>
                     <ul>
                         <li>

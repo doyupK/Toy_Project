@@ -9,9 +9,9 @@
     <title>Wine NOT?</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../static/reset.css">
-    <link rel="stylesheet" href="../static/style.css">
-    <link rel="stylesheet" href="../static/swiper.css">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
 
     <!-- 웹 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
@@ -52,7 +52,7 @@
             <div class="header clearfix">
                 <h1>
                     <a href="/">
-                        <em><img src="../static/winenot_onlyfont.png" alt="wineNot_logo"></em>
+                        <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
                     </a>
                 </h1>
                 <nav class="nav">
@@ -91,9 +91,8 @@
                             {% for weinco in weincos %}
                                 <div class="swiper-slide">
                                     <div class="poster">
-
-                                            <img class="post-card" src="{{ weinco.image}}"
-                                                 onclick="goCrawlingDetail({{weinco.name}})">
+                                            <img class="post-card" src="{{weinco.image}}"
+                                                 onclick="goCrawlingDetail({{weinco.post_num}})">
                                     </div>
                                     <div class="info">
                                         <h3><strong>{{ weinco.name }}</strong></h3>
@@ -109,7 +108,7 @@
                 </div>
                 <div class="recommended_list">
                     <ul>
-                        <li><a href="#">Wine Not 회원 추천 리스트</a></li>
+                        <li><a href="#">Wine Not 회원 추천 리스트</a>  <span onclick="location.href='/winenotPage'">     더보기</span></li>
                     </ul>
                 </div>
                 <div class="wine_chart">
@@ -119,7 +118,7 @@
                                 <div class="swiper-slide">
                                     <div class="poster">
 <!--                                        <figure>-->
-                                            <img class="post-card" src="{{ url_for('static', filename = post.file)}}"
+                                            <img class="post-card" src="static/img/{{post.file}}"
                                             onclick="goDetail({{post.post_num}})">
 
                                         <!--                                        </figure>-->
@@ -148,7 +147,7 @@
             <div class="row">
                 <div class="footer_info">
                     <h2>
-                        <img src="../static/항해99_logo.png">
+                        <img src="../static/img/항해99_logo.png">
                     </h2>
                     <ul>
                         <li>

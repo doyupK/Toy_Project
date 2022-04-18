@@ -17,7 +17,7 @@ app = Flask(__name__)
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
 
-# 홈 페이지
+# 홈 페이지 - 220419 DY
 @app.route('/')
 def home():
     posts = list(db.Reviews.find({}, {'_id': False}).limit(4).sort('post_num', -1))
@@ -139,7 +139,8 @@ def sign_in():
 def index():
     return render_template('index.html')
 
-#인덱스 페이지의 코멘트 저장
+
+#인덱스 페이지의 코멘트 저장   ---------------------------------------------> 확인 필요
 @app.route("/comments", methods=["POST"])
 def comment_post():
     recommender_receive = request.form['recommender_give']
@@ -155,13 +156,14 @@ def comment_post():
     db.recommend.insert_one(doc)
     return jsonify({'msg': '저장완료'})
 
+
 @app.route("/comments", methods=["GET"])
 def comment_get():
     comment_list = list(db.wines.find({}, {'_id': False}))
     return jsonify({'recommends': comment_list})
 
 
-# 상세페이지
+# WEINCO 상세페이지  -  220419 DY
 @app.route('/crawling_detail/<keyword>')
 def crawling_detail(keyword):
     review = db.wine.find_one({'post_num': keyword})
@@ -170,14 +172,72 @@ def crawling_detail(keyword):
     return render_template('Crawling_detail.html', review=review)
 
 
-
-# 상세페이지
+# 상세페이지   - 220419 DY
 @app.route('/detail/<keyword>')
 def detail(keyword):
     review_num = db.Reviews.find_one({'post_num': keyword})
 
     print(review_num)
     return render_template('detail.html', review_num=review_num)
+
+
+# Wine NOT 게시글 저장 - 220419 DY
+@app.route('/pictures', methods=['POST'])
+def save_pictures():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.DYTestusers.find_one({"username": payload["id"]})
+
+        review_list = list(db.Reviews.find({}, {'_id': False}))
+        last_post_no = review_list[-1]['post_num']
+        count = int(last_post_no) + 1
+
+        type_receive = request.form['type_give']
+        name_receive = request.form['name_give']
+        country_receive = request.form['country_give']
+        grape_receive = request.form['grape_give']
+        content_receive = request.form['content_give']
+
+        file = request.files["file_give"]
+        # 확장자명 만듬
+        extension = file.filename.split('.')[-1]
+
+        # datetime 클래스로 현재 날짜와시간 만들어줌 -> 현재 시각을 출력하는 now() 메서드
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+        filename = f'file-{mytime}'
+        # 파일에 시간붙여서 static폴더에 filename 으로 저장
+        save_to = f'static/{filename}.{extension}'
+        file.save(save_to)
+
+        doc = {
+            'post_num': count,
+            'username': user_info["username"],
+            'profile_name': user_info["name"],
+            'wine_type': type_receive,
+            'wine_name': name_receive,
+            'wine_country': country_receive,
+            'wine_grape': grape_receive,
+            'content': content_receive,
+            'file': f'{filename}.{extension}',
+            'time': today.strftime('%Y.%m.%d')
+        }
+        # pictures collection에 저장
+        db.Reviews.insert_one(doc)
+
+        return jsonify({'msg': '저장 완료!'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+#  Wine NOT 페이지 - 220419 DY
+@app.route('/winenotPage')
+def winenotpage():
+    posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1))
+
+    return render_template('wineNot.html', posts=posts)
 
 
 if __name__ == '__main__':

@@ -74,7 +74,7 @@
 
 .post_box .winesite_recommended_list {
     width: 848px;
-    margin: 30px auto 20px auto;
+    margin: 0 auto 20px auto;
     text-align: center;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .recommended_list {
-    margin: 50px 0 30px 0;
+    margin: 80px 0 30px 0;
     text-align: center;
 }
 
@@ -124,6 +124,15 @@
     font-size: 24px;
     color: #666;
     font-weight: 700;
+}
+.winesite_recommended_list li span {
+    font-size: 24px;
+    color: #666;
+    font-weight: 700;
+}
+
+.winesite_recommended_list button {
+    margin-top: 20px;
 }
 
 
@@ -172,6 +181,7 @@
 
 .wine_chart .info {
     overflow: hidden;
+    height: 160px;
     background-color: #fff;
     padding: 17px;
     border: 1px solid #d9d9d9;

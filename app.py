@@ -3,15 +3,16 @@ import jwt as jwt
 import certifi
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from datetime import datetime, timedelta
 
 ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
 #client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 #client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 db = client.dbsparta
-
 app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 비밀 키 설정
 SECRET_KEY = 'SPARTA'
@@ -19,7 +20,9 @@ SECRET_KEY = 'SPARTA'
 # 홈 페이지
 @app.route('/')
 def home():
-    return render_template('index.html')
+    posts = list(db.Reviews.find({}, {'_id': False}).limit(4).sort('post_num', -1))
+    weincos = list(db.wine.find({}).limit(4))
+    return render_template('index.html', posts=posts, weincos=weincos)
 
 # 회원 가입 페이지 이동
 @app.route('/signup')
@@ -102,6 +105,11 @@ def users_delete():
 
 # 김민수 : 회원가입 및 관리 기능 ====================================================================================
 
+# 회원 가입 페이지 이동 - dy
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 
 @app.route('/sign_in', methods=['POST'])  # 로그인 API
 def sign_in():
@@ -152,5 +160,27 @@ def comment_get():
     comment_list = list(db.wines.find({}, {'_id': False}))
     return jsonify({'recommends': comment_list})
 
+
+# 상세페이지
+@app.route('/crawling_detail/<keyword>')
+def crawling_detail(keyword):
+    review = db.wine.find_one({'post_num': keyword})
+
+    print(review)
+    return render_template('Crawling_detail.html', review=review)
+
+
+
+# 상세페이지
+@app.route('/detail/<keyword>')
+def detail(keyword):
+    review_num = db.Reviews.find_one({'post_num': keyword})
+
+    print(review_num)
+    return render_template('detail.html', review_num=review_num)
+
+
 if __name__ == '__main__':
    app.run('0.0.0.0', port=5000, debug=True)
+
+

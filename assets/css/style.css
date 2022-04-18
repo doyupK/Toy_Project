@@ -1,0 +1,199 @@
+
+#header {
+    width: 100%;
+    height: 60px;
+    box-shadow: 0 1px 4px 0 rgba(30, 30, 30, .2);
+}
+
+/* 가운데 영역 */
+.container {
+    position: relative;
+    width: 1280px;
+    margin: 0 auto;
+}
+
+/* 로우 영역 */
+.row {
+    padding: 0 28px;
+}
+
+#footer {
+    background: #6e1716;
+}
+
+/* 헤더 영역 */
+.header h1 {
+    float: left;
+}
+
+.header h1 em {
+    padding: 15px 0px 0px 133px;
+    display: inline-block;
+}
+
+.header h1 em img {
+    width: 180px;
+}
+
+.header .nav {
+    float: right;
+}
+
+.header .nav ul {
+    border-left: 1px solid #c6c6c6;
+}
+
+.header .nav ul li {
+    float: left;
+    width: 90px;
+    text-align: center;
+    border-right: 1px solid #c6c6c6;
+}
+
+.header .nav ul li a {
+    display: block;
+    padding: 18px 10px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #444;
+}
+
+/* 무비 */
+.movie {
+    padding: 50px;
+}
+
+.movie .winesite_recommended_list {
+    width: 848px;
+    margin: 30px auto 20px auto;
+    text-align: center;
+
+}
+
+.movie .winesite_recommended_list a {
+    font-size: 24px;
+    color: #666;
+    font-weight: 700;
+}
+
+.movie_title {
+    margin-bottom: 30px;
+}
+
+.movie_title ul {
+    overflow: hidden;
+    width: 848px;
+    margin: 0 auto;
+}
+
+.movie_title li {
+    float: left;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #c4c4c4;
+    margin-right: -1px;
+}
+
+.movie_title li a {
+    display: block;
+    padding: 10px 0;
+    font-size: 18px;
+    color: #666;
+    font-weight: 700;
+}
+
+.movie_title li.active a {
+    background-color: #666;
+    color: #fff;
+}
+
+.recommended_list {
+    margin: 50px 0 30px 0;
+    text-align: center;
+}
+
+.recommended_list li a {
+    font-size: 24px;
+    color: #666;
+    font-weight: 700;
+}
+
+
+.movie_chart .swiper-slide {
+    float: left;
+    width: 292px;
+    margin: 0 auto;
+}
+
+.movie_chart .poster {
+    position: relative;
+    border: 1px solid #d9d9d9;
+}
+
+.movie_chart .poster img {
+    display: block;
+    max-height: 300px;
+    width: auto;
+    margin: auto;
+}
+
+.movie_chart .poster .rank {
+    position: absolute;
+    top: 45px;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background-color: #6e1716;
+    text-align: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.movie_chart .poster .rank strong {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.movie_chart .info {
+    overflow: hidden;
+    background-color: #fff;
+    padding: 17px;
+    border: 1px solid #d9d9d9;
+}
+
+.movie_chart .info h3 {
+    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+.movie_chart .info .info_btn a{
+}
+
+/* 푸터 */
+.footer_info {
+    padding: 50px 0;
+    width: 80%;
+}
+
+.footer_info h2 img {
+    width: 180px;
+}
+
+.footer_info ul {
+    padding: 15px 0;
+}
+
+.footer_info ul li {
+    position: relative;
+    display: inline;
+    padding-right: 16px;
+    white-space: nowrap;
+}
+
+

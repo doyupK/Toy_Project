@@ -100,11 +100,9 @@
                                     </div>
 
                                     <div class="commentList">
-                                        <p><span>{{review.COMMENT[0].username}} : </span><span>  {{review.COMMENT[0].comment}}</span></p>
-                                        <p><span>작성자 : </span><span> Comment 내용</span></p>
-                                        <p><span>작성자 : </span><span> Comment 내용</span></p>
-                                        <p><span>작성자 : </span><span> Comment 내용</span></p>
-                                        <p><span>작성자 : </span><span> Comment 내용</span></p>
+                                        {% for comment in comments %}
+                                            <p><span>{{comment.COMMENT[loop.index0].username}} : {{comment.COMMENT[loop.index0].comment}}</span></p>
+                                        {% endfor %}
                                     </div>
                                 </div>
 

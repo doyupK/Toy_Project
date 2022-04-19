@@ -24,6 +24,7 @@ WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "toplists
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
 wine_makers_names_list = []
+
 wine_makers_list = []
 wine_names_list = []
 wine_regions_list = []
@@ -35,15 +36,27 @@ for i in range(len(wine_makers_names)):
     wine_maker_name = wine_makers_names[i].text
     wine_makers_names_list.append(wine_maker_name)
 
-for i in range(len(wine_regions)):
-    wine_region = wine_regions[i].text
-    wine_regions_list.append(wine_region)
-
 for i in wine_makers_names_list:
     if wine_makers_names_list.index(i) % 2 == 0:
         wine_makers_list.append(i)
     else:
         wine_names_list.append(i)
+
+for i in range(len(wine_regions)):
+    wine_region = wine_regions[i].text
+    wine_regions_list.append(wine_region)
+
+
+each_wines = []
+for a, b, c in zip(wine_makers_list, wine_names_list, wine_regions_list):
+    each_wine = {
+        '생산자': a,
+        '와인 이름': b,
+        '생산 지역': c
+    }
+    each_wines.append(each_wine)
+
+print(each_wines)
 
 driver.quit()
 

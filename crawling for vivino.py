@@ -20,7 +20,6 @@ driver = webdriver.Chrome(options=chrome_options)
 
 driver.get('https://www.vivino.com/')
 
-
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "toplistsBand")))
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
@@ -46,6 +45,5 @@ for i in wine_makers_names_list:
     else:
         wine_names_list.append(i)
 
-print(wine_names_list)
-
 driver.quit()
+

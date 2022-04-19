@@ -1,14 +1,21 @@
 
 #header {
     width: 100%;
-    height: 60px;
+    height: 80px;
     box-shadow: 0 1px 4px 0 rgba(30, 30, 30, .2);
 }
 
 /* 가운데 영역 */
+.wrapper {
+    height: auto;
+    min-height: 100%;
+    padding-bottom: 230px
+}
+
 .container {
     position: relative;
     width: 1280px;
+    /*height: 80px;*/
     margin: 0 auto;
 }
 
@@ -27,12 +34,12 @@
 }
 
 .header h1 em {
-    padding: 15px 0px 0px 133px;
+    padding: 20px 0 0 30px;
     display: inline-block;
 }
 
 .header h1 em img {
-    width: 180px;
+    width: 190px;
 }
 
 .header .nav {
@@ -52,41 +59,42 @@
 
 .header .nav ul li a {
     display: block;
-    padding: 18px 10px;
+    padding: 28px 10px;
     font-size: 17px;
     font-weight: 400;
     color: #444;
 }
+.post-card {
+    z-index: 10;
+}
 
-/* 무비 */
-.movie {
+.post_box {
     padding: 50px;
 }
 
-.movie .winesite_recommended_list {
+.post_box .winesite_recommended_list {
     width: 848px;
-    margin: 30px auto 20px auto;
+    margin: 0 auto 20px auto;
     text-align: center;
-
 }
 
-.movie .winesite_recommended_list a {
+.post_box .winesite_recommended_list a {
     font-size: 24px;
     color: #666;
     font-weight: 700;
 }
 
-.movie_title {
+.site_menu {
     margin-bottom: 30px;
 }
 
-.movie_title ul {
+.site_menu ul {
     overflow: hidden;
     width: 848px;
     margin: 0 auto;
 }
 
-.movie_title li {
+.site_menu li {
     float: left;
     width: 200px;
     text-align: center;
@@ -94,7 +102,7 @@
     margin-right: -1px;
 }
 
-.movie_title li a {
+.site_menu li a {
     display: block;
     padding: 10px 0;
     font-size: 18px;
@@ -102,13 +110,13 @@
     font-weight: 700;
 }
 
-.movie_title li.active a {
+.site_menu li.active a {
     background-color: #666;
     color: #fff;
 }
 
 .recommended_list {
-    margin: 50px 0 30px 0;
+    margin: 80px 0 30px 0;
     text-align: center;
 }
 
@@ -117,27 +125,41 @@
     color: #666;
     font-weight: 700;
 }
+.winesite_recommended_list li span {
+    font-size: 24px;
+    color: #666;
+    font-weight: 700;
+}
+
+.winesite_recommended_list button {
+    margin-top: 20px;
+}
 
 
-.movie_chart .swiper-slide {
+.wine_chart .swiper-slide {
     float: left;
     width: 292px;
+    height: 420px;
     margin: 0 auto;
 }
 
-.movie_chart .poster {
+.wine_chart .poster {
     position: relative;
     border: 1px solid #d9d9d9;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
-.movie_chart .poster img {
-    display: block;
+.wine_chart .poster img {
+    display: flex;
     max-height: 300px;
     width: auto;
     margin: auto;
 }
 
-.movie_chart .poster .rank {
+.wine_chart .poster .rank {
     position: absolute;
     top: 45px;
     left: 0;
@@ -149,7 +171,7 @@
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.movie_chart .poster .rank strong {
+.wine_chart .poster .rank strong {
     color: #fff;
     font-size: 30px;
     font-weight: 500;
@@ -157,14 +179,15 @@
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.movie_chart .info {
+.wine_chart .info {
     overflow: hidden;
+    height: 130px;
     background-color: #fff;
     padding: 17px;
     border: 1px solid #d9d9d9;
 }
 
-.movie_chart .info h3 {
+.wine_chart .info h3 {
     color: #333;
     font-size: 20px;
     font-weight: 700;
@@ -172,10 +195,22 @@
     letter-spacing: -2px;
 }
 
-.movie_chart .info .info_btn a{
+.wine_chart .info .info_btn a{
 }
 
 /* 푸터 */
+#footer{
+    height: 230px;
+    position : relative;
+    transform : translateY(-100%);
+}
+
+
+.foot_container {
+    position: relative;
+    width: 1280px;
+    margin: 0 auto;
+}
 .footer_info {
     padding: 50px 0;
     width: 80%;

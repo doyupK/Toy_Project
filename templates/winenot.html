@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wine NOT?</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
+
+    <!-- 웹 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
+          rel="stylesheet">
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/e0dea76106.js" crossorigin="anonymous"></script>
+
+    <!--    JS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+    <!--    Boot Strap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <script>
+
+        function goDetail(number) {
+            location.href = "/detail/" + number
+        }
+
+        function saving() {
+            /*input 데이터 가져오기*/
+            let Type = $("#floatingInputType").val();
+            let Name = $("#floatingInputName").val();
+            let Country = $("#floatingInputOrigin").val();
+            let Grape = $("#floatingInputGrape").val();
+            let content = $("#content").val();
+
+            /*$("#file")[0]->input태그*/ /*.files -> length(갯수)*/
+            let file = $("#file")[0].files[0];
+            let form_data = new FormData();
+
+            /*파일 데이터가 있을 경우 new FormData를 변수(form_data)에 대입하고 변수(form_data)에 input데이터를 append 해서 넣어줌*/
+            form_data.append("file_give", file);
+            form_data.append("type_give", Type);
+            form_data.append("name_give", Name);
+            form_data.append("country_give", Country);
+            form_data.append("grape_give", Grape);
+            form_data.append("content_give", content);
+            /*app.py /pictures api로 데이터를 보내주고 받아옴*/
+            $.ajax({
+                type: "POST",
+                url: "/pictures",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                },
+            });
+        }
+
+    </script>
+
+</head>
+
+<body>
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="header clearfix">
+                <h1>
+                    <a href="/">
+                        <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
+                    </a>
+                </h1>
+                <nav class="nav">
+                    <ul class="clearfix">
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="/signup">회원가입</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="post_box">
+                <div class="winesite_recommended_list">
+                    <ul>
+                        <li><span>Wine NOT 추천 게시판</span></li>
+                        <button type="button" class="btn btn-secondary posting-btn"
+                                data-bs-toggle="modal" data-bs-target="#postingModal" data-bs-whatever="@getbootstrap">
+                            내 와인 추천 하기
+                        </button>
+                    </ul>
+                </div>
+
+                <!--modal 섹션 -->
+                <div class="modal fade" id="postingModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    내 와인 추천 하기</h5>
+                                <button type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="input-group mb-3">
+                                        <input type="file" class="form-control" id="file">
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInputType"
+                                                   placeholder="Type">
+                                            <label for="floatingInputType">Type</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInputName"
+                                                   placeholder="Name">
+                                            <label for="floatingInputName">Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInputOrigin"
+                                                   placeholder="Origin">
+                                            <label for="floatingInputOrigin">Origin</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="floatingInputGrape"
+                                                   placeholder="Grape">
+                                            <label for="floatingInputGrape">Grape</label>
+                                        </div>
+                                        <label class="col-form-label">Message:</label>
+                                        <textarea class="form-control" id="content"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button"
+                                        class="btn btn-secondary posting-btn-close"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+                                <button onclick="saving()"
+                                        type="button"
+                                        class="btn btn-primary posting-btn-save">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+<main class="main">
+
+    <div class="picture-list mycards">
+
+        <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+
+            {% for post in posts %}
+            <div class="col">
+                <div class="card h-80">
+                    <img class="card-img-top" src="static/img/{{post.file}}"
+                         onclick="goDetail( {{ post.post_num }} )">
+                    <div class="card-body">
+                        <p class="card-profile_name">추천인:{{ post.profile_name }}</p>
+                        <p class="card-text">{{ post.content }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer -->
+<footer id="footer">
+    <div id="footer_info">
+        <div class="foot_container">
+            <div class="row">
+                <div class="footer_info">
+                    <h2>
+                        <img src="../static/img/항해99_logo.png">
+                    </h2>
+                    <ul>
+                        <li>
+                            <c href="#">15조</c>
+                        </li>
+                        <li><b href="#">김숙영</b></li>
+                        <li><b href="#">김도엽</b></li>
+                        <li><b href="#">최서우</b></li>
+                        <li><b href="#">이동재</b></li>
+                        <li><b href="#">김민수</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

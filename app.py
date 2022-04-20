@@ -173,26 +173,28 @@ def comment_get():
     return jsonify({'recommends': comment_list})
 
 
-# WEINCO 상세페이지  -  220419 DY
+# WEINCO 상세페이지  -  220420 DY
 @app.route('/crawling_detail/<keyword>')
 def crawling_detail(keyword):
-    comments = list(db.wine.find({'post_num': keyword}, {'COMMENT': 1, '_id': False}))
+    comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
     review = db.wine.find_one({'post_num': keyword})
-    posts = list(db.Reviews.find({}, {'_id': False}).limit(4).sort('post_num', -1))
-    print(posts)
-    print(comments)
-    if comments is not None:
+    if len(comments_name) == 0:
         return render_template('Crawling_detail.html', review=review)
     else:
-        return render_template('Crawling_detail.html', review=review)
+        comments = list(comments_name['COMMENT'])
+        return render_template('Crawling_detail.html', review=review, comments=comments)
 
 
-# 상세페이지   - 220419 DY
+# Wine NOT 상세페이지   - 220419 DY
 @app.route('/detail/<keyword>')
 def detail(keyword):
-    review_num = db.Reviews.find_one({'post_num': keyword})
-
-    return render_template('detail.html', review_num=review_num)
+    comments_name = db.Reviews.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
+    review = db.Reviews.find_one({'post_num': keyword})
+    if len(comments_name) == 0:
+        return render_template('detail.html', review=review)
+    else:
+        comments = list(comments_name['COMMENT'])
+        return render_template('detail.html', review=review, comments=comments)
 
 
 # Wine NOT 게시글 저장 - 220419 DY
@@ -248,6 +250,7 @@ def save_pictures():
 
 @app.route('/saveComment', methods=['POST'])
 def save_comment():
+    pageInfo_receive = request.form['pageInfo_give']
     postNum_receive = request.form['postNum_give']
     userName_receive = request.form['userName_give']
     comment_receive = request.form['comment_give']
@@ -258,7 +261,10 @@ def save_comment():
         'comment': comment_receive
     }
     # post Number 찾아서 해당 게시글 DB 정보에 업데이트
-    db.wine.update_many({'post_num': postNum_receive}, {'$push': {'COMMENT': doc}})
+    if pageInfo_receive == "WineNOT":
+        db.Reviews.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+    elif pageInfo_receive == "Weinco":
+        db.wine.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
 
     return jsonify({'msg': '저장 완료!'})
 

@@ -101,8 +101,11 @@
 
                                     <div class="commentList">
                                         {% for comment in comments %}
-                                            <p><span>{{comment.COMMENT[loop.index0].username}} : {{comment.COMMENT[loop.index0].comment}}</span></p>
+
+                                        <p><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span></p>
+
                                         {% endfor %}
+
                                     </div>
                                 </div>
                         </div>
@@ -141,13 +144,14 @@
 
 <script>
         function save_comment() {
+            let pageInfo = "Weinco"
             let postNum = $('#postNum').text()
             // let userName = $('#commentUserName').val()    로그인 구현 후 사용
-            let userName = 'DYtest_3'
+            let userName = '김도엽'
             let comment = $('#commentInput').val()
 
             let form_data = new FormData();
-
+            form_data.append("pageInfo_give", pageInfo)
             form_data.append("postNum_give", postNum);
             form_data.append("userName_give", userName);
             form_data.append("comment_give", comment);

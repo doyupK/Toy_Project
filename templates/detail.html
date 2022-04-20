@@ -76,20 +76,34 @@
                     <div class="main_content">
 
                         <div class="img_box">
-                            <img class="Review_img" src="../static/img/{{review_num.file}}">
+                            <img class="Review_img" src="../static/img/{{review.file}}">
                         </div>
                         <div class="review_detail">
                             <div id="title">
-                                <h1>{{ review_num.wine_name }}</h1>
-                                <h2>{{ review_num.wine_type }}</h2>
-                                <h3>{{ review_num.wine_country }}</h3>
-                                <h3>{{ review_num.wine_grape }}</h3>
-                                <h4>{{ review_num.content }}</h4>
+                                <h5 id="postNum" style="display: none">{{ review.post_num }}</h5>
+                                <h1>{{ review.wine_name }}</h1>
+                                <h2>{{ review.wine_type }}</h2>
+                                <h3>{{ review.wine_country }}</h3>
+                                <h3>{{ review.wine_grape }}</h3>
+                                <h4>{{ review.content }}</h4>
                             </div>
                             <!-- Comment 영역 -->
                             <div class="comment_box">
-
-                                <input type="text" class="form-control" id="commentBox" placeholder="Comment Input">
+                                <div class="input-group mb-3">
+                                        <span class="input-group-text" id="commentUserName">작성자</span>
+                                        <input type="text" class="form-control" placeholder="Comment Input"
+                                               aria-label="Comment Input" aria-describedby="button-addon2" id="commentInput">
+                                        <button class="btn btn-outline-dark" type="button" id="button-addon2" onclick="save_comment()">
+                                            댓글 달기
+                                        </button>
+                                    </div>
+                                <div class="commentList">
+                                    {% for comment in comments %}
+                                    <p>
+                                        <span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span>
+                                    </p>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,4 +139,35 @@
     </div>
 </footer>
 </body>
+
+
+<script>
+        function save_comment() {
+            let pageInfo = "WineNOT"
+            let postNum = $('#postNum').text()
+            // let userName = $('#commentUserName').val()    로그인 구현 후 사용
+            let userName = '김도엽'
+            let comment = $('#commentInput').val()
+
+            let form_data = new FormData();
+            form_data.append("pageInfo_give", pageInfo)
+            form_data.append("postNum_give", postNum);
+            form_data.append("userName_give", userName);
+            form_data.append("comment_give", comment);
+
+            $.ajax({
+                type: "POST",
+                url: "/saveComment",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                },
+            });
+
+        }
+    </script>
 </html>

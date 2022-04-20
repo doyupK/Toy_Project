@@ -64,6 +64,7 @@
     font-weight: 400;
     color: #444;
 }
+
 .post-card {
     z-index: 10;
 }
@@ -125,6 +126,7 @@
     color: #666;
     font-weight: 700;
 }
+
 .winesite_recommended_list li span {
     font-size: 24px;
     color: #666;
@@ -195,14 +197,92 @@
     letter-spacing: -2px;
 }
 
-.wine_chart .info .info_btn a{
+.wine_chart .info .info_btn a {
 }
 
+/* Detail */
+section {
+    width: 100%;
+    /*margin: 50px auto;*/
+}
+
+.main_content {
+    position: relative;
+    height: 900px;
+    display: flex;
+    /*flex-direction: row;*/
+    justify-content: space-between;
+    /*align-items: center;*/
+    /*margin: auto;*/
+    /*padding: 0 100px;*/
+
+}
+
+.img_box {
+    width: 500px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.Review_img {
+    width: auto;
+    height: auto;
+
+}
+
+#title {
+    padding-right: 50px;
+    height: 300px;
+    /*text-align: right;*/
+}
+
+#title h1 {
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    color: #262626;
+    margin-bottom: 5px;
+}
+
+#title h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    color: #1c020a;
+    margin-bottom: 5px;
+}
+
+#title h3 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.review_detail {
+    width: 680px;
+
+}
+
+.comment_box {
+    /*display: inline-block;*/
+    height: 600px;
+}
+#commentInputArea {
+    width: 100%;
+}
+
+
+
+
 /* 푸터 */
-#footer{
+#footer {
     height: 230px;
-    position : relative;
-    transform : translateY(-100%);
+    position: relative;
+    transform: translateY(-100%);
 }
 
 
@@ -211,6 +291,7 @@
     width: 1280px;
     margin: 0 auto;
 }
+
 .footer_info {
     padding: 50px 0;
     width: 80%;

@@ -30,66 +30,16 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <style>
-        section {
-            width: 100%;
-            /*margin: 50px auto;*/
-        }
 
-        .main_content {
-            position: relative;
-            height: 900px;
-            display: flex;
-            /*flex-direction: row;*/
-            justify-content: space-between;
-            /*align-items: center;*/
-            /*margin: auto;*/
-            /*padding: 0 100px;*/
+    <!--    Boot Strap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
 
-        }
 
-        .img_box{
-            width: 500px;
-            height: 600px;
-            display: flex;
-            justify-content: center;
 
-        }
-
-        .Review_img {
-            width: auto;
-            height: auto;
-
-        }
-
-        #title {
-            padding-right: 20px;
-            text-align: right;
-        }
-
-        #title h1 {
-            font-size: 2.5rem;
-            font-weight: 500;
-            letter-spacing: normal;
-            color: #262626;
-            margin-bottom: 5px;
-        }
-
-        #title h2 {
-            font-size: 1.8rem;
-            font-weight: 500;
-            letter-spacing: normal;
-            color: #1c020a;
-            margin-bottom: 5px;
-        }
-        #title h3 {
-            font-size: 1.2rem;
-            font-weight: 500;
-            letter-spacing: normal;
-            color: #000000;
-            margin-bottom: 5px;
-        }
-    </style>
 </head>
 
 <body>
@@ -118,7 +68,6 @@
     <div class="container">
         <div class="row">
             <div class="post_box">
-
                 <div class="recommended_list">
                     <ul>
                         <li><a href="#">VIVINO 추천 와인</a></li>
@@ -131,12 +80,34 @@
                         </div>
                         <div class="review_detail">
                             <div id="title">
+                                <h5 id="postNum" style="display: none">{{ review.post_num }}</h5>
                                 <h1>{{ review.name }}</h1>
                                 <h2>{{ review.land }}</h2>
                                 <h3>{{ review.region }}</h3>
                                 <h3>{{ review.producer }}</h3>
                                 <h2>{{ review.price }}</h2>
                             </div>
+
+                                <div class="comment_box">
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="commentUserName">작성자</span>
+                                        <input type="text" class="form-control" placeholder="Comment Input"
+                                               aria-label="Comment Input" aria-describedby="button-addon2" id="commentInput">
+                                        <button class="btn btn-outline-dark" type="button" id="button-addon2" onclick="save_comment()">
+                                            댓글 달기
+                                        </button>
+                                    </div>
+
+                                    <div class="commentList">
+                                        {% for comment in comments %}
+
+                                        <p><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span></p>
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </section>
@@ -170,4 +141,34 @@
     </div>
 </footer>
 </body>
+
+<script>
+        function save_comment() {
+            let pageInfo = "Weinco"
+            let postNum = $('#postNum').text()
+            // let userName = $('#commentUserName').val()    로그인 구현 후 사용
+            let userName = '김도엽'
+            let comment = $('#commentInput').val()
+
+            let form_data = new FormData();
+            form_data.append("pageInfo_give", pageInfo)
+            form_data.append("postNum_give", postNum);
+            form_data.append("userName_give", userName);
+            form_data.append("comment_give", comment);
+
+            $.ajax({
+                type: "POST",
+                url: "/saveComment",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload();
+                },
+            });
+
+        }
+    </script>
 </html>

@@ -1,3 +1,4 @@
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -5,6 +6,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from pymongo import MongoClient
 import certifi
+import time
 
 ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
@@ -22,37 +24,31 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get('https://www.vivino.com/')
 
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "toplistsBand")))
+
+for i in range(10):
+    try:
+        i = driver.find_element(by=By.XPATH, value='/html/body/div[2]/div[4]/div/div/div[2]/div/div/div/div[2]/div/span[1]/div')
+        i.click()
+        time.sleep(0.2)
+    except NoSuchElementException:
+        break
+
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-wine_makers_names = soup.select('.wineInfoVintage__truncate--3QAtw') #list type
-wine_regions = soup.select('.wineInfoLocation__regionAndCountry--1nEJz') #list type
+wines = soup.select('#toplistsBand > div > div > div.wineBand__band--GAdsR > div > div > div > div')
+for wine in wines:
+    wine_image = wine.select_one('div > a > div.wineCard__topSection--11oVj > div.wineCard__bottleSection--3Bzic > img')['src'][2:]
+    wine_name = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfo__vintage--2wqwE > div.wineInfoVintage__vintage--VvWlU.wineInfoVintage__truncate--3QAtw').text
+    wine_maker = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfo__vintage--2wqwE > div:nth-child(1)').text
+    wine_region = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoLocation__wineInfoLocation--BmkcO > div').text
 
-wine_makers_names_list = []
-
-wine_makers_list = []
-wine_names_list = []
-wine_regions_list = []
-for i in range(len(wine_makers_names)):
-    wine_maker_name = wine_makers_names[i].text
-    wine_makers_names_list.append(wine_maker_name)
-
-for i in wine_makers_names_list:
-    if wine_makers_names_list.index(i) % 2 == 0:
-        wine_makers_list.append(i)
-    else:
-        wine_names_list.append(i)
-
-for i in range(len(wine_regions)):
-    wine_region = wine_regions[i].text
-    wine_regions_list.append(wine_region)
-
-for a, b, c in zip(wine_makers_list, wine_names_list, wine_regions_list):
-    each_wine = {
-        '생산자': a,
-        '와인 이름': b,
-        '생산 지역': c
+    doc = {
+        '와인 사진': wine_image,
+        '와인 이름': wine_name,
+        '생산자': wine_maker,
+        '생산지역': wine_region,
     }
-    db.vivino_wines.insert_one(each_wine)
+    db.vivino_wines.insert_one(doc)
 
 driver.quit()
 

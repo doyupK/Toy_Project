@@ -176,7 +176,7 @@ def comment_get():
 # WEINCO 상세페이지  -  220419 DY
 @app.route('/crawling_detail/<keyword>')
 def crawling_detail(keyword):
-    comments = list(db.wine.find({'post_num': keyword}, {'_id': False}))
+    comments = list(db.wine.find({'post_num': keyword}, {'COMMENT': 1, '_id': False}))
     review = db.wine.find_one({'post_num': keyword})
     posts = list(db.Reviews.find({}, {'_id': False}).limit(4).sort('post_num', -1))
     print(posts)
@@ -253,7 +253,7 @@ def save_comment():
     comment_receive = request.form['comment_give']
 
     doc = {
-        'comment_id': '2',
+        'comment_id': '1',
         'username': userName_receive,
         'comment': comment_receive
     }

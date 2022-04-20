@@ -24,22 +24,30 @@ driver.get('https://www.xtrawine.com/en')
 WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "col-sm-push-2.col-sm-10.slider-row")))
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
-wine_names = soup.select('.prodName')
-wine_regions = soup.select('.prodZoneDenom')
+wines = soup.select('#RootLayout_PageLayout_UpperPane_Frame2811_Module2811_pnlWlcTop > div.container > div:nth-child(1) > div.col-sm-push-2.col-sm-10.slider-row > div > div > div > div > div')
+for wine in wines:
+    wine_image = wine.select_one('div > div > a > div.prodItem').attrs['style'].split(": url(")[1:][0]
+    wine_name = wine.select_one('div > div > a > div.prodName').text
+    wine_region = wine.select_one('div > div > a > div.prodZoneDenom').text.strip()
 
-wine_regions_list = []
-wine_names_list = []
-for i in range(len(wine_names)):
-    wine_name = wine_names[i].text
-    wine_names_list.append(wine_name)
-
-for i in range(len(wine_regions)):
-    wine_region = wine_regions[i].text.strip()
-    wine_regions_list.append(wine_region)
-
-for a, b in zip(wine_names_list, wine_regions_list):
-    each_wine = {
-        '와인 이름': a,
-        '생산 지역': b
+    doc = {
+        '와인 사진': wine_image,
+        '와인 이름': wine_name,
+        '생산지역': wine_region,
     }
-    db.xtra_wines.insert_one(each_wine)
+    db.xtra_wines.insert_one(doc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

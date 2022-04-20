@@ -9,7 +9,6 @@
 .wrapper {
     height: auto;
     min-height: 100%;
-    padding-bottom: 230px
 }
 
 .container {
@@ -263,7 +262,7 @@ section {
 }
 
 .review_detail {
-    width: 680px;
+    width: 600px;
 
 }
 
@@ -280,9 +279,10 @@ section {
 
 /* 푸터 */
 #footer {
+    margin-top: 50px;
     height: 230px;
     position: relative;
-    transform: translateY(-100%);
+    /*transform: translateY(-100%);*/
 }
 
 

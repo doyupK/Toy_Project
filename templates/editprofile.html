@@ -2,142 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reviewine</title>
-
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wine not? 회원 가입</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
-        }
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
 
-        .login_title {
-            width: 100%;
-            height: 100vh;
+    <!-- 웹 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
+          rel="stylesheet">
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
-            background-position: center;
-            background-size: contain;
-            background-repeat: repeat;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login_title > .title > h1 {
-            font-size: 50px;
-            color: white;
-        }
-
-        .login_title > .login_box {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 10px auto;
-            padding: 20px;
-            box-shadow: 0 0 15px 0 white;
-        }
-
-        .login_btns {
-            margin: auto 10px auto 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .form-control {
-            display: inline;
-            width: 350px;
-            margin-right: 15px;
-        }
-
-    </style>
-
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/e0dea76106.js" crossorigin="anonymous"></script>
 
     <!--    주소 찾기 다음 api   -->
     <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
         <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
-             style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+             style="width: 25px; height: 25px; cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+             onclick="closeDaumPostcode()"
              alt="닫기 버튼">
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+    <!--    Sign Up 스크립트 불러오기   -->
+    <script src="../static/js/signup.js"></script>
 
     <script>
-        // 김민수 : 회원 가입 및 관리 기능 =================================================================================
-        var checkPasswordResult = false
-        var checkPasswordConfirmResult = false
-        var checkEmailResult = false
-        var checkAddressResult = false
-
-        // 비밀번호 조합 체크
-        function checkPassword(password) {
-            var lengthRegex = /^[A-Za-z0-9!@#$%]{8,16}$/;
-            var engUpperCaseRegex = /[A-Z]/;
-            var engLowerCaseRegex = /[a-z]/;
-            var digitRegex = /[0-9]/;
-            var specRegex = /[!@#$%]/;
-            var element = document.getElementById('checkPasswordResult');
-            if (lengthRegex.exec(password)) {
-                var safetyCount = 0;
-                if (engUpperCaseRegex.exec(password)) safetyCount++;
-                if (engLowerCaseRegex.exec(password)) safetyCount++;
-                if (digitRegex.exec(password)) safetyCount++;
-                if (specRegex.exec(password)) safetyCount++;
-
-                switch (safetyCount) {
-                    case 4:
-                        element.innerHTML = '매우 안전';
-                        element.style.color = 'green';
-                        checkPasswordResult = true; // 전역변수값을 true 로 변경
-                        break;
-                    case 3:
-                        element.innerHTML = '안전';
-                        element.style.color = 'yellow';
-                        checkPasswordResult = true; // 전역변수값을 true 로 변경
-                        break;
-                    case 2:
-                        element.innerHTML = '보통';
-                        element.style.color = 'orange';
-                        checkPasswordResult = true; // 전역변수값을 true 로 변경
-                        break;
-                    case 1:
-                        element.innerHTML = '사용불가';
-                        element.style.color = 'red';
-                        checkPasswordResult = false; // 전역변수값을 false 로 변경
-                        break;
-                }
-
-            } else {
-                element.innerHTML = '영문자,숫자,특수문자 최소 2가지 조합 필수!';
-                element.style.color = 'red';
-                checkPasswordResult = false; // 전역변수값을 false 로 변경
-            }
-
-        }
-
-        function checkPasswordConfirm(password) { // 패스워드 일치 확인
-            var element = document.getElementById('passwordConfirmResult');
-            if (password == $('#floatingInput_PW').val()) { // 패스워드 확인 내용 일치 시
-                element.innerHTML = '패스워드 일치';
-                element.style.color = 'green';
-                checkPasswordConfirmResult = true; // 전역변수값을 true 로 변경
-            } else {
-                element.innerHTML = '패스워드 불일치';
-                element.style.color = 'red';
-                checkPasswordConfirmResult = false; // 전역변수값을 false 로 변경
-            }
-
-        }
-
         $(document).ready(function () {
             show_user()
         })
@@ -162,154 +62,32 @@
                 }
             })
         }
-
-        // 회원 정보 변경
-        function users_update() {
-            let password = $('#floatingInput_PW').val()
-            let passwordCheck = $('#floatingInput_PW_Check').val()
-            let email = $('#floatingInput_Email').val()
-            let address = $('#floatingInput_address').val()
-            if (email != '') {
-                checkEmailResult = true
-            }
-            if (address != '') {
-                checkAddressResult = true
-            }
-            if (password != passwordCheck) {
-                checkPasswordConfirmResult = false
-            }
-
-            switch (false) {
-                case checkPasswordResult:
-                    alert('비밀번호를 확인하세요');
-                    return;
-                case checkPasswordConfirmResult:
-                    alert('비밀번호가 일치하지 않습니다');
-                    return;
-                case checkEmailResult:
-                    alert('이메일을 입력하세요');
-                    return;
-                case checkAddressResult:
-                    alert('주소를 입력하세요');
-                    return;
-                default:
-                    $.ajax({
-                        type: 'POST',
-                        url: '/users_update',
-                        data: {
-                            id_give: id, pw_give: password, email_give: email, address_give: address
-                        },
-                        success: function (response) {
-                            alert(response['msg'])
-                            window.location.href = "/"
-                        }
-                    });
-
-            }
-        }
-
-        // 회원 정보 삭제
-        function users_delete() {
-
-            $.ajax({
-                type: 'POST',
-                url: '/users_delete',
-                data: {id_give: id},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.href = "/"
-                }
-            });
-        }
-
-
-        // 주소 찾기 다음 api
-        var element_layer = document.getElementById('layer');// 우편번호 찾기 화면을 넣을 element
-        function closeDaumPostcode() {
-            // iframe을 넣은 element를 안보이게 한다.
-            element_layer.style.display = 'none';
-        }
-
-        function address_find() {
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    var addr = ''; // 주소 변수
-                    var extraAddr = ''; // 참고항목 변수
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                        addr = data.roadAddress;
-                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                        addr = data.jibunAddress;
-                    }
-
-                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                    if (data.userSelectedType === 'R') {
-                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                            extraAddr += data.bname;
-                        }
-                        // 건물명이 있고, 공동주택일 경우 추가한다.
-                        if (data.buildingName !== '' && data.apartment === 'Y') {
-                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                        }
-                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                        if (extraAddr !== '') {
-                            extraAddr = ' (' + extraAddr + ')';
-                        }
-                        // 조합된 참고항목을 해당 필드에 넣는다.
-                        // document.getElementById("sample2_extraAddress").value = extraAddr;
-                        document.getElementById("floatingInput_address").value = addr + extraAddr;
-
-                    } else {
-                        // document.getElementById("sample2_extraAddress").value = '';
-                        document.getElementById("floatingInput_address").value = addr + extraAddr;
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    // document.getElementById('sample2_postcode').value = data.zonecode;
-                    // document.getElementById("sample2_address").value = addr;
-                    // 커서를 상세주소 필드로 이동한다.
-                    // document.getElementById("sample2_detailAddress").focus();
-
-                    // iframe을 넣은 element를 안보이게 한다.
-                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-                    element_layer.style.display = 'none';
-                },
-                width: '100%',
-                height: '100%',
-                maxSuggestItems: 5
-            }).embed(element_layer);
-
-            // iframe을 넣은 element를 보이게 한다.
-            element_layer.style.display = 'block';
-
-            // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
-            initLayerPosition();
-        }
-
-        function initLayerPosition() {
-            // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
-            // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
-            // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
-            var width = 300; //우편번호서비스가 들어갈 element의 width
-            var height = 400; //우편번호서비스가 들어갈 element의 height
-            var borderWidth = 5; //샘플에서 사용하는 border의 두께
-
-            // 위에서 선언한 값들을 실제 element에 넣는다.
-            element_layer.style.width = width + 'px';
-            element_layer.style.height = height + 'px';
-            element_layer.style.border = borderWidth + 'px solid';
-            // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
-            element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width) / 2 - borderWidth) + 'px';
-            element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height) / 2 - borderWidth) + 'px';
-        }
-
-        // 김민수 : 회원 가입 및 관리 기능 =================================================================================
-
     </script>
 </head>
+
 <body>
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="header clearfix">
+                <h1>
+                    <a href="/">
+                        <em><img src="../static/img/winenot_onlyfont.png" alt="logo"></em>
+                    </a>
+                </h1>
+                <nav class="nav">
+                    <ul class="clearfix">
+                        <li><a href="#">로그인</a></li>
+                        <li><a href="/signup">회원가입</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- //header -->
+
+
 <div class="login_title">
     <div class="title">
         <h1>회원정보수정</h1>
@@ -341,7 +119,8 @@
             <label for="floatingInput_name">name</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput_Email" placeholder="name@example.com" maxlength="40">
+            <input type="email" class="form-control" id="floatingInput_Email" placeholder="name@example.com"
+                   maxlength="40">
             <label for="floatingInput_Email">Email address</label>
         </div>
         <div class="form-floating mb-3">
@@ -356,5 +135,31 @@
         </div>
     </div>
 </div>
+
+<!-- footer -->
+<footer id="footer">
+    <div id="footer_info">
+        <div class="container">
+            <div class="row">
+                <div class="footer_info">
+                    <h2>
+                        <img src="../static/img/항해99_logo.png">
+                    </h2>
+                    <ul>
+                        <li>
+                            <c href="#">15조</c>
+                        </li>
+                        <li><b href="#">김숙영</b></li>
+                        <li><b href="#">김도엽</b></li>
+                        <li><b href="#">최서우</b></li>
+                        <li><b href="#">이동재</b></li>
+                        <li><b href="#">김민수</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
+
 </html>

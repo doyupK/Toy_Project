@@ -6,9 +6,11 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime, timedelta
 
 ca = certifi.where()
+
 client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #main
 # client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
 #client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
+
 db = client.dbsparta
 app = Flask(__name__)
 

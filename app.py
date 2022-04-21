@@ -287,7 +287,10 @@ def winelist():
     return render_template('winelist.html', posts=posts)
 # 김민수 : wine list 페이지 ====================================================================================
 
-
+# intro page - 숙영 ==========================================================================================
+@app.route('/')
+def home():
+    return render_template('intro2.html')
 
 
 if __name__ == '__main__':

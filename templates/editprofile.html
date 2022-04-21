@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Wine Not 회원 정보 수정</title>
+
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,55 +15,11 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
-        }
-
-        .login_title {
-            width: 100%;
-            height: 100vh;
-
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
-            background-position: center;
-            background-size: contain;
-            background-repeat: repeat;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login_title > .title > h1 {
-            font-size: 50px;
-            color: white;
-        }
-
-        .login_title > .login_box {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 10px auto;
-            padding: 20px;
-            box-shadow: 0 0 15px 0 white;
-        }
-
-        .login_btns {
-            margin: auto 10px auto 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .form-control {
-            display: inline;
-            width: 350px;
-            margin-right: 15px;
-        }
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
+    <link rel="stylesheet" href="../static/css/member.css">
 
     <!-- 웹 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
@@ -82,14 +40,14 @@
     <!--    Sign Up 스크립트 불러오기   -->
     <script src="../static/js/signup.js"></script>
 
+    <!--    회원정보 불러오기   -->
     <script>
         $(document).ready(function () {
             show_user()
         })
 
         // 회원 정보 불러오기
-        let id = 'minsu1'
-        var pwOrign = ''
+        let id = '' //ID정보 불러오기
 
         function show_user() {
             $.ajax({
@@ -132,54 +90,61 @@
 </header>
 <!-- //header -->
 
-
-<div class="login_title">
-    <div class="title">
-        <h1>회원정보수정</h1>
-    </div>
-
-    <div class="login_box">
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID" maxlength="12" readonly>
-            <label for="floatingInput_ID">ID</label>
-        </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="password" class="form-control" id="floatingInput_PW" placeholder="Password"
-                       onkeyup="checkPassword(this.value)" maxlength="16">
-                <label for="floatingInput_PW">Password : 8~16자리 영문자,숫자,특수문자 조합</label>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="wrapper">
+                <div class="signup">
+                    <div class="title">
+                        <h1>회원 정보 수정</h1>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID"
+                               maxlength="12" readonly>
+                        <label for="floatingInput_ID">ID</label>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingInput_PW" placeholder="Password"
+                                   onkeyup="checkPassword(this.value)" maxlength="16">
+                            <label for="floatingInput_PW">Password : 8~16자리 영문자,숫자,특수문자 조합</label>
+                        </div>
+                        <label for="floatingInput_PW" id="checkPasswordResult"></label>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="floatingInput_PW_Check"
+                                   placeholder="Password Check"
+                                   onkeyup="checkPasswordConfirm(this.value)" maxlength="16">
+                            <label for="floatingInput_PW_Check">Password Check</label>
+                        </div>
+                        <label for="floatingInput_PW_Check" id="passwordConfirmResult"></label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput_name" placeholder="name" readonly>
+                        <label for="floatingInput_name">name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingInput_Email"
+                               placeholder="name@example.com"
+                               maxlength="40">
+                        <label for="floatingInput_Email">Email address</label>
+                    </div>
+                    <div class="input_data form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput_address" placeholder="address"
+                               maxlength="100">
+                        <label for="floatingInput_address">address</label>
+                        <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
+                    </div>
+                    <div class="edit_action">
+                        <button onclick="users_update()" type="button" class="btn btn-dark">회원정보수정</button>
+                        <button onclick="users_delete()" type="button" class="btn btn-dark">회원정보삭제</button>
+                    </div>
+                </div>
             </div>
-            <label for="floatingInput_PW" id="checkPasswordResult"></label>
-        </div>
-        <div class="mb-3">
-            <div class="form-floating">
-                <input type="password" class="form-control" id="floatingInput_PW_Check" placeholder="Password Check"
-                       onkeyup="checkPasswordConfirm(this.value)" maxlength="16">
-                <label for="floatingInput_PW_Check">Password Check</label>
-            </div>
-            <label for="floatingInput_PW_Check" id="passwordConfirmResult"></label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput_name" placeholder="name" readonly>
-            <label for="floatingInput_name">name</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput_Email" placeholder="name@example.com"
-                   maxlength="40">
-            <label for="floatingInput_Email">Email address</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="floatingInput_address" placeholder="address" maxlength="100">
-            <label for="floatingInput_address">address</label>
-            <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
-        </div>
-        <div class="login_btns" method="POST">
-            <button onclick="location.href='/'" type="button" class="btn btn-dark">메인으로 이동</button>
-            <button onclick="users_update()" type="button" class="btn btn-dark">회원정보수정</button>
-            <button onclick="users_delete()" type="button" class="btn btn-dark">회원정보삭제</button>
         </div>
     </div>
-</div>
+</section>
 
 <!-- footer -->
 <footer id="footer">

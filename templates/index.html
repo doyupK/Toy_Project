@@ -34,11 +34,11 @@
     <script>
 
         function goDetail(number) {
-            location.href = "/detail/"+number
+            location.href = "/detail/" + number
         }
 
         function goCrawlingDetail(key) {
-            location.href = "/crawling_detail/"+key
+            location.href = "/crawling_detail/" + key
         }
 
     </script>
@@ -78,10 +78,30 @@
                 </div>
                 <div class="site_menu">
                     <ul>
-                        <li class="active"><a href="#">VIVINO</a></li>
-                        <li><a href="#">WEINCO</a></li>
-                        <li><a href="#">XTRAWINE</a></li>
-                        <li><a href="#">WINE21</a></li>
+                        <li class="btn_list">
+                            <a class="active" href="#">VIVINO</a>
+                            <ul class="inside_ul">
+                                <li class="sub_list"><a class="active" href="/winelist?board_name=vivino">게시판 이동!</a></li>
+                            </ul>
+                        </li>
+                        <li class="btn_list">
+                            <a href="#">WEINCO</a>
+                            <ul class="inside_ul">
+                                <li class="sub_list"><a href="/winelist?board_name=weinco">게시판 이동!</a></li>
+                            </ul>
+                        </li>
+                        <li class="btn_list">
+                            <a href="#">XTRAWINE</a>
+                            <ul class="inside_ul">
+                                <li class="sub_list"><a href="/winelist?board_name=xtrawine">게시판 이동!</a></li>
+                            </ul>
+                        </li>
+                        <li class="btn_list">
+                            <a href="#">WINE21</a>
+                            <ul class="inside_ul">
+                                <li class="sub_list"><a href="/winelist?board_name=wine21">게시판 이동!</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
 
@@ -89,48 +109,49 @@
                     <div class="swiper-container2">
                         <div class="chart_cont1 swiper-wrapper">
                             {% for weinco in weincos %}
-                                <div class="swiper-slide">
-                                    <div class="poster">
-                                            <img class="post-card" src="{{weinco.image}}"
-                                                 onclick="goCrawlingDetail({{weinco.post_num}})">
-                                    </div>
-                                    <div class="info">
-                                        <h3><strong>{{ weinco.name }}</strong></h3>
-                                        <div class="info_btn">
-                                            <div>{{ weinco.land }}</div>
-                                            <div>{{ weinco.region }}</div>
-                                        </div>
+                            <div class="swiper-slide">
+                                <div class="poster">
+                                    <img class="post-card" src="{{weinco.image}}"
+                                         onclick="goCrawlingDetail({{weinco.post_num}})">
+                                </div>
+                                <div class="info">
+                                    <h3><strong>{{ weinco.name }}</strong></h3>
+                                    <div class="info_btn">
+                                        <div>{{ weinco.land }}</div>
+                                        <div>{{ weinco.region }}</div>
                                     </div>
                                 </div>
+                            </div>
                             {% endfor %}
                         </div>
                     </div>
                 </div>
                 <div class="recommended_list">
                     <ul>
-                        <li><a href="#">Wine Not 회원 추천 리스트</a>  <span onclick="location.href='/winenotPage'">     더보기</span></li>
+                        <li><a href="#">Wine Not 회원 추천 리스트</a> <span
+                                onclick="location.href='/winenotPage'">     더보기</span></li>
                     </ul>
                 </div>
                 <div class="wine_chart">
                     <div class="swiper-container2">
                         <div class="chart_cont1 swiper-wrapper">
                             {% for post in posts %}
-                                <div class="swiper-slide">
-                                    <div class="poster">
-<!--                                        <figure>-->
-                                            <img class="post-card" src="static/img/{{post.file}}"
-                                            onclick="goDetail({{post.post_num}})">
+                            <div class="swiper-slide">
+                                <div class="poster">
+                                    <!--                                        <figure>-->
+                                    <img class="post-card" src="static/img/{{post.file}}"
+                                         onclick="goDetail({{post.post_num}})">
 
-                                        <!--                                        </figure>-->
-                                    </div>
-                                    <div class="info">
-                                        <h3><strong>{{ post.wine_name }}</strong></h3>
-                                        <div class="info_btn">
-                                            <div>{{ post.wine_type }}</div>
-                                            <div>{{ post.wine_country }}</div>
-                                        </div>
+                                    <!--                                        </figure>-->
+                                </div>
+                                <div class="info">
+                                    <h3><strong>{{ post.wine_name }}</strong></h3>
+                                    <div class="info_btn">
+                                        <div>{{ post.wine_type }}</div>
+                                        <div>{{ post.wine_country }}</div>
                                     </div>
                                 </div>
+                            </div>
                             {% endfor %}
                         </div>
                     </div>

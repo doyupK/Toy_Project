@@ -1,0 +1,44 @@
+
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.signup{
+    margin-bottom: 5%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.signup_btn{
+    text-align: center;
+}
+
+.title{
+    margin-top: 10%;
+    margin-bottom: 5%;
+    text-align: center;
+}
+
+.title h1{
+    font-size: 4em;
+}
+
+.input_data{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-control{
+    width: 70%;
+}
+
+.edit_action{
+    text-align: center;
+}
+
+
+

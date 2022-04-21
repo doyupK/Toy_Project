@@ -80,7 +80,7 @@ def editprofile():
 # 회원 정보 불러 오기
 @app.route("/show_user", methods=["GET"])
 def show_user():
-    id_receive = 'minsu1'
+    id_receive = '' #회원 정보 쿠키 불러오기
     user = db.users.find_one({'id': id_receive}, {'_id': False})
     return jsonify({'user_info': user})
 
@@ -275,6 +275,19 @@ def winenotpage():
     posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1))
 
     return render_template('wineNot.html', posts=posts)
+
+
+# 김민수 : wine list 페이지 ====================================================================================
+# wine list 페이지 이동
+@app.route("/winelist", methods=["GET"])
+def winelist():
+    dbName = request.values.get('board_name')
+    print(dbName)
+    posts = '' #리스트 뽑아오기
+    return render_template('winelist.html', posts=posts)
+# 김민수 : wine list 페이지 ====================================================================================
+
+
 
 
 if __name__ == '__main__':

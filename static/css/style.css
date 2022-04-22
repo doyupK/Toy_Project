@@ -274,6 +274,15 @@ section {
     width: 100%;
 }
 
+.comment_row {
+    height: 30px;
+}
+
+.comment_row, span, p {
+    font-size: 20px;
+}
+
+
 
 
 

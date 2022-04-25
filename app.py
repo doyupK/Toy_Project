@@ -177,12 +177,11 @@ def comment_get():
 def crawling_detail(keyword):
     # 로그인 정보 불러오기
     token_receive = request.cookies.get('mytoken')
-    print(token_receive)
+
     #로그인 정보(token)있을 시
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})
-
         # 코멘트 불러오기
         comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
 
@@ -295,16 +294,46 @@ def save_comment():
     postNum_receive = request.form['postNum_give']
     userName_receive = request.form['userName_give']
     comment_receive = request.form['comment_give']
-
-    doc = {
-        'comment_id': '1',
-        'username': userName_receive,
-        'comment': comment_receive
-    }
-    # post Number 찾아서 해당 게시글 DB 정보에 업데이트
     if pageInfo_receive == "WineNOT":
+        # DB에 코멘트의 마지막 ID 값 읽어서 +1
+        comments_count = db.Reviews.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+        if len(comments_count['COMMENT']) == 0:
+            doc = {
+                'comment_id': '1',
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments_count['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id'))+1
+
+            doc = {
+                'comment_id': str(new_comment_id),
+                'username': userName_receive,
+                'comment': comment_receive
+            }
         db.Reviews.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+    # post Number 찾아서 해당 게시글 DB 정보에 업데이트
+
     elif pageInfo_receive == "Weinco":
+        # DB에 코멘트의 마지막 ID 값 읽어서 +1
+        comments_count = db.wine.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+        if len(comments_count['COMMENT']) == 0:
+            doc = {
+                'comment_id': '1',
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments_count['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id')) + 1
+            doc = {
+                'comment_id': str(new_comment_id),
+                'username': userName_receive,
+                'comment': comment_receive
+            }
         db.wine.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
 
     return jsonify({'msg': '저장 완료!'})

@@ -37,13 +37,13 @@ for wine in wines:
     producer = wine.select_one('div.produzent > a').text
 
     doc = {
-        'post_num':str(num),
-        'name':name,
-        'land':land,
-        'region':region,
-        'producer':producer,
+        'post_num': num,
+        'name': name,
+        'land': land,
+        'region': region,
+        'producer': producer,
         'image': image,
         'price': price,
-        'link':weinco_link
+        'link': weinco_link
     }
     db.wine.insert_one(doc)

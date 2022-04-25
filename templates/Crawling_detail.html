@@ -8,6 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Wine NOT?</title>
 
+    <!--    Boot Strap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="../static/css/reset.css">
     <link rel="stylesheet" href="../static/css/style.css">
@@ -31,12 +38,7 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
-    <!--    Boot Strap  -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+
 
 
 
@@ -89,22 +91,29 @@
                             </div>
 
                                 <div class="comment_box">
-
+                                    {% if user_info is not none %}
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="commentUserName">작성자</span>
+
+                                            <span class="input-group-text" id="commentUserName">{{ user_info.id }}</span>
+
                                         <input type="text" class="form-control" placeholder="Comment Input"
                                                aria-label="Comment Input" aria-describedby="button-addon2" id="commentInput">
                                         <button class="btn btn-outline-dark" type="button" id="button-addon2" onclick="save_comment()">
                                             댓글 달기
                                         </button>
                                     </div>
+                                    {% endif %}
 
                                     <div class="commentList">
                                         {% for comment in comments %}
-
-                                        <p><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span></p>
-
-                                        {% endfor %}
+                                        {% if comments[loop.index0].username == user_info.id  %}
+                                            <p class="comment_row"><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span>
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                    onclick="delete_comment({{comments[loop.index0].comment_id }})"></button></p>
+                                        {% else %}
+                                            <p class="comment_row"><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span></p>
+                                        {% endif %}
+                                    {% endfor %}
 
                                     </div>
                                 </div>
@@ -146,8 +155,7 @@
         function save_comment() {
             let pageInfo = "Weinco"
             let postNum = $('#postNum').text()
-            // let userName = $('#commentUserName').val()    로그인 구현 후 사용
-            let userName = '김도엽'
+            let userName = $('#commentUserName').text()
             let comment = $('#commentInput').val()
 
             let form_data = new FormData();
@@ -169,6 +177,35 @@
                 },
             });
 
+        }
+        function delete_comment(delete_id){
+            let res = confirm('삭제할까요?')
+            if (res == true) {
+                let pageInfo = "Weinco"
+                let commentNum = delete_id
+                let postNum = $('#postNum').text()
+
+
+                let form_data = new FormData();
+                form_data.append("pageInfo_give", pageInfo)
+                form_data.append("commentNum_give", commentNum)
+                form_data.append("postNum_give", postNum);
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/delete_comment",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert(response['msg']);
+                        window.location.reload();
+                    },
+                });
+
+            }
         }
     </script>
 </html>

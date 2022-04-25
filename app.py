@@ -22,7 +22,7 @@ SECRET_KEY = 'SPARTA'
 # 홈 페이지 - 220419 DY
 @app.route('/')
 def home():
-    posts = list(db.Reviews.find({}, {'_id': False}).limit(4).sort('post_num', -1))
+    posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
     weincos = list(db.wine.find({}).limit(4))
     return render_template('index.html', posts=posts, weincos=weincos)
 
@@ -132,14 +132,13 @@ def sign_in():
     if result is not None:  # 동일한 유저가 없는게 아니면, = 동일한 유저가 있으면,
         payload = {
             'id': id_receive,
-
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
         }
 
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # .decode('utf8')
         # .decode('utf8')  # 토큰을 건내줌.
 
-        return jsonify({'result': 'success', 'token': token})
+        return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
     else:  # 동일한 유저가 없으면,
         return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
 
@@ -173,41 +172,86 @@ def comment_get():
     return jsonify({'recommends': comment_list})
 
 
-# WEINCO 상세페이지  -  220420 DY
+# WEINCO 상세페이지  -  220423 DY
 @app.route('/crawling_detail/<keyword>')
 def crawling_detail(keyword):
-    comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
-    review = db.wine.find_one({'post_num': keyword})
-    if len(comments_name) == 0:
-        return render_template('Crawling_detail.html', review=review)
+    # 로그인 정보 불러오기
+    find_keyword = int(keyword)
+    token_receive = request.cookies.get('mytoken')
+    # 코멘트 불러오기
+    comments_name = db.wine.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+
+    # 해당(keyword) 게시물 정보 불러오기
+    review = db.wine.find_one({'post_num': find_keyword})
+
+    # 로그인 정보(token)있을 시
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+    # 로그인 정보(token)없을 시
     else:
-        comments = list(comments_name['COMMENT'])
-        return render_template('Crawling_detail.html', review=review, comments=comments)
+        user_info = None
+
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
 
 
-# Wine NOT 상세페이지   - 220419 DY
+
+# Wine NOT 상세페이지   - 220423 DY
 @app.route('/detail/<keyword>')
 def detail(keyword):
-    comments_name = db.Reviews.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
-    review = db.Reviews.find_one({'post_num': keyword})
-    if len(comments_name) == 0:
-        return render_template('detail.html', review=review)
+    # 로그인 정보 불러오기
+    find_keyword = int(keyword)
+    token_receive = request.cookies.get('mytoken')
+    # 코멘트 불러오기
+    comments_name = db.Reviews.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+    # 해당(keyword) 게시물 정보 불러오기
+    review = db.Reviews.find_one({'post_num': find_keyword})
+    # 로그인 정보(token)있을 시
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+
+        if len(comments_name) == 0:
+            return render_template('detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
+    # 로그인 정보(token)없을 시
     else:
-        comments = list(comments_name['COMMENT'])
-        return render_template('detail.html', review=review, comments=comments)
+        user_info = None
+        if len(comments_name) == 0:
+            return render_template('detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
 
 
 # Wine NOT 게시글 저장 - 220419 DY
 @app.route('/pictures', methods=['POST'])
 def save_pictures():
     token_receive = request.cookies.get('mytoken')
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.DYTestusers.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"id": payload["id"]})
 
         review_list = list(db.Reviews.find({}, {'_id': False}))
-        last_post_no = review_list[-1]['post_num']
-        count = int(last_post_no) + 1
+
+        if len(review_list) == 0:
+            count = 1
+        else:
+            last_post_no = review_list[-1]['post_num']
+            count = int(last_post_no) + 1
 
         type_receive = request.form['type_give']
         name_receive = request.form['name_give']
@@ -225,12 +269,12 @@ def save_pictures():
 
         filename = f'file-{mytime}'
         # 파일에 시간붙여서 static폴더에 filename 으로 저장
-        save_to = f'static/{filename}.{extension}'
+        save_to = f'static/img/{filename}.{extension}'
         file.save(save_to)
 
         doc = {
             'post_num': count,
-            'username': user_info["username"],
+            'username': user_info["id"],
             'profile_name': user_info["name"],
             'wine_type': type_receive,
             'wine_name': name_receive,
@@ -251,22 +295,73 @@ def save_pictures():
 @app.route('/saveComment', methods=['POST'])
 def save_comment():
     pageInfo_receive = request.form['pageInfo_give']
-    postNum_receive = request.form['postNum_give']
+    postNum_receive = int(request.form['postNum_give'])
     userName_receive = request.form['userName_give']
     comment_receive = request.form['comment_give']
 
-    doc = {
-        'comment_id': '1',
-        'username': userName_receive,
-        'comment': comment_receive
-    }
-    # post Number 찾아서 해당 게시글 DB 정보에 업데이트
     if pageInfo_receive == "WineNOT":
+        # DB에 코멘트의 마지막 ID 값 읽어서 +1
+        comments = db.Reviews.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+
+        if len(comments) == 0:
+            doc = {
+                'comment_id': 1,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id'))+1
+
+            doc = {
+                'comment_id': new_comment_id,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
         db.Reviews.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+
     elif pageInfo_receive == "Weinco":
+        # DB에 코멘트의 마지막 ID 값 읽어서 +1
+        comments = db.wine.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+
+        if len(comments) == 0:
+            doc = {
+                'comment_id': 1,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id')) + 1
+
+            doc = {
+                'comment_id': new_comment_id,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
         db.wine.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
 
     return jsonify({'msg': '저장 완료!'})
+
+
+# Detail Page Comment 삭제
+@app.route('/delete_comment', methods=['POST'])
+def delete_comment():
+    pageInfo_receive = request.form['pageInfo_give']
+    postNum_receive = int(request.form['postNum_give'])
+    commentNum_receive = int(request.form['commentNum_give'])
+
+    # post Number 찾아서 해당 게시글 DB 정보에서 삭제
+    if pageInfo_receive == "WineNOT":
+        db.Reviews.update_many({'post_num': postNum_receive},
+                               {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+    elif pageInfo_receive == "Weinco":
+        db.wine.update_many({'post_num': postNum_receive},
+                            {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+
+    return jsonify({'msg': '삭제 완료!'})
 
 
 #  Wine NOT 페이지 - 220419 DY

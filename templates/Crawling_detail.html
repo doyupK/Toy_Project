@@ -91,15 +91,18 @@
                             </div>
 
                                 <div class="comment_box">
-
+                                    {% if user_info is not none %}
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="commentUserName">{{ user_info.id }}</span>
+
+                                            <span class="input-group-text" id="commentUserName">{{ user_info.id }}</span>
+
                                         <input type="text" class="form-control" placeholder="Comment Input"
                                                aria-label="Comment Input" aria-describedby="button-addon2" id="commentInput">
                                         <button class="btn btn-outline-dark" type="button" id="button-addon2" onclick="save_comment()">
                                             댓글 달기
                                         </button>
                                     </div>
+                                    {% endif %}
 
                                     <div class="commentList">
                                         {% for comment in comments %}
@@ -152,7 +155,7 @@
         function save_comment() {
             let pageInfo = "Weinco"
             let postNum = $('#postNum').text()
-            let userName = $('#commentUserName').val()
+            let userName = $('#commentUserName').text()
             let comment = $('#commentInput').val()
 
             let form_data = new FormData();

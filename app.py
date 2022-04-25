@@ -177,20 +177,38 @@ def comment_get():
 def crawling_detail(keyword):
     # 로그인 정보 불러오기
     token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.users.find_one({"id": payload["id"]})
+    print(token_receive)
+    #로그인 정보(token)있을 시
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
 
-    # 코멘트 불러오기
-    comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
+        # 코멘트 불러오기
+        comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
 
-    # 해당(keyword) 게시물 정보 불러오기
-    review = db.wine.find_one({'post_num': keyword})
+        # 해당(keyword) 게시물 정보 불러오기
+        review = db.wine.find_one({'post_num': keyword})
 
-    if len(comments_name) == 0:
-        return render_template('Crawling_detail.html', review=review)
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+    # 로그인 정보(token)없을 시
     else:
-        comments = list(comments_name['COMMENT'])
-        return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+        user_info = None
+        # 코멘트 불러오기
+        comments_name = db.wine.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
+
+        # 해당(keyword) 게시물 정보 불러오기
+        review = db.wine.find_one({'post_num': keyword})
+
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+
 
 
 # Wine NOT 상세페이지   - 220423 DY
@@ -198,20 +216,26 @@ def crawling_detail(keyword):
 def detail(keyword):
     # 로그인 정보 불러오기
     token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    user_info = db.users.find_one({"id": payload["id"]})
-
     # 코멘트 불러오기
     comments_name = db.Reviews.find_one({'post_num': keyword}, {'COMMENT': 1, '_id': False})
-
     # 해당(keyword) 게시물 정보 불러오기
     review = db.Reviews.find_one({'post_num': keyword})
 
-    if len(comments_name) == 0:
-        return render_template('detail.html', review=review)
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        if len(comments_name) == 0:
+            return render_template('detail.html', review=review)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
     else:
-        comments = list(comments_name['COMMENT'])
-        return render_template('detail.html', review=review, comments=comments, user_info=user_info)
+        user_info = None
+        if len(comments_name) == 0:
+            return render_template('detail.html', review=review, user_info=user_info)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
 
 
 # Wine NOT 게시글 저장 - 220419 DY

@@ -1,95 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-
-    <!--    ajax-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!--    부트스트랩-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <!--    쿠키-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <meta charset="UTF-8">
+    <meta name="viewport"
+        content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wine not? 로그인</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
+    <link rel="stylesheet" href="../static/css/member.css">
 
-    <title>Wine NOT?</title>
+    <!-- 웹 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
+        rel="stylesheet">
 
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/e0dea76106.js" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
-    <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
-        }
-        .login_title {
-            width: 100%;
-            height: 100vh;
-
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-            url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
-            background-position: center;
-            background-size: contain;
-            background-repeat: repeat;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login_title > .title > h1 {
-            font-size: 50px;
-            color: white;
-        }
-
-        .login_title >.login_box {
-            width: 95%;
-            max-width: 300px;
-            margin: 20px auto 10px auto;
-            padding: 20px;
-            box-shadow: 0 0 15px 0 white;
-        }
-
-        .login_btns {
-            margin:  auto 10px auto 10px;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-
-    </style>
     <script>
-    function signUp(){
-        location.href="signup"
-    }
+        // function signUp() {
+        //     location.href = "signup"
+        // }
 
-    //for Test - dy
-    function login(){
-        let username = $("#floatingInput_id").val()
-        let password = $("#floatingPassword").val()
+        //for Test - dy
+        function login() {
+            let username = $("#floatingInput_ID").val()
+            let password = $("#floatingInput_PW").val()
 
-        if (username == "") {
-            alert('아이디를 입력해주세요.')
-            $("#floatingInput_id").focus()
-            return;
-        } else {
-            $("#floatingInput_id").text("")
-        }
+            if (username == "") {
+                alert('아이디를 입력해주세요.')
+                $("#floatingInput_id").focus()
+                return;
+            } else {
+                $("#floatingInput_id").text("")
+            }
 
-        if (password == "") {
-            alert('비밀번호를 입력해주세요.')
-            $("#floatingPassword").focus()
-            return;
-        } else {
-            $("#floatingPassword").text("")
-        }
+            if (password == "") {
+                alert('비밀번호를 입력해주세요.')
+                $("#floatingInput_PW").focus()
+                return;
+            } else {
+                $("#floatingInput_PW").text("")
+            }
 
-        $.ajax({
+            $.ajax({
             type: "POST",
             url: "/sign_in",
             data: {
@@ -108,31 +74,82 @@
         });
 
 
-    }
+        }
     </script>
 </head>
+
 <body>
-    <div class="login_title">
-        <div class="title">
-            <h1>Wine NOT?</h1>
+    <header id="header">
+        <div class="container">
+            <div class="row">
+                <div class="header clearfix">
+                    <h1>
+                        <a href="/">
+                            <em><img src="../static/img/winenot_onlyfont.png" alt="logo"></em>
+                        </a>
+                    </h1>
+                    <nav class="nav">
+                        <ul class="clearfix">
+                            <li><a href="#">로그인</a></li>
+                            <li><a href="/signup">회원가입</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
-        <div class="login_box">
-            <div class="form-floating mb-3">
-                <input type="id" class="form-control" id="floatingInput_id" placeholder="ID">
-                <label for="floatingInput_id">Insert ID</label>
+    </header>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="wrapper">
+                    <div class="login">
+                        <div class="title">
+                            <h1>로그인</h1>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input_data-lg form-floating">
+                                <input type="id" class="form-control" id="floatingInput_ID" placeholder="ID">
+                                <label for="floatingInput_ID">ID</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input_data-lg form-floating">
+                                <input type="password" class="form-control" id="floatingInput_PW" placeholder="Password">
+                                <label for="floatingInput_PW">Password</label>
+                            </div>
+                        </div>
+                        <div class="login_btn" method="POST">
+                            <button onclick="login()" type="button" class="btn btn-dark">로그인</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-            </div>
-
-            <div class="login_btns" method="POST">
-                <button onclick="signUp()" type="button" class="btn btn-dark">회원가입</button>
-                <button onclick="login()" type="button" class="btn btn-dark">로그인</button>
-            </div>
-
         </div>
-    </div>
-
+    </section>
+    <!-- footer -->
+    <footer id="footer">
+        <div id="footer_info">
+            <div class="container">
+                <div class="row">
+                    <div class="footer_info">
+                        <h2>
+                            <img src="../static/img/항해99_logo.png">
+                        </h2>
+                        <ul>
+                            <li>
+                                <c href="#">15조</c>
+                            </li>
+                            <li><b href="#">김숙영</b></li>
+                            <li><b href="#">김도엽</b></li>
+                            <li><b href="#">최서우</b></li>
+                            <li><b href="#">이동재</b></li>
+                            <li><b href="#">김민수</b></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>

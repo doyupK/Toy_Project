@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--    ajax-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--    부트스트랩-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <!--    쿠키-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <title>Wine NOT?</title>
+
+
+
+    <style>
+        * {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+        .login_title {
+            width: 100%;
+            height: 100vh;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url('https://i.pinimg.com/564x/a5/b8/93/a5b893f98f07cc366cee030ac0ea77dd.jpg');
+            background-position: center;
+            background-size: contain;
+            background-repeat: repeat;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login_title > .title > h1 {
+            font-size: 50px;
+            color: white;
+        }
+
+        .login_title >.login_box {
+            width: 95%;
+            max-width: 300px;
+            margin: 20px auto 10px auto;
+            padding: 20px;
+            box-shadow: 0 0 15px 0 white;
+        }
+
+        .login_btns {
+            margin:  auto 10px auto 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+
+    </style>
+    <script>
+    function signUp(){
+        location.href="signup"
+    }
+
+    //for Test - dy
+    function login(){
+        let username = $("#floatingInput_id").val()
+        let password = $("#floatingPassword").val()
+
+        if (username == "") {
+            alert('아이디를 입력해주세요.')
+            $("#floatingInput_id").focus()
+            return;
+        } else {
+            $("#floatingInput_id").text("")
+        }
+
+        if (password == "") {
+            alert('비밀번호를 입력해주세요.')
+            $("#floatingPassword").focus()
+            return;
+        } else {
+            $("#floatingPassword").text("")
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/sign_in",
+            data: {
+                give_id: username,
+                give_pw: password
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    $.cookie('mytoken', response['token'], {path: '/'});
+                    alert(response['msg'])
+                    window.location.replace("/")
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        });
+
+
+    }
+    </script>
+</head>
+<body>
+    <div class="login_title">
+        <div class="title">
+            <h1>Wine NOT?</h1>
+        </div>
+        <div class="login_box">
+            <div class="form-floating mb-3">
+                <input type="id" class="form-control" id="floatingInput_id" placeholder="ID">
+                <label for="floatingInput_id">Insert ID</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+            <div class="login_btns" method="POST">
+                <button onclick="signUp()" type="button" class="btn btn-dark">회원가입</button>
+                <button onclick="login()" type="button" class="btn btn-dark">로그인</button>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -24,8 +24,21 @@ SECRET_KEY = 'SPARTA'
 def home():
     posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
     weincos = list(db.wine.find({}).limit(4))
-    return render_template('index.html', posts=posts, weincos=weincos)
 
+    token_receive = request.cookies.get('mytoken')
+
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('index.html',
+                               posts=posts, weincos=weincos,
+                               user_info=user_info, login_status=login_status)
+    else:
+        login_status = 0
+        return render_template('index.html',
+                               posts=posts, weincos=weincos,
+                               login_status=login_status)
 
 # 회원 가입 페이지 이동
 @app.route('/signup')
@@ -189,20 +202,30 @@ def crawling_detail(keyword):
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})
 
+        login_status = 1
+
         if len(comments_name) == 0:
-            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+            return render_template('Crawling_detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+            return render_template('Crawling_detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
     # 로그인 정보(token)없을 시
     else:
         user_info = None
-
+        login_status = 0
         if len(comments_name) == 0:
-            return render_template('Crawling_detail.html', review=review, user_info=user_info)
+            return render_template('Crawling_detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('Crawling_detail.html', review=review, comments=comments, user_info=user_info)
+            return render_template('Crawling_detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
 
 
 
@@ -220,20 +243,29 @@ def detail(keyword):
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"id": payload["id"]})
-
+        login_status = 1
         if len(comments_name) == 0:
-            return render_template('detail.html', review=review, user_info=user_info)
+            return render_template('detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
+            return render_template('detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
     # 로그인 정보(token)없을 시
     else:
         user_info = None
+        login_status = 0
         if len(comments_name) == 0:
-            return render_template('detail.html', review=review, user_info=user_info)
+            return render_template('detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('detail.html', review=review, comments=comments, user_info=user_info)
+            return render_template('detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
 
 
 # Wine NOT 게시글 저장 - 220419 DY

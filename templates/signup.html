@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Wine NOT?</title>
+    <title>Wine Not 회원 가입</title>
 
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../static/css/reset.css">
     <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/swiper.css">
+    <link rel="stylesheet" href="../static/css/member.css">
 
     <!-- 웹 폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
@@ -30,7 +31,8 @@
     <!--    주소 찾기 다음 api   -->
     <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
         <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
-             style="width: 25px; height: 25px; cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()"
+             style="width: 25px; height: 25px; cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+             onclick="closeDaumPostcode()"
              alt="닫기 버튼">
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -61,74 +63,66 @@
 </header>
 <!-- //header -->
 
-<section id="movie">
+<section>
     <div class="container">
         <div class="row">
-            <div class="movie">
-                <div class="login_title">
+            <div class="wrapper">
+                <div class="signup">
                     <div class="title">
-                        <h1>Reviewine</h1>
+                        <h1>회원 가입</h1>
                     </div>
-
-                    <div class="login_box">
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID"
-                                       maxlength="12"
-                                       onkeyup="checkId(this.value)">
-                                <label for="floatingInput_ID">ID : 4~12자리 영문,숫자만 가능</label>
-                                <button onclick="users_idCheck()" type="button" class="btn btn-dark">중복확인</button>
-                            </div>
-                            <label for="floatingInput_ID" id="checkIdResult"></label>
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="text" class="form-control" id="floatingInput_ID" placeholder="ID"
+                                   maxlength="12"
+                                   onkeyup="checkId(this.value)">
+                            <label for="floatingInput_ID">ID : 4~12자리 영문,숫자만 가능</label>
+                            <button onclick="users_idCheck()" type="button" class="btn btn-dark">중복확인</button>
                         </div>
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="password" class="form-control" id="floatingInput_PW" placeholder="Password"
-                                       onkeyup="checkPassword(this.value)" maxlength="16">
-                                <label for="floatingInput_PW">Password : 8~16자리 영문자,숫자,특수문자 조합</label>
-                            </div>
-                            <label for="floatingInput_PW" id="checkPasswordResult"></label>
+                        <label for="floatingInput_ID" id="checkIdResult"></label>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="password" class="form-control" id="floatingInput_PW" placeholder="Password"
+                                   onkeyup="checkPassword(this.value)" maxlength="16">
+                            <label for="floatingInput_PW">Password : 8~16자리 영문자,숫자,특수문자 조합</label>
                         </div>
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="password" class="form-control" id="floatingInput_PW_Check"
-                                       placeholder="Password Check"
-                                       onkeyup="checkPasswordConfirm(this.value)" maxlength="16">
-                                <label for="floatingInput_PW_Check">Password Check</label>
-                            </div>
-                            <label for="floatingInput_PW_Check" id="passwordConfirmResult"></label>
+                        <label for="floatingInput_PW" id="checkPasswordResult"></label>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="password" class="form-control" id="floatingInput_PW_Check"
+                                   placeholder="Password Check"
+                                   onkeyup="checkPasswordConfirm(this.value)" maxlength="16">
+                            <label for="floatingInput_PW_Check">Password Check</label>
                         </div>
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="text" class="form-control" id="floatingInput_name" placeholder="name"
-                                       maxlength="20">
-                                <label for="floatingInput_name">name</label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="email" class="form-control" id="floatingInput_Email"
-                                       placeholder="name@example.com" maxlength="40">
-                                <label for="floatingInput_Email">Email address</label>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="input_data form-floating">
-                                <input type="text" class="form-control" id="floatingInput_address" placeholder="address"
-                                       maxlength="100">
-                                <label for="floatingInput_address">address</label>
-                                <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
-                            </div>
-                        </div>
-                        <div class="login_btns">
-                            <button onclick="users_signUp()" type="button" class="btn btn-dark">회원가입</button>
-                        </div>
-                        <div class="login_btns mt-3">
-                            <button onclick="location.href='/editprofile'" type="button" class="btn btn-dark">회원정보수정
-                            </button>
+                        <label for="floatingInput_PW_Check" id="passwordConfirmResult"></label>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="text" class="form-control" id="floatingInput_name" placeholder="name"
+                                   maxlength="20">
+                            <label for="floatingInput_name">name</label>
                         </div>
                     </div>
-
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="email" class="form-control" id="floatingInput_Email"
+                                   placeholder="name@example.com" maxlength="40">
+                            <label for="floatingInput_Email">Email address</label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input_data form-floating">
+                            <input type="text" class="form-control" id="floatingInput_address" placeholder="address"
+                                   maxlength="100">
+                            <label for="floatingInput_address">address</label>
+                            <button onclick="address_find()" type="button" class="btn btn-dark">주소찾기</button>
+                        </div>
+                    </div>
+                    <div class="signup_btn">
+                        <button onclick="users_signUp()" type="button" class="btn btn-dark">회원가입</button>
+                    </div>
                 </div>
             </div>
         </div>

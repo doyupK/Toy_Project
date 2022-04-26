@@ -92,14 +92,16 @@
     overflow: hidden;
     width: 848px;
     margin: 0 auto;
+    /*display: flex;*/
+    /*flex-direction: row;*/
 }
 
 .site_menu li {
     float: left;
     width: 200px;
     text-align: center;
-    border: 1px solid #c4c4c4;
     margin-right: -1px;
+    position: relative;
 }
 
 .site_menu li a {
@@ -108,11 +110,26 @@
     font-size: 18px;
     color: #666;
     font-weight: 700;
+    border: 1px solid #c4c4c4;
 }
 
-.site_menu li.active a {
+.site_menu a.active {
     background-color: #666;
     color: #fff;
+}
+
+.site_menu ul:after{
+    display: block;
+    content: '';
+    clear: both;
+}
+
+.site_menu li:hover .inside_ul{
+    display: block;
+}
+
+.site_menu .inside_ul{
+    display: none;
 }
 
 .recommended_list {
@@ -320,5 +337,4 @@ section {
     padding-right: 16px;
     white-space: nowrap;
 }
-
 

@@ -126,17 +126,17 @@
                 <div class="wine_chart">
                     <div class="swiper-container2">
                         <div class="chart_cont1 swiper-wrapper">
-                            {% for weinco in weincos %}
+                            {% for vivino_wine in vivino_wines %}
                             <div class="swiper-slide">
                                 <div class="poster">
-                                    <img class="post-card" src="{{weinco.image}}"
-                                         onclick="goCrawlingDetail({{weinco.post_num}})">
+                                    <img class="post-card" src="https://{{vivino_wine.image}}"
+                                         onclick="goCrawlingDetail({{vivino_wine.post_num}})">
                                 </div>
                                 <div class="info">
-                                    <h3><strong>{{ weinco.name }}</strong></h3>
+                                    <h3><strong>{{ vivino_wine.name }}</strong></h3>
                                     <div class="info_btn">
-                                        <div>{{ weinco.land }}</div>
-                                        <div>{{ weinco.region }}</div>
+                                        <div>{{ vivino_wine.region }}</div>
+                                        <div>{{ vivino_wine.producer }}</div>
                                     </div>
                                 </div>
                             </div>

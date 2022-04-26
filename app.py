@@ -7,10 +7,10 @@ from datetime import datetime, timedelta
 
 
 ca = certifi.where()
-# client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority',
-#                      tlsCAFile=ca)  # main
+client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority',
+                     tlsCAFile=ca)  # main
 # client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #minsu
-client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
+# client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 db = client.dbsparta
 app = Flask(__name__)
 
@@ -24,7 +24,7 @@ SECRET_KEY = 'SPARTA'
 @app.route('/home')
 def home():
     posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
-    weincos = list(db.wine.find({}).limit(4))
+    vivino_wines = list(db.vivino_wines.find({}).limit(4))
 
     token_receive = request.cookies.get('mytoken')
 
@@ -33,12 +33,12 @@ def home():
         user_info = db.users.find_one({"id": payload["id"]})
         login_status = 1
         return render_template('index.html',
-                               posts=posts, weincos=weincos,
+                               posts=posts, vivino_wines=vivino_wines,
                                user_info=user_info, login_status=login_status)
     else:
         login_status = 0
         return render_template('index.html',
-                               posts=posts, weincos=weincos,
+                               posts=posts, vivino_wines=vivino_wines,
                                login_status=login_status)
 
 # 회원 가입 페이지 이동

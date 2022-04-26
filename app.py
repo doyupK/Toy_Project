@@ -20,7 +20,7 @@ SECRET_KEY = 'SPARTA'
 
 
 # 홈 페이지 - 220419 DY
-@app.route('/')
+@app.route('/home')
 def home():
     posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
     weincos = list(db.wine.find({}).limit(4))
@@ -384,7 +384,7 @@ def winelist():
 
 # intro page - 숙영 ==========================================================================================
 @app.route('/')
-def home():
+def intro():
     return render_template('intro2.html')
 
 

@@ -69,7 +69,7 @@
 }
 
 .post_box {
-    padding: 50px;
+    /*padding: 50px;*/
 }
 
 .post_box .winesite_recommended_list {
@@ -118,27 +118,27 @@
     color: #fff;
 }
 
-.site_menu ul:after{
+.site_menu ul:after {
     display: block;
     content: '';
     clear: both;
 }
 
-.site_menu li:hover .inside_ul{
+.site_menu li:hover .inside_ul {
     display: block;
 }
 
-.site_menu .inside_ul{
+.site_menu .inside_ul {
     display: none;
 }
 
 .recommended_list {
-    margin: 80px 0 30px 0;
+    margin: 30px 0 60px 0;
     text-align: center;
 }
 
 .recommended_list li a {
-    font-size: 24px;
+    font-size: 46px;
     color: #666;
     font-weight: 700;
 }
@@ -224,7 +224,7 @@ section {
 
 .main_content {
     position: relative;
-    height: 900px;
+    height: 500px;
     display: flex;
     /*flex-direction: row;*/
     justify-content: space-between;
@@ -235,17 +235,17 @@ section {
 }
 
 .img_box {
-    width: 500px;
-    height: 600px;
+    width: 300px;
+    height: 400px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    margin-left: 50px;
 
 }
 
 .Review_img {
     width: auto;
-    height: auto;
-
+    height: 400px;
 }
 
 #title {
@@ -255,15 +255,15 @@ section {
 }
 
 #title h1 {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     font-weight: 500;
     letter-spacing: normal;
     color: #262626;
-    margin-bottom: 5px;
+    margin-bottom: 4%;
 }
 
 #title h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 500;
     letter-spacing: normal;
     color: #1c020a;
@@ -279,14 +279,18 @@ section {
 }
 
 .review_detail {
-    width: 600px;
+    width: 800px;
 
 }
 
 .comment_box {
-    /*display: inline-block;*/
-    height: 600px;
+    display: block;
+    height: 200px;
+    max-height: 600px;
+    /*background-color: white;*/
+    margin-bottom: 5%;
 }
+
 #commentInputArea {
     width: 100%;
 }
@@ -299,7 +303,26 @@ section {
     font-size: 20px;
 }
 
+.input-group-text{
+    display: block;
+    margin-right: 75%;
+    margin-left: 10%;
+    margin-bottom: 3%;
+}
 
+.form-control{
+    display: block;
+    margin-left: 15%;
+}
+
+.button_for_comment{
+    padding-top: 0.4%;
+    margin-left: 92%;
+}
+
+.commentList{
+    margin-left: 10%;
+}
 
 
 

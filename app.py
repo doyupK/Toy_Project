@@ -2,9 +2,9 @@ import hashlib
 import jwt as jwt
 import certifi
 from pymongo import MongoClient
+import gridfs
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime, timedelta
-
 
 ca = certifi.where()
 # client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority',
@@ -419,6 +419,9 @@ def winelist():
 @app.route('/')
 def intro():
     return render_template('intro2.html')
+
+
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

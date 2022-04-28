@@ -72,13 +72,13 @@
     padding: 50px;
 }
 
-.post_box .winesite_recommended_list {
+.winesite_recommended_list {
     width: 848px;
-    margin: 0 auto 20px auto;
+    margin: 30px auto 30px auto;
     text-align: center;
 }
 
-.post_box .winesite_recommended_list a {
+.winesite_recommended_list a {
     font-size: 24px;
     color: #666;
     font-weight: 700;
@@ -153,6 +153,10 @@
     margin-top: 20px;
 }
 
+.winesite_recommended_list ul li div {
+    margin-top: 20px;
+    font-size: 30px;
+}
 
 .wine_chart .swiper-slide {
     float: left;
@@ -338,3 +342,36 @@ section {
     white-space: nowrap;
 }
 
+.flex_container h1{
+    font-size: 23px;
+}
+.flex_container .flex_item{
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    background-color: #6e1716;
+}
+
+.wine_chart .swiper-container2 .chart_cont1 .swiper-wrapper{
+    position: relative;
+    width: 1000px;
+    height: 100%;
+    /*z-index: 1;*/
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    transition-property: transform;
+    box-sizing: content-box;
+}
+
+.eachrows{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 1280px;
+    height: auto;
+    align-content: center;
+    justify-content: center;
+    margin: auto;
+}

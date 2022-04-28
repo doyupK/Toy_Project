@@ -411,8 +411,19 @@ def winenotpage():
 def winelist():
     dbName = request.values.get('board_name')
     print(dbName)
-    posts = '' #리스트 뽑아오기
-    return render_template('winelist.html', posts=posts)
+    vivino_wines = list(db.vivino_wines.find({}))
+    weinco_wines = list(db.weinco_wines.find({}))
+    xtrawine_wines = list(db.weinco_wines.find({}))
+
+    if dbName == 'vivino':
+        return render_template('winelist.html',  dbName=dbName, vivino_wines=vivino_wines)
+    elif dbName == 'weinco':
+        return render_template('winelist.html',  dbName=dbName, weinco_wines=weinco_wines)
+    elif dbName == 'xtrawine':
+        return render_template('winelist.html',  dbName=dbName, xtrawine_wines=xtrawine_wines)
+
+
+
 # 김민수 : wine list 페이지 ====================================================================================
 
 # intro page - 숙영 ==========================================================================================

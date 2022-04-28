@@ -193,10 +193,52 @@ def crawling_detail(keyword):
     find_keyword = int(keyword)
     token_receive = request.cookies.get('mytoken')
     # 코멘트 불러오기
-    comments_name = db.wine.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+    comments_name = db.vivino_wines_list.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
 
     # 해당(keyword) 게시물 정보 불러오기
-    review = db.wine.find_one({'post_num': find_keyword})
+    review = db.vivino_wines_list.find_one({'post_num': find_keyword})
+
+    # 로그인 정보(token)있을 시
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+
+        login_status = 1
+
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
+    # 로그인 정보(token)없을 시
+    else:
+        user_info = None
+        login_status = 0
+        if len(comments_name) == 0:
+            return render_template('Crawling_detail.html',
+                                   review=review, user_info=user_info,
+                                   login_status=login_status)
+        else:
+            comments = list(comments_name['COMMENT'])
+            return render_template('Crawling_detail.html',
+                                   review=review, comments=comments,
+                                   user_info=user_info, login_status=login_status)
+
+
+@app.route('/crawling_recomm_detail/<keyword>')
+def recommend_crawling_detail(keyword):
+    # 로그인 정보 불러오기
+    find_keyword = int(keyword)
+    token_receive = request.cookies.get('mytoken')
+    # 코멘트 불러오기
+    comments_name = db.vivino_wines.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+
+    # 해당(keyword) 게시물 정보 불러오기
+    review = db.vivino_wines.find_one({'post_num': find_keyword})
 
     # 로그인 정보(token)있을 시
     if token_receive is not None:
@@ -335,7 +377,6 @@ def save_comment():
     if pageInfo_receive == "WineNOT":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
         comments = db.Reviews.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
-
         if len(comments) == 0:
             doc = {
                 'comment_id': 1,
@@ -354,10 +395,8 @@ def save_comment():
             }
         db.Reviews.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
 
-    elif pageInfo_receive == "Weinco":
-        # DB에 코멘트의 마지막 ID 값 읽어서 +1
-        comments = db.wine.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
-
+    elif pageInfo_receive == "vivino":
+        comments = db.vivino_wines_list.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
         if len(comments) == 0:
             doc = {
                 'comment_id': 1,
@@ -374,7 +413,69 @@ def save_comment():
                 'username': userName_receive,
                 'comment': comment_receive
             }
-        db.wine.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+        db.vivino_wines_list.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+
+    elif pageInfo_receive == "Weinco":
+        comments = db.weinco_wines_list.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+        if len(comments) == 0:
+            doc = {
+                'comment_id': 1,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id')) + 1
+
+            doc = {
+                'comment_id': new_comment_id,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        db.weinco_wines_list.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+
+    elif pageInfo_receive == "xtrawine":
+        comments = db.xtra_wines_list.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+        if len(comments) == 0:
+            doc = {
+                'comment_id': 1,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id')) + 1
+
+            doc = {
+                'comment_id': new_comment_id,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        db.xtra_wines_list.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+
+    elif pageInfo_receive == "vivino_recomm":
+        comments = db.xtra_wines.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+        if len(comments) == 0:
+            doc = {
+                'comment_id': 1,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        else:
+            list_comment = list(comments['COMMENT'])
+            last_comment = list_comment[-1]
+            new_comment_id = int(last_comment.get('comment_id')) + 1
+
+            doc = {
+                'comment_id': new_comment_id,
+                'username': userName_receive,
+                'comment': comment_receive
+            }
+        db.xtra_wines_list.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+
+
 
     return jsonify({'msg': '저장 완료!'})
 
@@ -390,6 +491,13 @@ def delete_comment():
     if pageInfo_receive == "WineNOT":
         db.Reviews.update_many({'post_num': postNum_receive},
                                {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+    elif pageInfo_receive == "vivino":
+        db.wine.update_many({'post_num': postNum_receive},
+                            {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+    elif pageInfo_receive == "xtrawine":
+        db.wine.update_many({'post_num': postNum_receive},
+                            {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+
     elif pageInfo_receive == "Weinco":
         db.wine.update_many({'post_num': postNum_receive},
                             {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})

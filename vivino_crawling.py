@@ -48,13 +48,14 @@ for wine in wines:
     wine_name = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfo__vintage--2wqwE > div.wineInfoVintage__vintage--VvWlU.wineInfoVintage__truncate--3QAtw').text
     wine_maker = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfo__vintage--2wqwE > div:nth-child(1)').text
     wine_region = wine.select_one('div > a > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoLocation__wineInfoLocation--BmkcO > div').text
-
+    wine_link = wine.select_one(' div > a')['href']
     doc = {
         'post_num': count,
         'image': wine_image,
         'name': wine_name,
         'producer': wine_maker,
         'region': wine_region,
+        'link': 'https://vivino.com' + wine_link
     }
     db.vivino_wines.insert_one(doc)
 
@@ -105,13 +106,14 @@ for post in posts:
     wine_name = post.select_one('div > a > div > div.wineCard__infoColumn--3NKrN > div.wineInfo__wineInfo--Sx0T0 > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfoVintage__large--OaWjm.wineInfo__vintage--2wqwE > div.wineInfoVintage__vintage--VvWlU.wineInfoVintage__truncate--3QAtw').text
     wine_maker = post.select_one('div > a > div > div.wineCard__infoColumn--3NKrN > div > div.wineInfoVintage__wineInfoVintage--bXr7s.wineInfoVintage__large--OaWjm.wineInfo__vintage--2wqwE > div').text
     wine_region = post.select_one('div > a > div > div.wineCard__infoColumn--3NKrN > div > div.wineInfoLocation__wineInfoLocation--BmkcO > div').text
-
+    wine_link = post.select_one(' div > a')['href']
     doc = {
         'post_num': count,
         'image': wine_image,
         'name': wine_name,
         'producer': wine_maker,
         'region': wine_region,
+        'link': 'https://vivino.com' + wine_link
     }
     db.vivino_wines_list.insert_one(doc)
 

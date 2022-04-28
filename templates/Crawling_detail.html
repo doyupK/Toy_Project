@@ -38,10 +38,6 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
-
-
-
-
 </head>
 
 <body>
@@ -51,7 +47,7 @@
             <div class="header clearfix">
                 <h1>
                     <a href="/">
-                        <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
+                        <em><img src="../../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
                     </a>
                 </h1>
                 <nav class="nav">
@@ -84,16 +80,14 @@
                 <section id="main">
                     <div class="main_content">
                         <div class="img_box">
-                            <img class="Review_img" src="{{review.image}}">
+                            <img class="Review_img" src="https://{{review.image}}">
                         </div>
                         <div class="review_detail">
                             <div id="title">
                                 <h5 id="postNum" style="display: none">{{ review.post_num }}</h5>
                                 <h1>{{ review.name }}</h1>
-                                <h2>{{ review.land }}</h2>
                                 <h3>{{ review.region }}</h3>
                                 <h3>{{ review.producer }}</h3>
-                                <h2>{{ review.price }}</h2>
                             </div>
 
                                 <div class="comment_box">
@@ -159,7 +153,7 @@
 
 <script>
         function save_comment() {
-            let pageInfo = "Weinco"
+            let pageInfo = "vivino"
             let postNum = $('#postNum').text()
             let userName = $('#commentUserName').text()
             let comment = $('#commentInput').val()
@@ -187,7 +181,7 @@
         function delete_comment(delete_id){
             let res = confirm('삭제할까요?')
             if (res == true) {
-                let pageInfo = "Weinco"
+                let pageInfo = "vivino"
                 let commentNum = delete_id
                 let postNum = $('#postNum').text()
 

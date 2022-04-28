@@ -34,7 +34,9 @@ WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "
 soup = BeautifulSoup(driver.page_source, 'html.parser')
 
 wines = soup.select('#RootLayout_PageLayout_UpperPane_Frame2811_Module2811_pnlWlcTop > div.container > div:nth-child(1) > div.col-sm-push-2.col-sm-10.slider-row > div > div > div > div > div')
+count = 0
 for wine in wines:
+    count = count + 1
     wine_image = wine.select_one('div > div > a > div.prodItem').attrs['style'].split(": url(")[1:][0]
     wine_name = wine.select_one('div > div > a > div.prodName').text
     wine_region = wine.select_one('div > div > a > div.prodZoneDenom').text.strip()
@@ -42,6 +44,7 @@ for wine in wines:
     xtra_link = "https://www.xtrawine.com" + xtra_detail
 
     doc = {
+        'post_num': count,
         'image': wine_image,
         'name': wine_name,
         'region': wine_region,

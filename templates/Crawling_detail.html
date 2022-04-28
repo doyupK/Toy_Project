@@ -17,7 +17,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../static/css/reset.css">
-    <link rel="stylesheet" href="../static/css/style.css?ver=36">
+    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="../static/css/swiper.css">
 
     <!-- 웹 폰트 -->
@@ -38,14 +38,10 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
-    <!-- jQuery -->
-    <script src="${path}/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="${path}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="${path}/dist/js/adminlte.min.js"></script>
-    <!-- HandleBars JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+
+
+
 </head>
 
 <body>
@@ -61,12 +57,12 @@
                 <nav class="nav">
                     <ul class="clearfix">
                         {% if login_status == 0 %}
-                        <li><a href="/login">로그인</a></li>
-                        <li><a href="/signup">회원가입</a></li>
+                            <li><a href="/login">로그인</a></li>
+                            <li><a href="/signup">회원가입</a></li>
                         {% elif login_status == 1 %}
-                        <li id="userid"><a>{{user_info.name}}님</a></li>
-                        <li><a href="/editprofile">My Page</a></li>
-                        <li><a onclick="logout()">로그아웃</a></li>
+                            <li><a> {{user_info.name}} 님</a></li>
+                            <li><a href="/editprofile">My Page</a></li>
+                            <li><a onclick="logout()">로그아웃</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -74,6 +70,8 @@
         </div>
     </div>
 </header>
+
+
 <div class="wrapper">
     <div class="container">
         <div class="row">
@@ -91,50 +89,43 @@
                         <div class="review_detail">
                             <div id="title">
                                 <h5 id="postNum" style="display: none">{{ review.post_num }}</h5>
-                                <h1>와인 이름: {{ review.name }}</h1>
-                                <h2>원산지: {{ review.land }}</h2>
-                                <h3>지역: {{ review.region }}</h3>
-                                <h3>생산자: {{ review.producer }}</h3>
-                                <h3>현지 가격: {{ review.price }}</h3>
+                                <h1>{{ review.name }}</h1>
+                                <h2>{{ review.land }}</h2>
+                                <h3>{{ review.region }}</h3>
+                                <h3>{{ review.producer }}</h3>
+                                <h2>{{ review.price }}</h2>
                             </div>
+
+                                <div class="comment_box">
+                                    {% if user_info is not none %}
+                                    <div class="input-group mb-3">
+
+                                            <span class="input-group-text" id="commentUserName">{{ user_info.id }}</span>
+
+                                        <input type="text" class="form-control" placeholder="Comment Input"
+                                               aria-label="Comment Input" aria-describedby="button-addon2" id="commentInput">
+                                        <button class="btn btn-outline-dark" type="button" id="button-addon2" onclick="save_comment()">
+                                            댓글 달기
+                                        </button>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="commentList">
+                                        {% for comment in comments %}
+                                        {% if comments[loop.index0].username == user_info.id  %}
+                                            <p class="comment_row"><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span>
+                                            <button type="button" class="btn-close" aria-label="Close"
+                                                    onclick="delete_comment({{comments[loop.index0].comment_id }})"></button></p>
+                                        {% else %}
+                                            <p class="comment_row"><span>{{comments[loop.index0].username}} : {{comments[loop.index0].comment}}</span></p>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </section>
-                <div class="comment_box">
-                    {% if user_info is not none %}
-                    <div class="input-group-text" id="commentUserName"><a onclick="see_more_info()" href="">{{
-                        user_info.id }}</a></div>
-                    <div class="input-group">
-                        <textarea type="text" class="form-control" placeholder="댓글을 입력하세요."
-                                  aria-label="Comment Input" aria-describedby="button-addon2"
-                                  id="commentInput"></textarea>
-                    </div>
-                    <div class="button_for_comment">
-                        <button class="btn btn-outline-dark" type="button" id="button-addon2"
-                                onclick="save_comment()">댓글 달기
-                        </button>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="commentList">
-                    {% for comment in comments %}
-                    <!--댓글을 단 자가(comments[loop.index0].username)의 유저네임과 유저 아이디(user_info.id)가 같을 경우 댓글 삭제 버튼을 보여준다.-->
-                    {% if comments[loop.index0].username == user_info.id %}
-                    <p class="comment_row">
-                        <a class="commentUserId" onclick="see_more_info()"
-                           href="#">{{comments[loop.index0].username}}</a>
-                        <span>: {{comments[loop.index0].comment}}</span>
-                        <button type="button" class="btn-close" aria-label="Close"
-                                onclick="delete_comment({{comments[loop.index0].comment_id}})"></button>
-                        {% else %}
-                    <p class="comment_row">
-                        <a class="commentUserId" onclick="see_more_info()"
-                           href="#">{{comments[loop.index0].username}}</a>
-                        <span>: {{comments[loop.index0].comment}}</span>
-                    </p>
-                    {% endif %}
-                    {% endfor %}
-                </div>
             </div>
         </div>
     </div>
@@ -166,53 +157,22 @@
 </footer>
 </body>
 
-<meta id="my-data" data-name="{{name}}" data-other="{{other}}">
-
 <script>
-    function save_comment() {
-        let pageInfo = "Weinco"
-        let postNum = $('#postNum').text()
-        let userName = $('#commentUserName').text()
-        let comment = $('#commentInput').val()
-
-        let form_data = new FormData();
-        form_data.append("pageInfo_give", pageInfo)
-        form_data.append("postNum_give", postNum);
-        form_data.append("userName_give", userName);
-        form_data.append("comment_give", comment);
-
-        $.ajax({
-            type: "POST",
-            url: "/saveComment",
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                alert(response['msg']);
-                window.location.reload();
-            },
-        });
-
-    }
-
-    function delete_comment(delete_id) {
-        let res = confirm('삭제할까요?')
-        if (res == true) {
+        function save_comment() {
             let pageInfo = "Weinco"
-            let commentNum = delete_id
             let postNum = $('#postNum').text()
-
+            let userName = $('#commentUserName').text()
+            let comment = $('#commentInput').val()
 
             let form_data = new FormData();
             form_data.append("pageInfo_give", pageInfo)
-            form_data.append("commentNum_give", commentNum)
             form_data.append("postNum_give", postNum);
-
+            form_data.append("userName_give", userName);
+            form_data.append("comment_give", comment);
 
             $.ajax({
                 type: "POST",
-                url: "/delete_comment",
+                url: "/saveComment",
                 data: form_data,
                 cache: false,
                 contentType: false,
@@ -224,7 +184,34 @@
             });
 
         }
-    }
+        function delete_comment(delete_id){
+            let res = confirm('삭제할까요?')
+            if (res == true) {
+                let pageInfo = "Weinco"
+                let commentNum = delete_id
+                let postNum = $('#postNum').text()
 
-</script>
+
+                let form_data = new FormData();
+                form_data.append("pageInfo_give", pageInfo)
+                form_data.append("commentNum_give", commentNum)
+                form_data.append("postNum_give", postNum);
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/delete_comment",
+                    data: form_data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        alert(response['msg']);
+                        window.location.reload();
+                    },
+                });
+
+            }
+        }
+    </script>
 </html>

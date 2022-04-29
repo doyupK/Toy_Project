@@ -413,7 +413,7 @@ def winelist():
     print(dbName)
     vivino_wines = list(db.vivino_wines.find({}))
     weinco_wines = list(db.weinco_wines.find({}))
-    xtrawine_wines = list(db.weinco_wines.find({}))
+    xtrawine_wines = list(db.xtra_wines.find({}))
 
     if dbName == 'vivino':
         return render_template('winelist.html',  dbName=dbName, vivino_wines=vivino_wines)

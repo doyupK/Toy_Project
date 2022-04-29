@@ -8,11 +8,11 @@ import certifi
 import time
 import subprocess
 
-subprocess.Popen(r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"') # 디버거 크롬 구동
+# subprocess.Popen(r'C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\chrometemp"') # 디버거 크롬 구동
 
 ca = certifi.where()
-# client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
-client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #DY
+client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
+# client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #DY
 db = client.dbsparta
 
 
@@ -22,10 +22,10 @@ db.xtra_wines_list.delete_many({})
 chrome_options = webdriver.ChromeOptions()
 # xtrawine은 셀레니움 사용 시 봇 체크 프로그램으로 인해 페이지 이동 불가 -> 디버그모드로 봇체크 우회
 chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
-chrome_options.add_argument('headless')
-chrome_options.add_argument('--disable-gpu')
-chrome_options.add_argument('window-size=1920x1080')
-chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+# chrome_options.add_argument('headless')
+# chrome_options.add_argument('--disable-gpu')
+# chrome_options.add_argument('window-size=1920x1080')
+# chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
 driver = webdriver.Chrome(options=chrome_options)
 
 driver.get('https://www.xtrawine.com/en')

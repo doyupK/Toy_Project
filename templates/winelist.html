@@ -95,7 +95,7 @@
                 {% for vivino_wine in vivino_wines %}
                 <div class="swiper-slide">
                     <div class="poster">
-                        <img class="post-card" src="https://{{vivino_wine.image}}"
+                        <img class="post-card" src="{{vivino_wine.image}}"
                              onclick="goCrawlingDetail({{vivino_wine.post_num}})">
                     </div>
                     <div class="info">
@@ -114,7 +114,7 @@
                 {% for weinco_wine in weinco_wines %}
                 <div class="swiper-slide">
                     <div class="poster">
-                        <img class="post-card" src="https://weinco.at/assets/Produktbilder/_resampled/FitWzMwMCwyNDRd/50001830.png"
+                        <img class="post-card" src="{{weinco_wine.image}}"
                              onclick="goCrawlingDetail({{weinco_wine.post_num}})">
                     </div>
                     <div class="info">
@@ -133,7 +133,7 @@
                 {% for xtrawine_wine in xtrawine_wines %}
                 <div class="swiper-slide">
                     <div class="poster">
-                        <img class="post-card" src="https://weinco.at/assets/Produktbilder/_resampled/FitWzMwMCwyNDRd/50001830.png"
+                        <img class="post-card" src="{{xtrawine_wine.image}}"
                              onclick="goCrawlingDetail({{xtrawine_wine.post_num}})">
                     </div>
                     <div class="info">

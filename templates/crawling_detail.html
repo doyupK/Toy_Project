@@ -25,7 +25,7 @@
           rel="stylesheet">
 
     <!-- fontawesome -->
-    <script src="https://kit.fontawesome.com/e0dea76106.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/8f4978e361.js" crossorigin="anonymous"></script>
 
     <!--    JS-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -57,13 +57,18 @@
                 <nav class="nav">
                     <ul class="clearfix">
                         {% if login_status == 0 %}
-                            <li><a href="/login">로그인</a></li>
-                            <li><a href="/signup">회원가입</a></li>
-                        {% elif login_status == 1 %}
-                            <li><a> {{user_info.name}} 님</a></li>
-                            <li><a href="/editprofile">My Page</a></li>
-                            <li><a onclick="logout()">로그아웃</a></li>
-                        {% endif %}
+                            <strong>
+                                <li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li>
+                            </strong>
+                            <strong>
+                                <li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i>
+                                        회원가입</a></li>
+                            </strong>
+                            {% elif login_status == 1 %}
+                            <li><a href="/editprofile"> {{user_info.name}} 님</a></li>
+                            <!-- <li><a href="/editprofile">마이페이지</a></li> -->
+                            <li class="nav-text"><a class="logout" onclick="logout()"><i class="fa-regular fa-user"></i> 로그아웃</a></li>
+                            {% endif %}
                     </ul>
                 </nav>
             </div>

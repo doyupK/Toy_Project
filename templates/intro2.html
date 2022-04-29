@@ -41,13 +41,13 @@
 </div>
 
 <div class="header">
-    <h1><a href="#">Wine Not?</a></h1>
+    <a href="/"><em><img class="logo" src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em></a>
 
     <nav>
         <ul class="nav">
             {% if login_status == 0 %}
-            <li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li>
-            <li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i> 회원가입</a></li>
+            <strong><li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li></strong>
+            <strong><li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i> 회원가입</a></li></strong>
             {% elif login_status == 1 %}
             <li class="nav-text"><a onclick="logout()"><i class="fa-regular fa-user"></i> 로그아웃</a></li>
             {% endif %}

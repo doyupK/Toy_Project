@@ -3,6 +3,10 @@
     width: 100%;
     height: 80px;
     box-shadow: 0 1px 4px 0 rgba(30, 30, 30, .2);
+    position: sticky;
+    top: 0px;
+    background-color: white;
+    z-index: 1;
 }
 
 /* 가운데 영역 */
@@ -46,24 +50,36 @@
 }
 
 .header .nav ul {
-    border-left: 1px solid #c6c6c6;
+    /* border-left: 1px solid #c6c6c6; */
 }
 
 .header .nav ul li {
     float: left;
-    width: 90px;
+    width: 120px;
     text-align: center;
-    border-right: 1px solid #c6c6c6;
+    margin-top: 5px;
+    /* border-right: 1px solid #c6c6c6; */
 }
 
 .header .nav ul li a {
     display: block;
     padding: 28px 10px;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 400;
     color: #444;
 }
 
+.header .nav ul li a:hover {
+    color: black;
+    opacity: 0.3;
+}
+.logout {
+    cursor: pointer;
+}
+
+.winesite_recommended_list {
+    font-size: 24px;
+}
 .post-card {
     z-index: 10;
 }
@@ -112,6 +128,7 @@
     background-color: #fff;
     font-weight: 700;
     border: 1px solid #c4c4c4;
+    border-style: none;
 }
 
 .site_menu ul:after{
@@ -125,8 +142,7 @@
 }
 
 .site_menu li:hover a{
-    background-color: #666;
-    color: #fff;
+    color: black;
 }
 
 .site_menu .inside_ul{
@@ -138,22 +154,51 @@
     text-align: center;
 }
 
-.recommended_list li a {
+/* .recommended_list li a {
     font-size: 24px;
     color: #666;
     font-weight: 700;
+} */
+.recommended_list strong {
+    font-size: 24px;
 }
 
-.winesite_recommended_list li span {
+.winesite_recommended_list {
+    display: flex;
+    justify-content: center;
+}
+/* .winesite_recommended_list li span {
     font-size: 24px;
     color: #666;
     font-weight: 700;
+} */
+.winesite_recommended_list p {
+    margin: 0;
 }
 
 .winesite_recommended_list button {
     margin-top: 20px;
+    border-radius: 30px;
+    background-color: white;
+    border: 3px solid black;
 }
 
+.winesite_recommended_list button:hover {
+    background-color: white;
+}
+
+.winesite_recommended_list button span {
+    margin: 0;
+}
+
+.winesite_recommended_list button span::after {
+    color: black;
+    content: "내 와인 추천 하기 ";
+}
+
+.winesite_recommended_list button:hover span:after {
+    content: "🍷🍷🍷🍷🍷🍷🍷🍷";
+}
 
 .wine_chart .swiper-slide {
     float: left;
@@ -164,7 +209,7 @@
 
 .wine_chart .poster {
     position: relative;
-    border: 1px solid #d9d9d9;
+    /* border: 1px solid #d9d9d9; */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -176,6 +221,12 @@
     max-height: 300px;
     width: auto;
     margin: auto;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.wine_chart .poster img:hover {
+    transform: scale(1.1);
 }
 
 .wine_chart .poster .rank {
@@ -203,7 +254,7 @@
     height: 130px;
     background-color: #fff;
     padding: 17px;
-    border: 1px solid #d9d9d9;
+    /* border: 1px solid #d9d9d9; */
 }
 
 .wine_chart .info h3 {
@@ -297,9 +348,15 @@ section {
 }
 
 .comment_row, span, p {
+    color: darkgray;
     font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
 }
-
+.recommended_list > ul > span:hover {
+    color: red;
+}
 
 
 
@@ -341,9 +398,46 @@ section {
 
 .post_size img{
     height: 300px;
+    display: flex;
+    width: auto;
+    margin: auto;
+    max-width: 240px;
+    transition: all 0.2s linear;
+    cursor: pointer;
 }
 
+.post_size img:hover {
+    transform: scale(1.2);
+}
+.card {
+    border: none;
+    margin-top: 60px;
+}
 .card_contents {
     height: 130px;
+    padding-top: 30px;
 }
 
+.page-item a {
+    border: none;
+    border-radius: 20px;
+}
+
+.page-item .page-link {
+    color: black;
+    margin: 0px 10px;
+}
+
+.page-item.active .page-link {
+    background-color: white;
+}
+
+.page-item.active .page-link span {
+    margin: 0;
+}
+
+.page-item.active .page-link span::after{
+    background-color: #fff;
+    color: black;
+    content: "🍷";
+}

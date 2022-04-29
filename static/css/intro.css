@@ -37,16 +37,20 @@
     align-items: center;
     font-family: 'PT Serif', serif;
 }
-
-.header h1 {
+/* 수정 - SW */
+/* .header h1 {
     font-size: 20px;
 }
 
 .header h1 a{
     text-decoration: none;
     color: black;
-}
+} */
 
+.logo {
+    width: 190px;
+}
+/* 로고 이미지 추가 -- SW */
 .nav {
     display: flex;
     flex-direction: row;
@@ -59,6 +63,7 @@
 
 .nav-text {
     padding: 15px;
+    cursor: pointer;
 }
 
 .nav-text a {
@@ -109,6 +114,10 @@
 }
 
 .main_text > button:hover {
-    color: white;
-    opacity: 0.3;
+    /* background-color: #760c0c; */
+    opacity: 0.7;
+    border-color:black;
+    color: black;
+    font-weight: bold;
+    transform: scale(1.1, 1.1);
 }

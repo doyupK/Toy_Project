@@ -12,7 +12,7 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/8f4978e361.js" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <link rel="stylesheet" href="../static/css/intro.css">
 
     <title>Wine Not?</title>
@@ -20,8 +20,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital@1&display=swap" rel="stylesheet">
 
     <script>
-        function goIndex(){
-            location.href="/home"
+        function goIndex() {
+            location.href = "/home"
+        }
+
+        function logout() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!');
+            window.location.href = "/";
         }
     </script>
 
@@ -30,8 +36,8 @@
 <body>
 <div class="mainMP4">
     <video muted autoplay loop>
-  <source src="{{url_for('static', filename='WineNot.MP4')}}" type="video/mp4">
-</video>
+        <source src="{{url_for('static', filename='WineNot.MP4')}}" type="video/mp4">
+    </video>
 </div>
 
 <div class="header">
@@ -39,8 +45,12 @@
 
     <nav>
         <ul class="nav">
-            <li class="nav-text"><a href="#"><i class="fa-regular fa-user"></i> 로그인</a></li>
-            <li class="nav-text"><a href="#"><i class="fa-solid fa-pen-to-square"></i> 회원가입</a></li>
+            {% if login_status == 0 %}
+            <li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li>
+            <li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i> 회원가입</a></li>
+            {% elif login_status == 1 %}
+            <li class="nav-text"><a onclick="logout()"><i class="fa-regular fa-user"></i> 로그아웃</a></li>
+            {% endif %}
         </ul>
     </nav>
 </div>
@@ -48,10 +58,12 @@
 <!--    로그인 버튼에 페이지 걸 때 아래와 같이 적고 py도 확인하기-->
 <!--        <li class="nav-text" onclick="window.location.href='/logIn'">-->
 
-    <div class="main_text">
-        <h2>소중한 사람들과 함께<br>와인 한 잔,</h2>
-        <p>Wine Not?</p>
-        <button onclick="goIndex()">&nbsp;HOME&nbsp;</button>
-    </div>
+<div class="main_text">
+    <h2>소중한 사람들과 함께<br>와인 한 잔,</h2>
+    <p>Wine Not?</p>
+    <button onclick="goIndex()">&nbsp;HOME&nbsp;</button>
 </div>
-
+</div>
+</div>
+</body>
+</html>

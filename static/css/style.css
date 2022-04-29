@@ -347,3 +347,9 @@ section {
     height: 130px;
 }
 
+#post_img {
+    display: flex;
+    max-height: 300px;
+    width: auto;
+    margin: auto;
+}

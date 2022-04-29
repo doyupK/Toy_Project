@@ -41,8 +41,8 @@
             location.href = "/detail/" + number
         }
 
-        function goCrawlingDetail(key) {
-            location.href = "/crawling_detail/" + key
+        function goCrawlingDetail(keyword,site) {
+            location.href = "/crawling_detail/"+keyword+"/"+site
         }
 
         function logout() {
@@ -132,7 +132,7 @@
                             <div class="swiper-slide">
                                 <div class="poster">
                                     <img class="post-card" src="{{wine.image}}"
-                                         onclick="goCrawlingDetail('{{wine.post_num}}')">
+                                         onclick="goCrawlingDetail('{{wine.post_num}}','{{wine.site}}')">
                                 </div>
                                 <div class="info">
                                     <h3><strong>{{ wine.name }}</strong></h3>

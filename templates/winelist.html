@@ -41,8 +41,8 @@
 
     <script>
 
-        function goDetail(number) {
-            location.href = "/crawling_detail/" + number
+        function goCrawlingDetail(number,site) {
+            location.href = "/crawling_detail/" + number + "/" + site
         }
 
         function logout() {
@@ -110,22 +110,19 @@
                     </div>
 
                     <main class="main">
-
                         <div class="picture-list mycards">
-
                             <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
-
                                 {% for post in posts %}
                             <div class="post_size">
                                 <div class="col">
                                     <div class="card h-80">
                                         <div>
-                                            <img class="card-img-top" src="{{post.image}}"
-                                                 onclick="goDetail( '{{ post.post_num }}' )">
+                                            <img class="card-img-top" id="post_img" src="{{post.image}}"
+                                                 onclick="goCrawlingDetail( '{{ post.post_num }}','{{post.site}}' )">
                                         </div>
                                         <div>
                                             <div class="card-body card_contents">
-                                                <p class="card-profile_name">추천인:{{ post.name }}</p>
+                                                <p class="card-profile_name">{{ post.name }}</p>
                                                 <p class="card-text">{{ post.producer }}</p>
                                             </div>
                                         </div>

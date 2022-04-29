@@ -61,7 +61,7 @@
         <div class="row">
             <div class="header clearfix">
                 <h1>
-                    <a href="/">
+                    <a href="/home">
                         <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
                     </a>
                 </h1>
@@ -70,12 +70,12 @@
 
                     <ul class="clearfix">
                         {% if login_status == 0 %}
-                            <li><a href="/login">로그인</a></li>
-                            <li><a href="/signup">회원가입</a></li>
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="/signup">회원가입</a></li>
                         {% elif login_status == 1 %}
-                            <li><a> {{user_info.name}} 님</a></li>
-                            <li><a href="/editprofile">My Page</a></li>
-                            <li><a onclick="logout()">로그아웃</a></li>
+                        <li><a> {{user_info.name}} 님</a></li>
+                        <li><a href="/editprofile">My Page</a></li>
+                        <li><a onclick="logout()">로그아웃</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -93,31 +93,33 @@
                     <ul>
                         <li><a href="#">실시간 사이트별 추천 리스트</a></li>
                     </ul>
+
                 </div>
                 <div class="site_menu">
                     <ul>
                         <li class="btn_list">
-                            <a class="active" href="#">VIVINO</a>
+                            <a class="active" href="#" id="vivino">VIVINO</a>
                             <ul class="inside_ul">
-                                <li class="sub_list"><a class="active" href="/winelist?board_name=vivino">게시판 이동!</a></li>
+                                <li class="sub_list"><a class="active" href="/winelist?board_name=vivino">VIVINO 이동!</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="btn_list">
-                            <a href="#">WEINCO</a>
+                            <a href="#" id="weinco">WEINCO</a>
                             <ul class="inside_ul">
-                                <li class="sub_list"><a href="/winelist?board_name=weinco">게시판 이동!</a></li>
+                                <li class="sub_list"><a href="/winelist?board_name=weinco">WEINCO 이동!</a></li>
                             </ul>
                         </li>
                         <li class="btn_list">
-                            <a href="#">XTRAWINE</a>
+                            <a href="#" id="xtrawine">XTRAWINE</a>
                             <ul class="inside_ul">
-                                <li class="sub_list"><a href="/winelist?board_name=xtrawine">게시판 이동!</a></li>
+                                <li class="sub_list"><a href="/winelist?board_name=xtrawine">XTRAWINE 이동!</a></li>
                             </ul>
                         </li>
                         <li class="btn_list">
-                            <a href="#">WINE21</a>
+                            <a href="#" id="wine21">WINE21</a>
                             <ul class="inside_ul">
-                                <li class="sub_list"><a href="/winelist?board_name=wine21">게시판 이동!</a></li>
+                                <li class="sub_list"><a href="/winelist?board_name=wine21">WINE21 이동!</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -125,18 +127,18 @@
 
                 <div class="wine_chart">
                     <div class="swiper-container2">
-                        <div class="chart_cont1 swiper-wrapper">
-                            {% for vivino_wine in vivino_wines %}
+                        <div class="chart_cont1 swiper-wrapper" id="box">
+                            {% for wine in other_wines[0] %}
                             <div class="swiper-slide">
                                 <div class="poster">
-                                    <img class="post-card" src="https://{{vivino_wine.image}}"
-                                         onclick="goCrawlingDetail({{vivino_wine.post_num}})">
+                                    <img class="post-card" src="{{wine.image}}"
+                                         onclick="goCrawlingDetail('{{wine.post_num}}')">
                                 </div>
                                 <div class="info">
-                                    <h3><strong>{{ vivino_wine.name }}</strong></h3>
+                                    <h3><strong>{{ wine.name }}</strong></h3>
                                     <div class="info_btn">
-                                        <div>{{ vivino_wine.region }}</div>
-                                        <div>{{ vivino_wine.producer }}</div>
+                                        <div>{{ wine.region }}</div>
+                                        <div>{{ wine.producer }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -158,8 +160,7 @@
                                 <div class="poster">
                                     <!--                                        <figure>-->
                                     <img class="post-card" src="static/img/{{post.file}}"
-                                         onclick="goDetail({{post.post_num}})">
-
+                                         onclick="goDetail('{{post.post_num}}')">
                                     <!--                                        </figure>-->
                                 </div>
                                 <div class="info">

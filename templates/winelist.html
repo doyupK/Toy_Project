@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wine NOT?</title>
+
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--    Boot Strap  -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/swiper.css">
+
+    <!-- 웹 폰트 -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&subset=korean"
+          rel="stylesheet">
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/e0dea76106.js" crossorigin="anonymous"></script>
+
+    <!--    JS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+
+
+    <script>
+
+        function goDetail(number) {
+            location.href = "/crawling_detail/" + number
+        }
+
+        function logout() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!');
+            window.location.href = "/";
+        }
+
+    </script>
+
+</head>
+
+<body>
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="header clearfix">
+                <h1>
+                    <a href="/home">
+                        <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
+                    </a>
+                </h1>
+                <nav class="nav">
+                    <ul class="clearfix">
+                        {% if login_status == 0 %}
+                        <li><a href="/login">로그인</a></li>
+                        <li><a href="/signup">회원가입</a></li>
+                        {% elif login_status == 1 %}
+                        <li><a> {{user_info.name}} 님</a></li>
+                        <li><a href="/editprofile">My Page</a></li>
+                        <li><a onclick="logout()">로그아웃</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section>
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="post_box">
+                    <div class="winesite_recommended_list">
+                        <ul>
+                            <li><span>{{board_name}} 사이트 추천 게시판</span></li>
+                        </ul>
+                    </div>
+                    <div class="site_menu">
+                        <ul>
+                            <li class="btn_list">
+                                <a class="active" href="/winelist?board_name=vivino" id="vivino">VIVINO</a>
+                            </li>
+                            <li class="btn_list">
+                                <a href="/winelist?board_name=weinco" id="weinco">WEINCO</a>
+                            </li>
+                            <li class="btn_list">
+                                <a href="/winelist?board_name=xtrawine" id="xtrawine">XTRAWINE</a>
+                            </li>
+                            <li class="btn_list">
+                                <a href="/winelist?board_name=wine21" id="wine21">WINE21</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <main class="main">
+
+                        <div class="picture-list mycards">
+
+                            <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+
+                                {% for post in posts %}
+                            <div class="post_size">
+                                <div class="col">
+                                    <div class="card h-80">
+                                        <div>
+                                            <img class="card-img-top" src="{{post.image}}"
+                                                 onclick="goDetail( '{{ post.post_num }}' )">
+                                        </div>
+                                        <div>
+                                            <div class="card-body card_contents">
+                                                <p class="card-profile_name">추천인:{{ post.name }}</p>
+                                                <p class="card-text">{{ post.producer }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+
+        <!-- 페이징처리 시작 -->
+        <div id="paging">
+            <ul class="pagination justify-content-center " style="margin-top: 2rem;">
+                <!-- 이전페이지 -->
+                {% if posts.has_previous() %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="/winelist?board_name={{board_name}}&page={{ posts.previous_page_number() }}">이전</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                </li>
+                {% endif %}
+                <!-- 페이지리스트 -->
+                {% for page_number in page_numbers_range %}
+                {% if page_number == posts.number %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="/winelist?board_name={{board_name}}&page={{ page_number }}">{{
+                        page_number
+                        }}</a>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="/winelist?board_name={{board_name}}&page={{ page_number }}">{{
+                        page_number
+                        }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                <!-- 다음페이지 -->
+                {% if posts.has_next() %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="/winelist?board_name={{board_name}}&page={{ posts.next_page_number() }}">다음</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <!-- 페이징처리 끝 -->
+
+    </div>
+</section>
+
+<!-- footer -->
+<footer id="footer">
+    <div id="footer_info">
+        <div class="foot_container">
+            <div class="row">
+                <div class="footer_info">
+                    <h2>
+                        <img src="../static/img/항해99_logo.png">
+                    </h2>
+                    <ul>
+                        <li>
+                            <c href="#">15조</c>
+                        </li>
+                        <li><b href="#">김숙영</b></li>
+                        <li><b href="#">김도엽</b></li>
+                        <li><b href="#">최서우</b></li>
+                        <li><b href="#">이동재</b></li>
+                        <li><b href="#">김민수</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

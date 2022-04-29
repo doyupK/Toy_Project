@@ -288,17 +288,20 @@ function users_update() {
 
 // 회원 정보 삭제
 function users_delete() {
-
+    let id = $('#floatingInput_ID').val()
     $.ajax({
         type: 'POST',
         url: '/users_delete',
         data: {id_give: id},
         success: function (response) {
+            $.removeCookie('mytoken', {path: '/'});
             alert(response['msg'])
             window.location.href = "/"
         }
     });
 }
+
+
 
 // 김민수 : 회원 가입 및 관리 기능 =================================================================================
 

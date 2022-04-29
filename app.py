@@ -1,10 +1,11 @@
 import hashlib
+
 import jwt as jwt
 import certifi
+from django.core.paginator import Paginator
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from datetime import datetime, timedelta
-
 
 ca = certifi.where()
 client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority',
@@ -25,7 +26,10 @@ SECRET_KEY = 'SPARTA'
 def home():
     posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
     vivino_wines = list(db.vivino_wines.find({}).limit(4))
-
+    weinco_wines = list(db.weinco_wines.find({}).limit(4))
+    xtra_wines = list(db.xtra_wines_list.find({}).limit(4))
+    wine21_wines = list(db.wine21.find({}).limit(4))
+    other_wines = [vivino_wines, weinco_wines, xtra_wines, wine21_wines]
     token_receive = request.cookies.get('mytoken')
 
     if token_receive is not None:
@@ -33,13 +37,14 @@ def home():
         user_info = db.users.find_one({"id": payload["id"]})
         login_status = 1
         return render_template('index.html',
-                               posts=posts, vivino_wines=vivino_wines,
+                               posts=posts, other_wines=other_wines, vivino_wines=vivino_wines,
                                user_info=user_info, login_status=login_status)
     else:
         login_status = 0
         return render_template('index.html',
-                               posts=posts, vivino_wines=vivino_wines,
+                               posts=posts, other_wines=other_wines, vivino_wines=vivino_wines,
                                login_status=login_status)
+
 
 # 회원 가입 페이지 이동
 @app.route('/signup')
@@ -88,15 +93,15 @@ def getId():
 # 회원 정보 수정 페이지 이동
 @app.route('/editprofile')
 def editprofile():
-    return render_template('editprofile.html')
-
-
-# 회원 정보 불러 오기
-@app.route("/show_user", methods=["GET"])
-def show_user():
-    id_receive = '' #회원 정보 쿠키 불러오기
-    user = db.users.find_one({'id': id_receive}, {'_id': False})
-    return jsonify({'user_info': user})
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('editprofile.html', user_info=user_info, login_status=login_status)
+    else:
+        login_status = 0
+        return render_template('editprofile.html', login_status=login_status)
 
 
 # 회원 정보 수정
@@ -206,12 +211,12 @@ def crawling_detail(keyword):
         login_status = 1
 
         if len(comments_name) == 0:
-            return render_template('Crawling_detail.html',
+            return render_template('crawling_detail.html',
                                    review=review, user_info=user_info,
                                    login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('Crawling_detail.html',
+            return render_template('crawling_detail.html',
                                    review=review, comments=comments,
                                    user_info=user_info, login_status=login_status)
     # 로그인 정보(token)없을 시
@@ -219,15 +224,14 @@ def crawling_detail(keyword):
         user_info = None
         login_status = 0
         if len(comments_name) == 0:
-            return render_template('Crawling_detail.html',
+            return render_template('crawling_detail.html',
                                    review=review, user_info=user_info,
                                    login_status=login_status)
         else:
             comments = list(comments_name['COMMENT'])
-            return render_template('Crawling_detail.html',
+            return render_template('crawling_detail.html',
                                    review=review, comments=comments,
                                    user_info=user_info, login_status=login_status)
-
 
 
 # Wine NOT 상세페이지   - 220423 DY
@@ -345,7 +349,7 @@ def save_comment():
         else:
             list_comment = list(comments['COMMENT'])
             last_comment = list_comment[-1]
-            new_comment_id = int(last_comment.get('comment_id'))+1
+            new_comment_id = int(last_comment.get('comment_id')) + 1
 
             doc = {
                 'comment_id': new_comment_id,
@@ -400,26 +404,90 @@ def delete_comment():
 #  Wine NOT 페이지 - 220419 DY
 @app.route('/winenotPage')
 def winenotpage():
-    posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1))
+    token_receive = request.cookies.get('mytoken')
+    posts_list = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1))
+    page = request.args.get('page', type=int, default=1)
+    paginator = Paginator(posts_list, 8)
+    posts = paginator.page(page)
 
-    return render_template('wineNot.html', posts=posts)
+    page_numbers_range = 10  # 페이지 메뉴에 표현 될 페이지 수 제한
+    max_index = paginator.num_pages  # 전체 페이지 수
+    current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range  # 페이지 메뉴의 시작 번호
+    end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
+
+    if end_index >= max_index:
+        end_index = max_index
+    page_numbers_range = paginator.page_range[start_index:end_index]
+
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('wineNot.html', user_info=user_info, login_status=login_status, posts=posts,
+                               page_numbers_range=page_numbers_range)
+    else:
+        login_status = 0
+        return render_template('wineNot.html', login_status=login_status, posts=posts,
+                               page_numbers_range=page_numbers_range)
 
 
 # 김민수 : wine list 페이지 ====================================================================================
 # wine list 페이지 이동
 @app.route("/winelist", methods=["GET"])
 def winelist():
-    dbName = request.values.get('board_name')
-    print(dbName)
-    posts = '' #리스트 뽑아오기
-    return render_template('winelist.html', posts=posts)
+    board_name = request.values.get('board_name')
+    posts_list = None
+    if board_name == 'vivino':
+        posts_list = list(db.vivino_wines.find({}, {'_id': False}).sort('post_num', -1))
+    elif board_name == 'weinco':
+        posts_list = list(db.weinco_wines.find({}, {'_id': False}).sort('post_num', -1))
+    elif board_name == 'xtrawine':
+        posts_list = list(db.xtra_wines_list.find({}, {'_id': False}).sort('post_num', -1))
+    elif board_name == 'wine21':
+        posts_list = list(db.wine21.find({}).limit({}, {'_id': False}).sort('post_num', -1))
+
+    print(posts_list)
+
+    token_receive = request.cookies.get('mytoken')
+    page = request.args.get('page', type=int, default=1)
+    paginator = Paginator(posts_list, 8)
+    posts = paginator.page(page)
+
+    page_numbers_range = 10  # 페이지 메뉴에 표현 될 페이지 수 제한
+    max_index = paginator.num_pages  # 전체 페이지 수
+    current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
+    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range  # 페이지 메뉴의 시작 번호
+    end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
+
+    if end_index >= max_index:
+        end_index = max_index
+    page_numbers_range = paginator.page_range[start_index:end_index]
+
+    if token_receive is not None:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"id": payload["id"]})
+        login_status = 1
+        return render_template('winelist.html', board_name=board_name, user_info=user_info, login_status=login_status, posts=posts,
+                               page_numbers_range=page_numbers_range)
+    else:
+        login_status = 0
+        return render_template('winelist.html', board_name=board_name,  login_status=login_status, posts=posts,
+                               page_numbers_range=page_numbers_range)
+
 # 김민수 : wine list 페이지 ====================================================================================
 
 # intro page - 숙영 ==========================================================================================
 @app.route('/')
 def intro():
-    return render_template('intro2.html')
+    token_receive = request.cookies.get('mytoken')
+    if token_receive is not None:
+        login_status = 1
+        return render_template('intro2.html', login_status=login_status)
+    else:
+        login_status = 0
+        return render_template('intro2.html', login_status=login_status)
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
-

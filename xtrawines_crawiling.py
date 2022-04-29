@@ -42,6 +42,7 @@ for wine in wines:
     xtra_link = "https://www.xtrawine.com" + xtra_detail
 
     doc = {
+        'site': 'xtra_recommend',
         'image': wine_image,
         'name': wine_name,
         'region': wine_region,
@@ -74,6 +75,7 @@ for page in range(5):
         xtra_detail = post.select_one('div > div.col-sm-6.col-xs-9.item-content.clearfix > div.item-title > div > a')['href']
         xtra_link = "https://www.xtrawine.com" + xtra_detail
         doc = {
+            'site': 'xtra_list',
             'post_num': count,
             'image': wine_image,
             'name': wine_name,

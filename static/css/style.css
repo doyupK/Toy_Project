@@ -157,7 +157,7 @@
 
 .wine_chart .swiper-slide {
     float: left;
-    width: 292px;
+    width: 200px;
     height: 420px;
     margin: 0 auto;
 }
@@ -173,8 +173,9 @@
 
 .wine_chart .poster img {
     display: flex;
-    max-height: 300px;
+    max-height: 200px;
     width: auto;
+    height: 200px;
     margin: auto;
 }
 

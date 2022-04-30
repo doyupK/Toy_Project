@@ -24,7 +24,8 @@ SECRET_KEY = 'SPARTA'
 # 홈 페이지 - 220419 DY
 @app.route('/home')
 def home():
-    posts = list(db.Reviews.find({}, {'_id': False}).sort('post_num', -1).limit(4))
+    posts = list(db.Reviews.find({}, {'_id': False}
+                                 ).sort('post_num', -1).limit(4))
     vivino_wines = list(db.vivino_wines.find({}).limit(4))
     weinco_wines = list(db.weinco_wines.find({}).limit(4))
     xtra_wines = list(db.xtra_wines_list.find({}).limit(4))
@@ -118,7 +119,8 @@ def users_update():
 
     db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
     db.users.update_one({'id': id_receive}, {'$set': {'email': email_receive}})
-    db.users.update_one({'id': id_receive}, {'$set': {'address': address_receive}})
+    db.users.update_one({'id': id_receive}, {
+                        '$set': {'address': address_receive}})
 
     return jsonify({'msg': '회원 정보 수정 완료!'})
 
@@ -144,9 +146,11 @@ def login():
 def sign_in():
     id_receive = request.form['give_id']
     pw_receive = request.form['give_pw']
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()  # 패스워드 암호화
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')
+                             ).hexdigest()  # 패스워드 암호화
 
-    result = db.users.find_one({'id': id_receive, 'pw': pw_hash})  # 동일한 유저가 있는지 확인
+    result = db.users.find_one(
+        {'id': id_receive, 'pw': pw_hash})  # 동일한 유저가 있는지 확인
 
     if result is not None:  # 동일한 유저가 없는게 아니면, = 동일한 유저가 있으면,
         payload = {
@@ -154,7 +158,8 @@ def sign_in():
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
         }
 
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  # .decode('utf8')
+        token = jwt.encode(payload, SECRET_KEY,
+                           algorithm='HS256')  # .decode('utf8')
         # .decode('utf8')  # 토큰을 건내줌.
 
         return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
@@ -172,6 +177,7 @@ def crawling_detail(keyword, site):
     find_keyword = int(keyword)
     site = str(site)
     token_receive = request.cookies.get('mytoken')
+
     if site == 'vivino_recommend':
         # 코멘트 불러오기
         comments_name = db.vivino_wines.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
@@ -207,6 +213,7 @@ def crawling_detail(keyword, site):
         comments_name = db.xtra_wines_list.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
         # 해당(keyword) 게시물 정보 불러오기
         review = db.xtra_wines_list.find_one({'post_num': find_keyword})
+
 
     # 로그인 정보(token)있을 시
     if token_receive is not None:
@@ -244,7 +251,8 @@ def detail(keyword):
     find_keyword = int(keyword)
     token_receive = request.cookies.get('mytoken')
     # 코멘트 불러오기
-    comments_name = db.Reviews.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+    comments_name = db.Reviews.find_one({'post_num': find_keyword}, {
+                                        'COMMENT': 1, '_id': False})
     # 해당(keyword) 게시물 정보 불러오기
     review = db.Reviews.find_one({'post_num': find_keyword})
     # 로그인 정보(token)있을 시
@@ -342,6 +350,7 @@ def save_comment():
 
     if pageInfo_receive == "WineNOT":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
+
         comments = db.Reviews.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
     elif pageInfo_receive == "vivino_recommend":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
@@ -442,7 +451,8 @@ def winenotpage():
     page_numbers_range = 10  # 페이지 메뉴에 표현 될 페이지 수 제한
     max_index = paginator.num_pages  # 전체 페이지 수
     current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
-    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range  # 페이지 메뉴의 시작 번호
+    start_index = int((current_page - 1) / page_numbers_range) * \
+        page_numbers_range  # 페이지 메뉴의 시작 번호
     end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
 
     if end_index >= max_index:
@@ -486,7 +496,8 @@ def winelist():
     page_numbers_range = 10  # 페이지 메뉴에 표현 될 페이지 수 제한
     max_index = paginator.num_pages  # 전체 페이지 수
     current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
-    start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range  # 페이지 메뉴의 시작 번호
+    start_index = int((current_page - 1) / page_numbers_range) * \
+        page_numbers_range  # 페이지 메뉴의 시작 번호
     end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
 
     if end_index >= max_index:
@@ -509,6 +520,8 @@ def winelist():
 # 김민수 : wine list 페이지 ====================================================================================
 
 # intro page - 숙영 ==========================================================================================
+
+
 @app.route('/')
 def intro():
     token_receive = request.cookies.get('mytoken')

@@ -92,8 +92,21 @@
                     <section id="main">
                         <div class="main_content">
 
-                            <div class="img_box">
-                                <img class="Review_img" src="../static/img/{{review.file}}">
+
+                        <div class="img_box">
+                            <img class="Review_img" src="../static/img/{{review.file}}">
+                        </div>
+                        <div class="review_detail">
+                            <div id="title">
+                                <h5 id="postNum" style="display: none">{{ review.post_num }}</h5>
+                                <h1>{{ review.wine_name }}</h1>
+                                <h2>{{ review.wine_type }}</h2>
+                                <h3>{{ review.wine_country }}</h3>
+                                <h3>{{ review.wine_grape }}</h3>
+                                <h4>{{ review.content }}</h4>
+                                <br>
+                                <a href="https://www.google.com/search?q={{review.wine_name}}"><h3 style="color: darkblue">이 와인 구글 검색하기 ! </h3></a>
+
                             </div>
                             <div class="review_detail">
                                 <div id="title">
@@ -136,8 +149,11 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
-                </div>
+
+
+                    </div>
+                </section>
+
             </div>
         </div>
     </div>

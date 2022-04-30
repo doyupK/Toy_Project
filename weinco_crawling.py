@@ -43,6 +43,7 @@ for wine in wines:
     weinco_link = "https://www.weinco.at" + weinco_detail
 
     doc = {
+        'site': 'weinco_recommend',
         'post_num': count,
         'image': image_link,
         'name': wine_name,
@@ -79,13 +80,14 @@ for page in range(1, 6):
         name = space_name.strip()
         weinco_detail = post.select_one('div > div.product-image-wrapper > a')['href']
         weinco_link = "https://www.weinco.at" + weinco_detail
-        land = post.select_one('div > div.land > a').text
+        region = post.select_one('div > div.land > a').text
         producer = post.select_one('div > div.produzent > a').text
         doc = {
+            'site': 'weinco_list',
             'post_num': count,
             'image': image,
             'name': name,
-            'land': land,
+            'region': region,
             'producer': producer,
             'link': weinco_link
         }

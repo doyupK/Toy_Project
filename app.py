@@ -29,7 +29,7 @@ def home():
     weinco_wines = list(db.weinco_wines.find({}).limit(4))
     xtra_wines = list(db.xtra_wines_list.find({}).limit(4))
     wine21_wines = list(db.wine21.find({}).limit(4))
-    other_wines = [vivino_wines, weinco_wines, xtra_wines, wine21_wines]
+
     token_receive = request.cookies.get('mytoken')
 
     if token_receive is not None:
@@ -37,12 +37,12 @@ def home():
         user_info = db.users.find_one({"id": payload["id"]})
         login_status = 1
         return render_template('index.html',
-                               posts=posts, other_wines=other_wines, vivino_wines=vivino_wines,
+                               posts=posts, vivino_wines=vivino_wines, weinco_wines=weinco_wines, xtra_wines=xtra_wines,
                                user_info=user_info, login_status=login_status)
     else:
         login_status = 0
         return render_template('index.html',
-                               posts=posts, other_wines=other_wines, vivino_wines=vivino_wines,
+                               posts=posts, vivino_wines=vivino_wines, weinco_wines=weinco_wines, xtra_wines=xtra_wines,
                                login_status=login_status)
 
 

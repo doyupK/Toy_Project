@@ -13,6 +13,8 @@ subprocess.Popen(r'C:\Program Files\Google\Chrome\Application\chrome.exe --remot
 ca = certifi.where()
 # client = MongoClient('mongodb+srv://test:sparta@sparta.eacl0.mongodb.net/sparta?retryWrites=true&w=majority', tlsCAFile=ca) #이동재
 client = MongoClient('mongodb+srv://test:sparta@cluster0.kxazb.mongodb.net/Cluster0?retryWrites=true&w=majority', tlsCAFile=ca) #DY
+# client = MongoClient('mongodb+srv://test:sparta@cluster0.feuh6.mongodb.net/Cluster0?retryWrites=true&w=majority',
+#                      tlsCAFile=ca)  # minsu
 db = client.dbsparta
 
 
@@ -35,13 +37,11 @@ soup = BeautifulSoup(driver.page_source, 'html.parser')
 
 wines = soup.select('#RootLayout_PageLayout_UpperPane_Frame2811_Module2811_pnlWlcTop > div.container > div:nth-child(1) > div.col-sm-push-2.col-sm-10.slider-row > div > div > div > div > div')
 for wine in wines:
-
     wine_image = wine.select_one('div > div > a > div.prodItem')['style'].split(": url(")[1:][0]
     wine_name = wine.select_one('div > div > a > div.prodName').text
     wine_region = wine.select_one('div > div > a > div.prodZoneDenom').text.strip()
     xtra_detail = wine.select_one('div > div > a')['href']
     xtra_link = "https://www.xtrawine.com" + xtra_detail
-
     doc = {
         'site': 'xtra_recommend',
         'image': wine_image,

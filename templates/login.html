@@ -63,6 +63,7 @@
                     give_pw: password
                 },
                 success: function (response) {
+                    console.log('성공')
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token'], { path: '/' });
                         alert(response['msg'])
@@ -84,7 +85,7 @@
             <div class="row">
                 <div class="header clearfix">
                     <h1>
-                        <a href="/home">
+                        <a href="/">
                             <em><img src="../static/img/winenot_onlyfont.png" alt="logo"></em>
                         </a>
                     </h1>

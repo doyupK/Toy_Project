@@ -26,7 +26,6 @@
 
         function logout() {
             $.removeCookie('mytoken', {path: '/'});
-            alert('로그아웃!');
             window.location.href = "/";
         }
     </script>
@@ -36,7 +35,7 @@
 <body>
 <div class="mainMP4">
     <video muted autoplay loop>
-        <source src="{{url_for('static', filename='WineNot.MP4')}}" type="video/mp4">
+        <source src="/static/WineNot.mp4" type="video/mp4">
     </video>
 </div>
 

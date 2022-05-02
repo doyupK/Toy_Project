@@ -27,24 +27,34 @@ def home():
     posts = list(db.Reviews.find({}, {'_id': False}
                                  ).sort('post_num', -1).limit(4))
     vivino_wines = list(db.vivino_wines.find({}).limit(4))
-    weinco_wines = list(db.weinco_wines.find({}).limit(4))
-    xtra_wines = list(db.xtra_wines_list.find({}).limit(4))
-    wine21_wines = list(db.wine21.find({}).limit(4))
-
     token_receive = request.cookies.get('mytoken')
+    site = 'VIVINO'
 
     if token_receive is not None:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
         user_info = db.users.find_one({"id": payload["id"]})
         login_status = 1
-        return render_template('index.html',
-                               posts=posts, vivino_wines=vivino_wines, weinco_wines=weinco_wines, xtra_wines=xtra_wines,
-                               user_info=user_info, login_status=login_status)
+        return render_template('index.html', posts=posts, wines=vivino_wines, user_info=user_info,
+                               login_status=login_status, site=site)
     else:
         login_status = 0
-        return render_template('index.html',
-                               posts=posts, vivino_wines=vivino_wines, weinco_wines=weinco_wines, xtra_wines=xtra_wines,
-                               login_status=login_status)
+        return render_template('index.html', posts=posts, wines=vivino_wines, login_status=login_status)
+
+
+# 각 사이트 와인 불러오기
+@app.route("/select_site", methods=["GET"])
+def getWines():
+    wine_receive = request.values.get('wine_give')
+    if (wine_receive == 'VIVINO'):
+        wines = list(db.vivino_wines.find({}, {'_id': False}).limit(4))
+    elif (wine_receive == 'WEINCO'):
+        wines = list(db.weinco_wines.find({}, {'_id': False}).limit(4))
+    elif (wine_receive == 'XTRAWINE'):
+        wines = list(db.xtra_wines_list.find({}, {'_id': False}).limit(4))
+    elif (wine_receive == 'WINE21'):
+        wines = list(db.wine21_wines.find({}, {'_id': False}).limit(4))
+    return jsonify({'wines': wines, 'site': wine_receive})
 
 
 # 회원 가입 페이지 이동
@@ -66,7 +76,6 @@ def users():
     # Encrypt
     pw_encode = pw_receive.encode()
     pw_hash = hashlib.sha256(pw_encode).hexdigest()
-    print('암호화 : ', pw_hash)
 
     doc = {
         'id': id_receive,
@@ -120,7 +129,7 @@ def users_update():
     db.users.update_one({'id': id_receive}, {'$set': {'pw': pw_hash}})
     db.users.update_one({'id': id_receive}, {'$set': {'email': email_receive}})
     db.users.update_one({'id': id_receive}, {
-                        '$set': {'address': address_receive}})
+        '$set': {'address': address_receive}})
 
     return jsonify({'msg': '회원 정보 수정 완료!'})
 
@@ -161,8 +170,8 @@ def sign_in():
         token = jwt.encode(payload, SECRET_KEY,
                            algorithm='HS256')  # .decode('utf8')
         # .decode('utf8')  # 토큰을 건내줌.
-
         return jsonify({'result': 'success', 'token': token, 'msg': '환영합니다.'})
+        # return jsonify({'result': 'success', 'token': str(token), 'msg': '환영합니다.'})
     else:  # 동일한 유저가 없으면,
         return jsonify({'result': 'fail', 'msg': '아이디/패스워드가 일치하지 않습니다.'})
 
@@ -214,6 +223,11 @@ def crawling_detail(keyword, site):
         # 해당(keyword) 게시물 정보 불러오기
         review = db.xtra_wines_list.find_one({'post_num': find_keyword})
 
+    elif site == 'wine21_list':
+        # 코멘트 불러오기
+        comments_name = db.wine21_wines.find_one({'post_num': find_keyword}, {'COMMENT': 1, '_id': False})
+        # 해당(keyword) 게시물 정보 불러오기
+        review = db.wine21_wines.find_one({'post_num': find_keyword})
 
     # 로그인 정보(token)있을 시
     if token_receive is not None:
@@ -252,7 +266,7 @@ def detail(keyword):
     token_receive = request.cookies.get('mytoken')
     # 코멘트 불러오기
     comments_name = db.Reviews.find_one({'post_num': find_keyword}, {
-                                        'COMMENT': 1, '_id': False})
+        'COMMENT': 1, '_id': False})
     # 해당(keyword) 게시물 정보 불러오기
     review = db.Reviews.find_one({'post_num': find_keyword})
     # 로그인 정보(token)있을 시
@@ -339,6 +353,7 @@ def save_pictures():
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
+
 # 코멘트 저장 220429 DY
 @app.route('/saveComment', methods=['POST'])
 def save_comment():
@@ -350,7 +365,6 @@ def save_comment():
 
     if pageInfo_receive == "WineNOT":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
-
         comments = db.Reviews.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
     elif pageInfo_receive == "vivino_recommend":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
@@ -370,6 +384,9 @@ def save_comment():
     elif pageInfo_receive == "xtra_list":
         # DB에 코멘트의 마지막 ID 값 읽어서 +1
         comments = db.xtra_wines_list.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
+    elif pageInfo_receive == "wine21_list":
+        # DB에 코멘트의 마지막 ID 값 읽어서 +1
+        comments = db.wine21_wines.find_one({'post_num': postNum_receive}, {'COMMENT': 1, '_id': False})
 
     if len(comments) == 0:
         doc = {
@@ -402,6 +419,8 @@ def save_comment():
         db.xtra_wines.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
     elif pageInfo_receive == "xtra_list":
         db.xtra_wines_list.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
+    elif pageInfo_receive == "wine21_list":
+        db.wine21_wines.update_many({'post_num': postNum_receive}, {'$addToSet': {'COMMENT': doc}})
 
     return jsonify({'msg': '저장 완료!'})
 
@@ -435,6 +454,9 @@ def delete_comment():
     elif pageInfo_receive == "xtra_list":
         db.xtra_wines_list.update_many({'post_num': postNum_receive},
                                        {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
+    elif pageInfo_receive == "wine21_list":
+        db.wine21_wines.update_many({'post_num': postNum_receive},
+                                       {'$pull': {'COMMENT': {'comment_id': commentNum_receive}}})
 
     return jsonify({'msg': '삭제 완료!'})
 
@@ -452,7 +474,7 @@ def winenotpage():
     max_index = paginator.num_pages  # 전체 페이지 수
     current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
     start_index = int((current_page - 1) / page_numbers_range) * \
-        page_numbers_range  # 페이지 메뉴의 시작 번호
+                  page_numbers_range  # 페이지 메뉴의 시작 번호
     end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
 
     if end_index >= max_index:
@@ -484,9 +506,7 @@ def winelist():
     elif board_name == 'xtrawine':
         posts_list = list(db.xtra_wines_list.find({}, {'_id': False}).sort('post_num', 1))
     elif board_name == 'wine21':
-        posts_list = list(db.wine21.find({}).limit({}, {'_id': False}).sort('post_num', 1))
-
-    print(posts_list)
+        posts_list = list(db.wine21_wines.find({}, {'_id': False}).sort('post_num', 1))
 
     token_receive = request.cookies.get('mytoken')
     page = request.args.get('page', type=int, default=1)
@@ -497,7 +517,7 @@ def winelist():
     max_index = paginator.num_pages  # 전체 페이지 수
     current_page = int(page) if page else 1  # 현재 페이지 / 기본값 1
     start_index = int((current_page - 1) / page_numbers_range) * \
-        page_numbers_range  # 페이지 메뉴의 시작 번호
+                  page_numbers_range  # 페이지 메뉴의 시작 번호
     end_index = start_index + page_numbers_range  # 페이지 메뉴의 끝 번호
 
     if end_index >= max_index:

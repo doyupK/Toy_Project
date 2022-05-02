@@ -244,6 +244,7 @@ function initLayerPosition() {
 
 // 회원 정보 변경
 function users_update() {
+    let id = $('#floatingInput_ID').val()
     let password = $('#floatingInput_PW').val()
     let passwordCheck = $('#floatingInput_PW_Check').val()
     let email = $('#floatingInput_Email').val()

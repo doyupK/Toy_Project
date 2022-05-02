@@ -141,6 +141,12 @@
     text-align: center;
 }
 
+.recommended_list .top_title {
+    color: black;
+    font-size: 2.0em;
+    margin-top: -50px;
+}
+
 .recommended_list strong {
     font-size: 24px;
 }
@@ -276,7 +282,7 @@ section {
 .Review_img {
     width: auto;
     height: auto;
-
+    padding: 15%;
 }
 
 #title {
@@ -286,11 +292,11 @@ section {
 }
 
 #title h1 {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     font-weight: 500;
     letter-spacing: normal;
     color: #262626;
-    margin-bottom: 5px;
+    margin-bottom: 30px;
 }
 
 #title h2 {
@@ -298,20 +304,33 @@ section {
     font-weight: 500;
     letter-spacing: normal;
     color: #1c020a;
-    margin-bottom: 5px;
+    margin-bottom: 30px;
 }
 
 #title h3 {
     font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: normal;
-    color: #000000;
+    color: darkgray;
+    margin-bottom: 5px;
+}
+
+#title h4 {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    color: black;
+    margin-top: 20px;
     margin-bottom: 5px;
 }
 
 .review_detail {
     width: 600px;
 
+}
+
+.detail {
+    margin: 0px;
 }
 
 .comment_box {
@@ -330,22 +349,58 @@ section {
     color: darkgray;
     font-size: 20px;
     font-weight: bold;
-    margin-left: 10px;
+    /* margin-left: 10px; */
     cursor: pointer;
+}
+.recommended_list > ul > span {
+    margin-left: 10px;
 }
 .recommended_list > ul > span:hover {
     color: red;
 }
 
+/* 댓글 - 서우 */
+.input-group mb-3 {
+    display: flex;
+}
+.input-group-text {
+    border: none;
+    cursor: none;
+}
 
+.form-control {
+    border: none;
+}
 
+.btn-outline-dark {
+    border: none;
+}
 
+/* 페이지 링크 디자인 */
+.page-item .page-link {
+    border: none;
+}
+.page-item.disabled .page-link {
+    border: none;
+    margin-left: 5px;
+}
+.page-item.active .page-link{
+    background-color: white;
+    border: none;
+    margin-left: 5px;
+}
+.page-link span::after {
+    content: "🍷";
+    background-color: white;
+    margin-left: 5px;
+}
 /* 푸터 */
 #footer {
     margin-top: 50px;
     height: 230px;
-    position: relative;
+    position: absolute;
     /*transform: translateY(-100%);*/
+    width: 100%;
 }
 
 

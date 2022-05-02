@@ -88,37 +88,39 @@
 </head>
 
 <body>
-    <header id="header">
-        <div class="container">
-            <div class="row">
-                <div class="header clearfix">
-                    <h1>
-                        <a href="/">
-                            <em><img src="../static/img/winenot_onlyfont.png" alt="wineNot_logo"></em>
-                        </a>
-                    </h1>
-                    <nav class="nav">
-                        <ul class="clearfix">
-                            {% if login_status == 0 %}
-                            <strong>
-                                <li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li>
-                            </strong>
-                            <strong>
-                                <li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i>
-                                        회원가입</a></li>
-                            </strong>
-                            {% elif login_status == 1 %}
-                            <li><a href="/editprofile"> {{user_info.name}} 님</a></li>
-                            <!-- <li><a href="/editprofile">마이페이지</a></li> -->
-                            <li class="nav-text"><a class="logout" onclick="logout()"><i class="fa-regular fa-user"></i>
-                                    로그아웃</a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </div>
+<header id="header">
+    <div class="container">
+        <div class="row">
+            <div class="header clearfix">
+                <h1>
+                    <a href="/">
+                        <em><img src="../static/img/winenot_onlyfont.png" alt=""></em>
+                    </a>
+                </h1>
+
+                <nav class="nav">
+
+                    <ul class="clearfix">
+                        {% if login_status == 0 %}
+                        <strong>
+                            <li class="nav-text"><a href="/login"><i class="fa-regular fa-user"></i> 로그인</a></li>
+                        </strong>
+                        <strong>
+                            <li class="nav-text"><a href="/signup"><i class="fa-solid fa-pen-to-square"></i>
+                                회원가입</a></li>
+                        </strong>
+                        {% elif login_status == 1 %}
+                        <li><a href="/editprofile"> {{user_info.name}} 님</a></li>
+                        <!-- <li><a href="/editprofile">마이페이지</a></li> -->
+                        <li class="nav-text"><a class="logout" onclick="logout()"><i class="fa-regular fa-user"></i>
+                            로그아웃</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 
     <div class="wrapper">
@@ -129,9 +131,9 @@
                         <ul>
                             <strong>Wine NOT 추천 게시판</strong>
                             <p><button type="button" class="btn btn-secondary posting-btn" data-bs-toggle="modal"
-                                data-bs-target="#postingModal" data-bs-whatever="@getbootstrap">
-                                <span></span>
-                            </button></p>
+                                    data-bs-target="#postingModal" data-bs-whatever="@getbootstrap">
+                                    <span></span>
+                                </button></p>
                         </ul>
                     </div>
 
